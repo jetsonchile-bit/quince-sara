@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mis XV Años · Sara Valentina Marín Acosta</title>
+<style>
+  :root{
+    --rosa:#ff6fa5;
+    --rosa-claro:#ffd6e7;
+    --lila:#b984ff;
+    --dorado:#f6c453;
+    --crema:#fff7fb;
+    --texto:#5a2a4d;
+    --sombra:0 10px 30px rgba(180,80,140,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:var(--texto);
+    background:linear-gradient(160deg,#fff0f7 0%,#f3e8ff 100%);
+    overflow-x:hidden;
+  }
+  h1,h2,.script{font-family:"Brush Script MT","Segoe Script",cursive}
+  /* lienzo de fondo animado */
+  #fondo{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .contenido{position:relative;z-index:1}
+
+  /* ---- Portada ---- */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;padding:24px;
+  }
+  .hero .badge{
+    font-size:1.1rem;letter-spacing:6px;text-transform:uppercase;
+    color:var(--lila);font-weight:700;margin-bottom:10px;
+  }
+  .hero h1{
+    font-size:clamp(3rem,12vw,7rem);line-height:1;
+    color:var(--rosa);text-shadow:var(--sombra);
+  }
+  .hero .num{
+    font-size:clamp(5rem,22vw,12rem);font-weight:800;
+    background:linear-gradient(135deg,var(--rosa),var(--lila),var(--dorado));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin:6px 0;font-family:"Segoe UI",sans-serif;
+  }
+  .hero p.sub{font-size:1.2rem;color:var(--texto);opacity:.8;max-width:520px}
+  .scroll-hint{margin-top:38px;font-size:.9rem;color:var(--lila);animation:flota 2s infinite}
+  @keyframes flota{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+  /* ---- Secciones ---- */
+  section.bloque{max-width:760px;margin:0 auto;padding:70px 22px}
+  .tarjeta{
+    background:rgba(255,255,255,.85);backdrop-filter:blur(6px);
+    border-radius:28px;padding:34px;box-shadow:var(--sombra);
+    border:2px solid var(--rosa-claro);
+  }
+  h2{font-size:clamp(2.2rem,7vw,3.4rem);color:var(--rosa);text-align:center;margin-bottom:8px}
+  .deco{text-align:center;font-size:1.6rem;margin-bottom:22px}
+  label{display:block;font-weight:600;margin:14px 0 6px;font-size:.95rem}
+  input,textarea{
+    width:100%;padding:13px 16px;border:2px solid var(--rosa-claro);
+    border-radius:14px;font-size:1rem;font-family:inherit;background:#fff;color:var(--texto);
+    transition:border-color .2s;
+  }
+  input:focus,textarea:focus{outline:none;border-color:var(--rosa)}
+  textarea{min-height:120px;resize:vertical}
+  .btn{
+    display:inline-block;cursor:pointer;border:none;border-radius:50px;
+    padding:14px 30px;font-size:1.05rem;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--rosa),var(--lila));
+    box-shadow:var(--sombra);transition:transform .15s,filter .15s;
+    text-decoration:none;
+  }
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+  .btn.full{width:100%;margin-top:20px;text-align:center}
+  .btn.dorado{background:linear-gradient(135deg,var(--dorado),#ff9e57)}
+
+  .nota{font-size:.82rem;opacity:.7;margin-top:10px;text-align:center}
+  .ok{display:none;background:#e7ffe9;color:#1c7a36;border:2px solid #9fe6ac;
+    padding:14px;border-radius:14px;margin-top:16px;text-align:center;font-weight:600}
+
+  /* lista de felicitaciones guardadas */
+  .lista{margin-top:26px;display:grid;gap:14px}
+  .felic{background:linear-gradient(135deg,#fff,#fff2f8);border-left:5px solid var(--rosa);
+    border-radius:14px;padding:14px 18px}
+  .felic .de{font-weight:700;color:var(--lila)}
+  .felic .msg{margin-top:4px;line-height:1.4}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+  .btn.mini{padding:9px 18px;font-size:.85rem;background:#fff;color:var(--rosa);border:2px solid var(--rosa)}
+
+  /* mapa */
+  .mapa{border-radius:20px;overflow:hidden;box-shadow:var(--sombra);border:3px solid #fff;margin-top:8px}
+  .mapa iframe{width:100%;height:340px;border:0;display:block}
+  .info-evento{text-align:center;margin-bottom:18px;line-height:1.7}
+  .info-evento strong{color:var(--rosa)}
+
+  /* regalos */
+  .regalo-card{background:linear-gradient(135deg,#fff,#f6e8ff);border-radius:20px;
+    padding:24px;text-align:center;margin-top:18px;border:2px dashed var(--lila)}
+  .cuenta{font-size:1.5rem;font-weight:800;letter-spacing:2px;color:var(--texto);margin:10px 0}
+  .banco{color:var(--lila);font-weight:600}
+
+  footer{text-align:center;padding:50px 20px;color:var(--lila);font-size:.95rem}
+  footer .script{font-size:2rem;color:var(--rosa)}
+</style>
+</head>
+<body>
+<canvas id="fondo"></canvas>
+
+<div class="contenido">
+
+  <!-- PORTADA -->
+  <header class="hero">
+    <div class="badge">Mis XV Años</div>
+    <h1>Sara Valentina</h1>
+    <div class="num">15</div>
+    <h1 style="font-size:clamp(1.6rem,6vw,3rem)">Marín Acosta</h1>
+    <p class="sub">Con la bendición de Dios y el amor de mi familia, te invito a celebrar conmigo este día tan especial. 💖</p>
+    <div class="scroll-hint">✨ Desliza hacia abajo ✨</div>
+  </header>
+
+  <!-- FELICITACIONES -->
+  <section class="bloque" id="felicitaciones">
+    <div class="tarjeta">
+      <h2>Déjame tu felicitación</h2>
+      <div class="deco">🎀💌🎀</div>
+      <p style="text-align:center;opacity:.8">Escríbeme un mensajito bonito. Lo recibiré en mi correo y lo guardaré para siempre.</p>
+
+      <form id="formFelic">
+        <label for="nombre">Tu nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="¿Quién me escribe?" required />
+
+        <label for="mensaje">Tu mensaje</label>
+        <textarea id="mensaje" name="mensaje" placeholder="Escribe aquí tu felicitación..." required></textarea>
+
+        <button type="submit" class="btn full">Enviar felicitación 💕</button>
+        <p class="nota">Tu mensaje llega directo al correo de Sara Valentina.</p>
+      </form>
+
+      <div class="ok" id="okMsg">¡Gracias por tu felicitación! 🥳 Sara la recibirá con mucho cariño.</div>
+
+      <div class="lista" id="listaFelic"></div>
+      <div class="toolbar" id="toolbar" style="display:none">
+        <button class="btn mini" onclick="descargarFelic()">⬇ Descargar todas</button>
+        <button class="btn mini" onclick="borrarFelic()">🗑 Borrar guardadas</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- UBICACIÓN -->
+  <section class="bloque" id="ubicacion">
+    <div class="tarjeta">
+      <h2>¿Dónde será?</h2>
+      <div class="deco">📍🎉📍</div>
+      <div class="info-evento">
+        <strong>Salón de eventos</strong><br />
+        Dirección del evento aquí<br />
+        <strong>Fecha:</strong> día / mes / año &nbsp;·&nbsp; <strong>Hora:</strong> 0:00 p.m.
+      </div>
+      <div class="mapa">
+        <!-- Reemplaza el src por el embed de tu ubicación real de Google Maps -->
+        <iframe
+          src="https://www.google.com/maps?q=Bogot%C3%A1,%20Colombia&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <a class="btn full" target="_blank"
+         href="https://www.google.com/maps/search/?api=1&query=Bogot%C3%A1,Colombia">
+        Abrir en Google Maps 🗺️
+      </a>
+    </div>
+  </section>
+
+  <!-- REGALOS -->
+  <section class="bloque" id="regalos">
+    <div class="tarjeta">
+      <h2>Lluvia de regalos</h2>
+      <div class="deco">🎁💝🎁</div>
+      <p style="text-align:center;opacity:.85">Tu presencia es mi mejor regalo. Si deseas tener un detalle conmigo, aquí tienes algunas opciones. 💛</p>
+
+      <div class="regalo-card">
+        <div class="banco">🏦 Cuenta bancaria</div>
+        <div class="cuenta" id="numCuenta">000-000000-00</div>
+        <div style="opacity:.8">A nombre de: <strong>Nombre del titular</strong></div>
+        <button class="btn mini" style="margin-top:14px" onclick="copiarCuenta()">📋 Copiar número</button>
+      </div>
+
+      <div class="regalo-card">
+        <div class="banco">💳 Pago con tarjeta crédito / débito</div>
+        <p style="opacity:.8;margin:8px 0 16px">Paga de forma rápida y segura desde el botón:</p>
+        <!-- Reemplaza el href por tu link de pago real (Mercado Pago, Wompi, PayPal, etc.) -->
+        <a class="btn dorado" id="linkPago" href="#" target="_blank">Pagar con tarjeta 💳</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="script">Sara Valentina 💖</div>
+    <p>Mis XV Años · ¡Gracias por acompañarme!</p>
+  </footer>
+
+</div>
+
+<script>
+/* ====== CONFIGURACIÓN (edita estos valores) ====== */
+const CONFIG = {
+  // 1) Pega tu ID de Formspree (regístrate gratis en https://formspree.io con el correo de Sara)
+  //    Crea un formulario y copia el código que se ve así: xxxxxxxx
+  formspreeID: "TU_ID_DE_FORMSPREE",
+
+  // 2) Datos de la cuenta bancaria
+  numeroCuenta: "000-000000-00",
+
+  // 3) Link de pago con tarjeta (Mercado Pago / Wompi / PayPal / Nequi, etc.)
+  linkPago: "https://"
+};
+/* ================================================= */
+
+// aplicar config
+document.getElementById('numCuenta').textContent = CONFIG.numeroCuenta;
+document.getElementById('linkPago').href = CONFIG.linkPago;
+
+/* ---------- Felicitaciones ---------- */
+const form = document.getElementById('formFelic');
+const okMsg = document.getElementById('okMsg');
+
+function guardarLocal(nombre, mensaje){
+  const data = JSON.parse(localStorage.getItem('felicitaciones') || '[]');
+  data.unshift({nombre, mensaje, fecha: new Date().toLocaleString('es-CO')});
+  localStorage.setItem('felicitaciones', JSON.stringify(data));
+  pintarLista();
+}
+
+function pintarLista(){
+  const data = JSON.parse(localStorage.getItem('felicitaciones') || '[]');
+  const lista = document.getElementById('listaFelic');
+  const toolbar = document.getElementById('toolbar');
+  lista.innerHTML = '';
+  if(data.length){
+    toolbar.style.display = 'flex';
+    data.forEach(f=>{
+      const div = document.createElement('div');
+      div.className = 'felic';
+      div.innerHTML = `<div class="de">💌 ${escapeHTML(f.nombre)}</div>
+        <div class="msg">${escapeHTML(f.mensaje)}</div>`;
+      lista.appendChild(div);
+    });
+  } else { toolbar.style.display = 'none'; }
+}
+
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const nombre = document.getElementById('nombre').value.trim();
+  const mensaje = document.getElementById('mensaje').value.trim();
+  if(!nombre || !mensaje) return;
+
+  // guardar siempre localmente
+  guardarLocal(nombre, mensaje);
+
+  // enviar al correo vía Formspree (si está configurado)
+  if(CONFIG.formspreeID && CONFIG.formspreeID !== 'TU_ID_DE_FORMSPREE'){
+    try{
+      await fetch('https://formspree.io/f/' + CONFIG.formspreeID, {
+        method:'POST',
+        headers:{'Accept':'application/json','Content-Type':'application/json'},
+        body: JSON.stringify({
+          _subject:'🎉 Nueva felicitación para los XV de Sara Valentina',
+          nombre, mensaje
+        })
+      });
+    }catch(err){ console.warn('No se pudo enviar al correo:', err); }
+  }
+
+  form.reset();
+  okMsg.style.display = 'block';
+  lanzarConfeti();
+  setTimeout(()=> okMsg.style.display='none', 6000);
+});
+
+function descargarFelic(){
+  const data = JSON.parse(localStorage.getItem('felicitaciones') || '[]');
+  let txt = 'FELICITACIONES — XV de Sara Valentina Marín Acosta\n\n';
+  data.forEach(f=> txt += `De: ${f.nombre} (${f.fecha})\n${f.mensaje}\n\n----------------\n\n`);
+  const blob = new Blob([txt], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'felicitaciones-sara.txt';
+  a.click();
+}
+
+function borrarFelic(){
+  if(confirm('¿Borrar las felicitaciones guardadas en este dispositivo?')){
+    localStorage.removeItem('felicitaciones');
+    pintarLista();
+  }
+}
+
+function copiarCuenta(){
+  navigator.clipboard.writeText(CONFIG.numeroCuenta)
+    .then(()=> alert('¡Número de cuenta copiado! 📋'));
+}
+
+pintarLista();
+
+/* ---------- Canvas: globos + confeti ---------- */
+const canvas = document.getElementById('fondo');
+const ctx = canvas.getContext('2d');
+let W, H, globos = [], confeti = [];
+
+function size(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+size(); addEventListener('resize', size);
+
+const colores = ['#ff6fa5','#b984ff','#f6c453','#ff9ec7','#9be7ff','#ffd6e7'];
+function rnd(a,b){ return a + Math.random()*(b-a); }
+
+for(let i=0;i<14;i++){
+  globos.push({
+    x: rnd(0,W), y: rnd(H, H*2), r: rnd(16,30),
+    col: colores[i%colores.length], vel: rnd(.4,1.1), sway: rnd(0,Math.PI*2)
+  });
+}
+
+function dibujarGlobo(g){
+  ctx.save();
+  ctx.globalAlpha = .55;
+  ctx.fillStyle = g.col;
+  ctx.beginPath();
+  ctx.ellipse(g.x, g.y, g.r*0.8, g.r, 0, 0, Math.PI*2);
+  ctx.fill();
+  // nudito
+  ctx.beginPath();
+  ctx.moveTo(g.x, g.y+g.r);
+  ctx.lineTo(g.x-4, g.y+g.r+6);
+  ctx.lineTo(g.x+4, g.y+g.r+6);
+  ctx.fill();
+  // hilo
+  ctx.globalAlpha = .25;
+  ctx.strokeStyle = g.col;
+  ctx.beginPath();
+  ctx.moveTo(g.x, g.y+g.r+6);
+  ctx.quadraticCurveTo(g.x+8, g.y+g.r+30, g.x, g.y+g.r+55);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function lanzarConfeti(){
+  for(let i=0;i<120;i++){
+    confeti.push({
+      x: W/2, y: H/2, r: rnd(4,9),
+      col: colores[Math.floor(Math.random()*colores.length)],
+      vx: rnd(-7,7), vy: rnd(-12,-3), g: .25, vida: rnd(60,120),
+      rot: rnd(0,Math.PI*2), vr: rnd(-.2,.2)
+    });
+  }
+}
+
+function loop(){
+  ctx.clearRect(0,0,W,H);
+  // globos
+  globos.forEach(g=>{
+    g.y -= g.vel; g.sway += .01; g.x += Math.sin(g.sway)*.4;
+    if(g.y < -g.r-60){ g.y = H + rnd(20,200); g.x = rnd(0,W); }
+    dibujarGlobo(g);
+  });
+  // confeti
+  confeti.forEach(c=>{
+    c.vy += c.g; c.x += c.vx; c.y += c.vy; c.vida--; c.rot += c.vr;
+    ctx.save();
+    ctx.translate(c.x,c.y); ctx.rotate(c.rot);
+    ctx.fillStyle = c.col;
+    ctx.fillRect(-c.r/2,-c.r/2,c.r,c.r*0.6);
+    ctx.restore();
+  });
+  confeti = confeti.filter(c=> c.vida>0 && c.y < H+30);
+  requestAnimationFrame(loop);
+}
+loop();
+
+// confeti de bienvenida
+setTimeout(lanzarConfeti, 600);
+</script>
+</body>
+</html>
