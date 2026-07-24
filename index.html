@@ -4,273 +4,649 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mis XV Años · Sara Valentina Marín Acosta</title>
+<meta name="description" content="Invitación a los XV años de Sara Valentina Marín Acosta" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ============ TEMA POR DEFECTO (Rosa Encantada) ============ */
   :root{
-    --rosa:#ff6fa5;
-    --rosa-claro:#ffd6e7;
-    --lila:#b984ff;
-    --dorado:#f6c453;
-    --crema:#fff7fb;
-    --texto:#5a2a4d;
-    --sombra:0 10px 30px rgba(180,80,140,.18);
+    --fondoA:#fff5f7;  --fondoB:#fdeef2;
+    --principal:#d9a5b3; --secundario:#e8c4cf; --acento:#f3d9e0;
+    --oro:#dcbf90;
+    --texto:#4a2b33; --textoSuave:#6f4a54;
+    --tarjeta:#fffbfc; --borde:#f0d8de;
+    --gradTitulo:linear-gradient(135deg,#d9a5b3 0%,#c9a6c4 50%,#dcbf90 100%);
+    --gradBoton:linear-gradient(135deg,#e8c4cf 0%,#d9a5b3 100%);
+    --gradOro:linear-gradient(135deg,#f0dcbb 0%,#dcbf90 100%);
+    --sombra:0 12px 40px rgba(120,70,85,.14);
+    --sombraSuave:0 4px 16px rgba(120,70,85,.10);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    font-family:"Segoe UI",system-ui,sans-serif;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:18px; line-height:1.65;
     color:var(--texto);
-    background:linear-gradient(160deg,#fff0f7 0%,#f3e8ff 100%);
+    background:linear-gradient(165deg,var(--fondoA) 0%,var(--fondoB) 100%);
+    background-attachment:fixed;
     overflow-x:hidden;
+    transition:background .6s ease,color .6s ease;
   }
-  h1,h2,.script{font-family:"Brush Script MT","Segoe Script",cursive}
-  /* lienzo de fondo animado */
   #fondo{position:fixed;inset:0;z-index:0;pointer-events:none}
   .contenido{position:relative;z-index:1}
+  .script{font-family:'Great Vibes',cursive;font-weight:400}
+  .sans{font-family:'Montserrat',system-ui,sans-serif}
 
-  /* ---- Portada ---- */
+  /* ============ SELECTOR DE TEMA ============ */
+  .temas{
+    position:fixed; top:14px; right:14px; z-index:50;
+    display:flex; align-items:center; gap:9px;
+    background:rgba(255,255,255,.82); backdrop-filter:blur(10px);
+    padding:9px 13px; border-radius:40px;
+    border:1px solid var(--borde); box-shadow:var(--sombraSuave);
+  }
+  .temas .lbl{
+    font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:1.6px;
+    text-transform:uppercase; color:var(--textoSuave); font-weight:500;
+  }
+  .temas button{
+    width:25px;height:25px;border-radius:50%;cursor:pointer;
+    border:2px solid rgba(255,255,255,.9); padding:0;
+    box-shadow:0 2px 7px rgba(0,0,0,.16); transition:transform .2s,outline-color .2s;
+    outline:2px solid transparent; outline-offset:2px;
+  }
+  .temas button:hover{transform:scale(1.16)}
+  .temas button[aria-pressed="true"]{outline-color:var(--textoSuave)}
+  .t-rosa{background:linear-gradient(135deg,#e8c4cf,#d9a5b3)}
+  .t-azul{background:linear-gradient(135deg,#c5d4e8,#a8bfd8)}
+  .t-dorado{background:linear-gradient(135deg,#f5dfb8,#e8c99a)}
+
+  /* ============ PORTADA ============ */
   .hero{
-    min-height:100vh;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;text-align:center;padding:24px;
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:80px 22px 50px;
   }
-  .hero .badge{
-    font-size:1.1rem;letter-spacing:6px;text-transform:uppercase;
-    color:var(--lila);font-weight:700;margin-bottom:10px;
+  .marco{
+    position:relative; max-width:560px; width:100%;
+    padding:52px 30px 44px;
+    border:1px solid var(--oro);
+    border-radius:4px;
+    background:rgba(255,255,255,.42);
+    backdrop-filter:blur(3px);
   }
-  .hero h1{
-    font-size:clamp(3rem,12vw,7rem);line-height:1;
-    color:var(--rosa);text-shadow:var(--sombra);
+  .marco::before{
+    content:''; position:absolute; inset:7px;
+    border:1px solid var(--oro); opacity:.45; border-radius:2px; pointer-events:none;
   }
-  .hero .num{
-    font-size:clamp(5rem,22vw,12rem);font-weight:800;
-    background:linear-gradient(135deg,var(--rosa),var(--lila),var(--dorado));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    margin:6px 0;font-family:"Segoe UI",sans-serif;
+  .eyebrow{
+    font-family:'Montserrat',sans-serif; font-size:11px; font-weight:500;
+    letter-spacing:6px; text-transform:uppercase; color:var(--textoSuave);
+    margin-bottom:18px;
   }
-  .hero p.sub{font-size:1.2rem;color:var(--texto);opacity:.8;max-width:520px}
-  .scroll-hint{margin-top:38px;font-size:.9rem;color:var(--lila);animation:flota 2s infinite}
-  @keyframes flota{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+  .nombre{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(3.2rem,13vw,5.6rem); line-height:1.05;
+    background:var(--gradTitulo); -webkit-background-clip:text; background-clip:text;
+    color:transparent; padding:0 4px 10px;
+  }
+  .apellidos{
+    font-family:'Cormorant Garamond',serif; font-weight:300;
+    font-size:clamp(1rem,3.6vw,1.5rem); letter-spacing:7px;
+    text-transform:uppercase; color:var(--textoSuave); margin-top:2px;
+  }
+  .quince{ margin:26px 0 20px; display:flex; align-items:center; justify-content:center; gap:20px }
+  .quince .linea{ flex:1; max-width:78px; height:1px; background:var(--oro); opacity:.75 }
+  .quince .num{
+    font-family:'Cormorant Garamond',serif; font-weight:300;
+    font-size:clamp(3.6rem,15vw,6rem); line-height:1;
+    background:var(--gradTitulo); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .quince .anios{
+    font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:4px;
+    text-transform:uppercase; color:var(--textoSuave); margin-top:8px;
+  }
+  .frase{ font-style:italic; font-size:1.15rem; color:var(--textoSuave); max-width:400px; margin:0 auto }
+  .scroll-hint{
+    margin-top:40px; font-family:'Montserrat',sans-serif; font-size:10px;
+    letter-spacing:3px; text-transform:uppercase; color:var(--textoSuave); opacity:.75;
+    animation:flota 2.6s ease-in-out infinite;
+  }
+  @keyframes flota{0%,100%{transform:translateY(0);opacity:.75}50%{transform:translateY(9px);opacity:1}}
 
-  /* ---- Secciones ---- */
-  section.bloque{max-width:760px;margin:0 auto;padding:70px 22px}
+  /* ============ ROSA ENCANTADA (SVG) ============ */
+  .cloche{ width:min(200px,52vw); height:auto; display:block; margin:0 auto 8px }
+  .cloche .vidrio{ fill:rgba(255,255,255,.30); stroke:var(--oro); stroke-width:1.6 }
+  .cloche .base{ fill:var(--oro); opacity:.85 }
+  .cloche .petalo{ fill:var(--principal) }
+  .cloche .petaloInt{ fill:var(--secundario) }
+  .cloche .tallo{ stroke:var(--textoSuave); stroke-width:2; fill:none; opacity:.55 }
+  .cloche .hoja{ fill:var(--textoSuave); opacity:.4 }
+  .cloche .brillo{ fill:none; stroke:#fff; stroke-width:3; opacity:.55; stroke-linecap:round }
+  .cloche .chispa{ fill:var(--oro) }
+  .cloche .chispa{ animation:titila 3s ease-in-out infinite }
+  .cloche .chispa:nth-of-type(2){ animation-delay:.9s }
+  .cloche .chispa:nth-of-type(3){ animation-delay:1.7s }
+  @keyframes titila{0%,100%{opacity:.25;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
+  .cloche .caida{ animation:cae 6s ease-in infinite }
+  @keyframes cae{0%{transform:translateY(-28px) rotate(0);opacity:0}20%{opacity:1}100%{transform:translateY(34px) rotate(150deg);opacity:0}}
+
+  /* ============ SECCIONES ============ */
+  section.bloque{ max-width:660px; margin:0 auto; padding:34px 20px }
   .tarjeta{
-    background:rgba(255,255,255,.85);backdrop-filter:blur(6px);
-    border-radius:28px;padding:34px;box-shadow:var(--sombra);
-    border:2px solid var(--rosa-claro);
+    position:relative;
+    background:var(--tarjeta);
+    border:1px solid var(--borde);
+    border-radius:3px;
+    padding:46px 32px 40px;
+    box-shadow:var(--sombra);
   }
-  h2{font-size:clamp(2.2rem,7vw,3.4rem);color:var(--rosa);text-align:center;margin-bottom:8px}
-  .deco{text-align:center;font-size:1.6rem;margin-bottom:22px}
-  label{display:block;font-weight:600;margin:14px 0 6px;font-size:.95rem}
+  .tarjeta::before{
+    content:''; position:absolute; inset:8px;
+    border:1px solid var(--oro); opacity:.35; pointer-events:none; border-radius:2px;
+  }
+  .esquina{ position:absolute; width:26px; height:26px; color:var(--oro); opacity:.8; pointer-events:none }
+  .esquina.tl{ top:12px; left:12px }
+  .esquina.tr{ top:12px; right:12px; transform:scaleX(-1) }
+  .esquina.bl{ bottom:12px; left:12px; transform:scaleY(-1) }
+  .esquina.br{ bottom:12px; right:12px; transform:scale(-1,-1) }
+
+  h2{
+    font-family:'Great Vibes',cursive; font-weight:400;
+    font-size:clamp(2.3rem,8vw,3.2rem); line-height:1.2;
+    text-align:center; color:var(--texto); margin-bottom:4px;
+  }
+  .subtitulo{
+    font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:4px;
+    text-transform:uppercase; color:var(--textoSuave); text-align:center; margin-bottom:6px;
+  }
+  .filigrana{ display:block; margin:14px auto 22px; width:150px; height:16px; color:var(--oro) }
+  .intro{ text-align:center; color:var(--textoSuave); font-size:1.08rem; margin-bottom:8px }
+
+  /* ============ FORMULARIO ============ */
+  label{
+    display:block; font-family:'Montserrat',sans-serif; font-size:10px;
+    letter-spacing:2.2px; text-transform:uppercase; font-weight:500;
+    color:var(--textoSuave); margin:22px 0 7px;
+  }
   input,textarea{
-    width:100%;padding:13px 16px;border:2px solid var(--rosa-claro);
-    border-radius:14px;font-size:1rem;font-family:inherit;background:#fff;color:var(--texto);
-    transition:border-color .2s;
+    width:100%; padding:13px 15px;
+    border:1px solid var(--borde); border-radius:2px;
+    font-family:'Cormorant Garamond',serif; font-size:1.05rem;
+    background:#fff; color:var(--texto);
+    transition:border-color .25s,box-shadow .25s;
   }
-  input:focus,textarea:focus{outline:none;border-color:var(--rosa)}
-  textarea{min-height:120px;resize:vertical}
+  input:focus,textarea:focus{
+    outline:none; border-color:var(--principal);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--principal) 26%,transparent);
+  }
+  textarea{ min-height:118px; resize:vertical; line-height:1.6 }
+
   .btn{
-    display:inline-block;cursor:pointer;border:none;border-radius:50px;
-    padding:14px 30px;font-size:1.05rem;font-weight:700;color:#fff;
-    background:linear-gradient(135deg,var(--rosa),var(--lila));
-    box-shadow:var(--sombra);transition:transform .15s,filter .15s;
-    text-decoration:none;
+    display:inline-block; cursor:pointer; border:1px solid transparent;
+    border-radius:2px; padding:14px 32px;
+    font-family:'Montserrat',sans-serif; font-size:11px; font-weight:600;
+    letter-spacing:2.6px; text-transform:uppercase;
+    color:var(--texto); background:var(--gradBoton);
+    box-shadow:var(--sombraSuave); text-decoration:none; text-align:center;
+    transition:transform .18s,box-shadow .18s,filter .18s;
   }
-  .btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
-  .btn.full{width:100%;margin-top:20px;text-align:center}
-  .btn.dorado{background:linear-gradient(135deg,var(--dorado),#ff9e57)}
+  .btn:hover{ transform:translateY(-2px); box-shadow:var(--sombra); filter:brightness(1.04) }
+  .btn:active{ transform:translateY(0) }
+  .btn.full{ width:100%; margin-top:26px }
+  .btn.oro{ background:var(--gradOro) }
+  .btn.linea{
+    background:transparent; border-color:var(--oro); color:var(--textoSuave);
+    box-shadow:none; padding:11px 22px; font-size:10px;
+  }
+  .btn.linea:hover{ background:var(--acento); box-shadow:none }
 
-  .nota{font-size:.82rem;opacity:.7;margin-top:10px;text-align:center}
-  .ok{display:none;background:#e7ffe9;color:#1c7a36;border:2px solid #9fe6ac;
-    padding:14px;border-radius:14px;margin-top:16px;text-align:center;font-weight:600}
+  .nota{
+    font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:.6px;
+    color:var(--textoSuave); opacity:.85; margin-top:14px; text-align:center;
+  }
+  .ok{
+    display:none; margin-top:20px; padding:16px;
+    background:var(--acento); border:1px solid var(--oro); border-radius:2px;
+    text-align:center; font-style:italic; font-size:1.08rem; color:var(--texto);
+  }
 
-  /* lista de felicitaciones guardadas */
-  .lista{margin-top:26px;display:grid;gap:14px}
-  .felic{background:linear-gradient(135deg,#fff,#fff2f8);border-left:5px solid var(--rosa);
-    border-radius:14px;padding:14px 18px}
-  .felic .de{font-weight:700;color:var(--lila)}
-  .felic .msg{margin-top:4px;line-height:1.4}
-  .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
-  .btn.mini{padding:9px 18px;font-size:.85rem;background:#fff;color:var(--rosa);border:2px solid var(--rosa)}
+  .lista{ margin-top:30px; display:grid; gap:13px }
+  .felic{
+    background:linear-gradient(135deg,#fff,var(--acento));
+    border:1px solid var(--borde); border-left:3px solid var(--principal);
+    border-radius:2px; padding:15px 18px;
+  }
+  .felic .de{
+    font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:2px;
+    text-transform:uppercase; font-weight:600; color:var(--textoSuave);
+  }
+  .felic .msg{ margin-top:5px; font-style:italic; color:var(--texto) }
+  .toolbar{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px }
 
-  /* mapa */
-  .mapa{border-radius:20px;overflow:hidden;box-shadow:var(--sombra);border:3px solid #fff;margin-top:8px}
-  .mapa iframe{width:100%;height:340px;border:0;display:block}
-  .info-evento{text-align:center;margin-bottom:18px;line-height:1.7}
-  .info-evento strong{color:var(--rosa)}
+  /* ============ UBICACIÓN ============ */
+  .evento{ text-align:center; margin-bottom:22px }
+  .evento .lugar{
+    font-family:'Great Vibes',cursive; font-size:2rem; color:var(--texto); line-height:1.3;
+  }
+  .evento .dir{ color:var(--textoSuave); font-size:1.05rem; margin-top:2px }
+  .fechaHora{
+    display:flex; justify-content:center; align-items:stretch; gap:24px;
+    margin-top:20px; flex-wrap:wrap;
+  }
+  .fh{ text-align:center; min-width:98px }
+  .fh .k{
+    font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:2.6px;
+    text-transform:uppercase; color:var(--textoSuave); margin-bottom:5px;
+  }
+  .fh .v{ font-size:1.5rem; color:var(--texto); line-height:1.25 }
+  .divisorV{ width:1px; background:var(--oro); opacity:.55 }
+  .mapa{
+    border:1px solid var(--oro); border-radius:2px; overflow:hidden;
+    box-shadow:var(--sombraSuave); margin-top:8px;
+  }
+  .mapa iframe{ width:100%; height:320px; border:0; display:block; filter:saturate(.82) }
 
-  /* regalos */
-  .regalo-card{background:linear-gradient(135deg,#fff,#f6e8ff);border-radius:20px;
-    padding:24px;text-align:center;margin-top:18px;border:2px dashed var(--lila)}
-  .cuenta{font-size:1.5rem;font-weight:800;letter-spacing:2px;color:var(--texto);margin:10px 0}
-  .banco{color:var(--lila);font-weight:600}
+  /* ============ REGALOS ============ */
+  .regalo{
+    background:linear-gradient(150deg,#fff,var(--acento));
+    border:1px solid var(--borde); border-radius:2px;
+    padding:26px 22px; text-align:center; margin-top:20px;
+  }
+  .regalo .tit{
+    font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:3px;
+    text-transform:uppercase; font-weight:600; color:var(--textoSuave); margin-bottom:12px;
+  }
+  .cuenta{
+    font-family:'Montserrat',sans-serif; font-size:1.25rem; font-weight:500;
+    letter-spacing:3px; color:var(--texto); margin:6px 0;
+  }
+  .titular{ color:var(--textoSuave); font-style:italic; font-size:1rem }
 
-  footer{text-align:center;padding:50px 20px;color:var(--lila);font-size:.95rem}
-  footer .script{font-size:2rem;color:var(--rosa)}
+  footer{ text-align:center; padding:56px 22px 70px }
+  footer .fnombre{
+    font-family:'Great Vibes',cursive; font-size:2.6rem;
+    background:var(--gradTitulo); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  footer p{
+    font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:3px;
+    text-transform:uppercase; color:var(--textoSuave); margin-top:10px;
+  }
+
+  @media(max-width:520px){
+    body{font-size:17px}
+    .tarjeta{padding:38px 20px 34px}
+    .marco{padding:42px 18px 36px}
+    .temas .lbl{display:none}
+    .divisorV{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important}
+    html{scroll-behavior:auto}
+  }
 </style>
 </head>
 <body>
-<canvas id="fondo"></canvas>
+<canvas id="fondo" aria-hidden="true"></canvas>
+
+<!-- SELECTOR DE TEMA -->
+<div class="temas" role="group" aria-label="Elegir color">
+  <span class="lbl">Color</span>
+  <button class="t-rosa"   data-tema="rosa"   title="Rosa Encantada"  aria-label="Tema Rosa Encantada"></button>
+  <button class="t-azul"   data-tema="azul"   title="Azul Encantado"  aria-label="Tema Azul Encantado"></button>
+  <button class="t-dorado" data-tema="dorado" title="Dorado Durazno" aria-label="Tema Dorado Durazno"></button>
+</div>
 
 <div class="contenido">
 
-  <!-- PORTADA -->
+  <!-- ===== PORTADA ===== -->
   <header class="hero">
-    <div class="badge">Mis XV Años</div>
-    <h1>Sara Valentina</h1>
-    <div class="num">15</div>
-    <h1 style="font-size:clamp(1.6rem,6vw,3rem)">Marín Acosta</h1>
-    <p class="sub">Con la bendición de Dios y el amor de mi familia, te invito a celebrar conmigo este día tan especial. 💖</p>
-    <div class="scroll-hint">✨ Desliza hacia abajo ✨</div>
+    <div class="marco">
+      <!-- Rosa encantada bajo la campana de cristal -->
+      <svg class="cloche" viewBox="0 0 200 268" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- base -->
+        <rect class="base" x="30" y="212" width="140" height="15" rx="7"/>
+        <rect class="base" x="40" y="227" width="120" height="10" rx="5" opacity="0.6"/>
+        <!-- tallo y hojas -->
+        <path class="tallo" d="M100 148 C 100 175, 101 192, 100 210"/>
+        <ellipse class="hoja" cx="112" cy="176" rx="13" ry="6" transform="rotate(-22 112 176)"/>
+        <ellipse class="hoja" cx="88"  cy="190" rx="11" ry="5" transform="rotate(20 88 190)"/>
+        <!-- rosa -->
+        <g transform="translate(100 132)">
+          <ellipse class="petalo" cx="0"   cy="-13" rx="15" ry="11"/>
+          <ellipse class="petalo" cx="15"  cy="-4"  rx="15" ry="11" transform="rotate(72 15 -4)"/>
+          <ellipse class="petalo" cx="9"   cy="14"  rx="15" ry="11" transform="rotate(144 9 14)"/>
+          <ellipse class="petalo" cx="-9"  cy="14"  rx="15" ry="11" transform="rotate(216 -9 14)"/>
+          <ellipse class="petalo" cx="-15" cy="-4"  rx="15" ry="11" transform="rotate(288 -15 -4)"/>
+          <ellipse class="petaloInt" cx="0"  cy="-6" rx="10" ry="8"/>
+          <ellipse class="petaloInt" cx="7"  cy="4"  rx="10" ry="8" transform="rotate(120 7 4)"/>
+          <ellipse class="petaloInt" cx="-7" cy="4"  rx="10" ry="8" transform="rotate(240 -7 4)"/>
+          <circle  class="petalo" cx="0" cy="0" r="6"/>
+        </g>
+        <!-- pétalos cayendo dentro -->
+        <ellipse class="petalo caida" cx="72"  cy="176" rx="6" ry="4" opacity=".8"/>
+        <ellipse class="petalo caida" cx="128" cy="168" rx="5" ry="3.5" opacity=".7" style="animation-delay:2.4s"/>
+        <!-- pétalos en la base -->
+        <ellipse class="petalo" cx="70"  cy="207" rx="7" ry="4" opacity=".75" transform="rotate(-18 70 207)"/>
+        <ellipse class="petalo" cx="128" cy="209" rx="6" ry="3.5" opacity=".6" transform="rotate(22 128 209)"/>
+        <!-- campana de cristal -->
+        <path class="vidrio" d="M38 212 L38 108 C38 52 62 30 100 30 C138 30 162 52 162 108 L162 212"/>
+        <circle class="vidrio" cx="100" cy="22" r="9"/>
+        <path class="brillo" d="M58 190 C 54 140, 60 82, 82 54"/>
+        <!-- chispas -->
+        <path class="chispa" d="M58 78 l2.6 6.4 6.4 2.6 -6.4 2.6 -2.6 6.4 -2.6 -6.4 -6.4 -2.6 6.4 -2.6 Z" style="transform-origin:58px 87px"/>
+        <path class="chispa" d="M142 108 l2.2 5.4 5.4 2.2 -5.4 2.2 -2.2 5.4 -2.2 -5.4 -5.4 -2.2 5.4 -2.2 Z" style="transform-origin:142px 115px"/>
+        <path class="chispa" d="M120 62 l1.8 4.4 4.4 1.8 -4.4 1.8 -1.8 4.4 -1.8 -4.4 -4.4 -1.8 4.4 -1.8 Z" style="transform-origin:120px 68px"/>
+      </svg>
+
+      <div class="eyebrow">Mis Quince Años</div>
+      <div class="nombre script">Sara Valentina</div>
+      <div class="apellidos">Marín Acosta</div>
+
+      <div class="quince">
+        <span class="linea"></span>
+        <div>
+          <div class="num">15</div>
+          <div class="anios">Años</div>
+        </div>
+        <span class="linea"></span>
+      </div>
+
+      <p class="frase" id="fraseHero">
+        Hay historias que no envejecen, y sueños que florecen<br>como una rosa encantada. Acompáñame a vivir el mío.
+      </p>
+    </div>
+    <div class="scroll-hint">Desliza para descubrir</div>
   </header>
 
-  <!-- FELICITACIONES -->
+  <!-- ===== FELICITACIONES ===== -->
   <section class="bloque" id="felicitaciones">
     <div class="tarjeta">
+      <div class="subtitulo">Libro de firmas</div>
       <h2>Déjame tu felicitación</h2>
-      <div class="deco">🎀💌🎀</div>
-      <p style="text-align:center;opacity:.8">Escríbeme un mensajito bonito. Lo recibiré en mi correo y lo guardaré para siempre.</p>
+      <svg class="filigrana" viewBox="0 0 150 16" aria-hidden="true">
+        <path d="M2 8 H55" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M95 8 H148" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M60 8 Q66 2 72 8 Q66 14 60 8 Z" fill="currentColor" opacity=".65"/>
+        <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
+        <circle cx="75" cy="8" r="3" fill="currentColor"/>
+      </svg>
+      <p class="intro">Escríbeme unas palabras bonitas. Las guardaré como se guarda una rosa entre las páginas de un libro.</p>
 
-      <form id="formFelic">
+      <form id="formFelic" novalidate>
         <label for="nombre">Tu nombre</label>
-        <input type="text" id="nombre" name="nombre" placeholder="¿Quién me escribe?" required />
+        <input type="text" id="nombre" name="nombre" placeholder="¿Quién me escribe?" required autocomplete="name" />
 
         <label for="mensaje">Tu mensaje</label>
-        <textarea id="mensaje" name="mensaje" placeholder="Escribe aquí tu felicitación..." required></textarea>
+        <textarea id="mensaje" name="mensaje" placeholder="Escribe aquí tu felicitación…" required></textarea>
 
-        <button type="submit" class="btn full">Enviar felicitación 💕</button>
-        <p class="nota">Tu mensaje llega directo al correo de Sara Valentina.</p>
+        <button type="submit" class="btn full" id="btnEnviar">Enviar felicitación</button>
+        <p class="nota">Tu mensaje llegará al correo de Sara Valentina.</p>
       </form>
 
-      <div class="ok" id="okMsg">¡Gracias por tu felicitación! 🥳 Sara la recibirá con mucho cariño.</div>
+      <div class="ok" id="okMsg">Gracias por tus palabras. Sara las recibirá con mucho cariño.</div>
 
       <div class="lista" id="listaFelic"></div>
       <div class="toolbar" id="toolbar" style="display:none">
-        <button class="btn mini" onclick="descargarFelic()">⬇ Descargar todas</button>
-        <button class="btn mini" onclick="borrarFelic()">🗑 Borrar guardadas</button>
+        <button class="btn linea" type="button" id="btnDescargar">Descargar todas</button>
+        <button class="btn linea" type="button" id="btnBorrar">Borrar guardadas</button>
       </div>
     </div>
   </section>
 
-  <!-- UBICACIÓN -->
+  <!-- ===== UBICACIÓN ===== -->
   <section class="bloque" id="ubicacion">
     <div class="tarjeta">
+      <div class="subtitulo">El castillo nos espera</div>
       <h2>¿Dónde será?</h2>
-      <div class="deco">📍🎉📍</div>
-      <div class="info-evento">
-        <strong>Salón de eventos</strong><br />
-        Dirección del evento aquí<br />
-        <strong>Fecha:</strong> día / mes / año &nbsp;·&nbsp; <strong>Hora:</strong> 0:00 p.m.
+      <svg class="filigrana" viewBox="0 0 150 16" aria-hidden="true">
+        <path d="M2 8 H55" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M95 8 H148" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M60 8 Q66 2 72 8 Q66 14 60 8 Z" fill="currentColor" opacity=".65"/>
+        <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
+        <circle cx="75" cy="8" r="3" fill="currentColor"/>
+      </svg>
+
+      <div class="evento">
+        <div class="lugar" id="lugarNombre">Salón de eventos</div>
+        <div class="dir" id="lugarDir">Dirección del evento aquí</div>
+        <div class="fechaHora">
+          <div class="fh"><div class="k">Fecha</div><div class="v" id="evFecha">00 · 00 · 0000</div></div>
+          <div class="divisorV"></div>
+          <div class="fh"><div class="k">Hora</div><div class="v" id="evHora">0:00 p.m.</div></div>
+        </div>
       </div>
+
       <div class="mapa">
-        <!-- Reemplaza el src por el embed de tu ubicación real de Google Maps -->
-        <iframe
-          src="https://www.google.com/maps?q=Bogot%C3%A1,%20Colombia&output=embed"
+        <iframe id="mapaFrame" title="Mapa del lugar del evento"
           loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
-      <a class="btn full" target="_blank"
-         href="https://www.google.com/maps/search/?api=1&query=Bogot%C3%A1,Colombia">
-        Abrir en Google Maps 🗺️
-      </a>
+      <a class="btn full" id="linkMapa" target="_blank" rel="noopener">Abrir en Google Maps</a>
     </div>
   </section>
 
-  <!-- REGALOS -->
+  <!-- ===== REGALOS ===== -->
   <section class="bloque" id="regalos">
     <div class="tarjeta">
+      <div class="subtitulo">Si deseas tener un detalle</div>
       <h2>Lluvia de regalos</h2>
-      <div class="deco">🎁💝🎁</div>
-      <p style="text-align:center;opacity:.85">Tu presencia es mi mejor regalo. Si deseas tener un detalle conmigo, aquí tienes algunas opciones. 💛</p>
+      <svg class="filigrana" viewBox="0 0 150 16" aria-hidden="true">
+        <path d="M2 8 H55" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M95 8 H148" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M60 8 Q66 2 72 8 Q66 14 60 8 Z" fill="currentColor" opacity=".65"/>
+        <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
+        <circle cx="75" cy="8" r="3" fill="currentColor"/>
+      </svg>
+      <p class="intro">Tu presencia es mi mejor regalo. Pero si quieres consentirme, aquí te dejo dos caminos.</p>
 
-      <div class="regalo-card">
-        <div class="banco">🏦 Cuenta bancaria</div>
+      <div class="regalo">
+        <div class="tit">Cuenta bancaria</div>
         <div class="cuenta" id="numCuenta">000-000000-00</div>
-        <div style="opacity:.8">A nombre de: <strong>Nombre del titular</strong></div>
-        <button class="btn mini" style="margin-top:14px" onclick="copiarCuenta()">📋 Copiar número</button>
+        <div class="titular">A nombre de <span id="titularCuenta">Nombre del titular</span></div>
+        <button class="btn linea" type="button" id="btnCopiar" style="margin-top:16px">Copiar número</button>
       </div>
 
-      <div class="regalo-card">
-        <div class="banco">💳 Pago con tarjeta crédito / débito</div>
-        <p style="opacity:.8;margin:8px 0 16px">Paga de forma rápida y segura desde el botón:</p>
-        <!-- Reemplaza el href por tu link de pago real (Mercado Pago, Wompi, PayPal, etc.) -->
-        <a class="btn dorado" id="linkPago" href="#" target="_blank">Pagar con tarjeta 💳</a>
+      <div class="regalo">
+        <div class="tit">Tarjeta crédito o débito</div>
+        <p class="intro" style="margin:6px 0 18px">Un pago rápido y seguro desde el botón.</p>
+        <a class="btn oro" id="linkPago" target="_blank" rel="noopener">Pagar con tarjeta</a>
       </div>
     </div>
   </section>
 
   <footer>
-    <div class="script">Sara Valentina 💖</div>
-    <p>Mis XV Años · ¡Gracias por acompañarme!</p>
+    <div class="fnombre script">Sara Valentina</div>
+    <p>Mis XV Años · Gracias por acompañarme</p>
   </footer>
 
 </div>
 
 <script>
-/* ====== CONFIGURACIÓN (edita estos valores) ====== */
+/* ==========================================================
+   CONFIGURACIÓN — edita solo este bloque
+   ========================================================== */
 const CONFIG = {
-  // 1) Pega tu ID de Formspree (regístrate gratis en https://formspree.io con el correo de Sara)
-  //    Crea un formulario y copia el código que se ve así: xxxxxxxx
+  // 1) ID de Formspree (crea el formulario gratis en https://formspree.io
+  //    usando el CORREO DE SARA). Copia el código que va después de /f/
   formspreeID: "TU_ID_DE_FORMSPREE",
 
-  // 2) Datos de la cuenta bancaria
-  numeroCuenta: "000-000000-00",
+  // 2) Datos del evento
+  lugar:   "Salón de eventos",
+  direccion: "Dirección del evento aquí",
+  fecha:   "00 · 00 · 0000",
+  hora:    "0:00 p.m.",
+  // Escribe la dirección tal cual la buscarías en Google Maps
+  mapaQuery: "Bogotá, Colombia",
 
-  // 3) Link de pago con tarjeta (Mercado Pago / Wompi / PayPal / Nequi, etc.)
-  linkPago: "https://"
+  // 3) Regalos
+  numeroCuenta:  "000-000000-00",
+  titularCuenta: "Nombre del titular",
+  linkPago:      "https://",
+
+  // 4) Tema inicial: "rosa" | "azul" | "dorado"
+  temaInicial: "rosa"
 };
-/* ================================================= */
 
-// aplicar config
-document.getElementById('numCuenta').textContent = CONFIG.numeroCuenta;
-document.getElementById('linkPago').href = CONFIG.linkPago;
+/* ==========================================================
+   TEMAS PASTEL — La Bella y la Bestia
+   ========================================================== */
+const TEMAS = {
+  rosa: {
+    nombre:'Rosa Encantada',
+    vars:{
+      '--fondoA':'#fff5f7', '--fondoB':'#fdeef2',
+      '--principal':'#d9a5b3', '--secundario':'#e8c4cf', '--acento':'#f7e6eb',
+      '--oro':'#dcbf90',
+      '--texto':'#4a2b33', '--textoSuave':'#6f4a54',
+      '--tarjeta':'#fffbfc', '--borde':'#f0d8de',
+      '--gradTitulo':'linear-gradient(135deg,#d9a5b3 0%,#c9a6c4 50%,#dcbf90 100%)',
+      '--gradBoton':'linear-gradient(135deg,#e8c4cf 0%,#d9a5b3 100%)',
+      '--gradOro':'linear-gradient(135deg,#f0dcbb 0%,#dcbf90 100%)',
+      '--sombra':'0 12px 40px rgba(120,70,85,.14)',
+      '--sombraSuave':'0 4px 16px rgba(120,70,85,.10)'
+    },
+    petalos:['#e8c4cf','#d9a5b3','#f3d9e0','#dcbf90','#c9a6c4']
+  },
+  azul: {
+    nombre:'Azul Encantado',
+    vars:{
+      '--fondoA':'#f4f8fc', '--fondoB':'#eef1fa',
+      '--principal':'#a8bfd8', '--secundario':'#c5d4e8', '--acento':'#e6eef7',
+      '--oro':'#d9c79b',
+      '--texto':'#24354a', '--textoSuave':'#46586e',
+      '--tarjeta':'#fbfdff', '--borde':'#dae4f0',
+      '--gradTitulo':'linear-gradient(135deg,#a8bfd8 0%,#b9b3d9 50%,#d9c79b 100%)',
+      '--gradBoton':'linear-gradient(135deg,#c5d4e8 0%,#a8bfd8 100%)',
+      '--gradOro':'linear-gradient(135deg,#ecdfba 0%,#d9c79b 100%)',
+      '--sombra':'0 12px 40px rgba(55,80,115,.14)',
+      '--sombraSuave':'0 4px 16px rgba(55,80,115,.10)'
+    },
+    petalos:['#c5d4e8','#a8bfd8','#dce6f2','#d9c79b','#b9b3d9']
+  },
+  dorado: {
+    nombre:'Dorado Durazno',
+    vars:{
+      '--fondoA':'#fff9f0', '--fondoB':'#fdf3e4',
+      '--principal':'#e8c99a', '--secundario':'#f5dfb8', '--acento':'#fbf0d9',
+      '--oro':'#d9b477',
+      '--texto':'#4a3520', '--textoSuave':'#6e5537',
+      '--tarjeta':'#fffcf7', '--borde':'#f0dcbe',
+      '--gradTitulo':'linear-gradient(135deg,#e8c99a 0%,#e5b98c 50%,#d9b477 100%)',
+      '--gradBoton':'linear-gradient(135deg,#f5dfb8 0%,#e8c99a 100%)',
+      '--gradOro':'linear-gradient(135deg,#f2ddaf 0%,#d9b477 100%)',
+      '--sombra':'0 12px 40px rgba(120,90,45,.14)',
+      '--sombraSuave':'0 4px 16px rgba(120,90,45,.10)'
+    },
+    petalos:['#f5dfb8','#e8c99a','#fceccd','#d9b477','#e5b98c']
+  }
+};
 
-/* ---------- Felicitaciones ---------- */
-const form = document.getElementById('formFelic');
-const okMsg = document.getElementById('okMsg');
+let petalColores = TEMAS.rosa.petalos;
+let petalos = [], chispas = [];
 
-function guardarLocal(nombre, mensaje){
-  const data = JSON.parse(localStorage.getItem('felicitaciones') || '[]');
-  data.unshift({nombre, mensaje, fecha: new Date().toLocaleString('es-CO')});
-  localStorage.setItem('felicitaciones', JSON.stringify(data));
-  pintarLista();
+function aplicarTema(id, guardar){
+  const t = TEMAS[id]; if(!t) return;
+  const r = document.documentElement;
+  for(const k in t.vars) r.style.setProperty(k, t.vars[k]);
+  petalColores = t.petalos;
+  petalos.forEach(p => p.col = petalColores[Math.floor(Math.random()*petalColores.length)]);
+  document.querySelectorAll('.temas button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.tema === id)));
+  if(guardar){
+    try{ localStorage.setItem('tema', id); }catch(e){}
+    const u = new URL(location); u.searchParams.set('tema', id);
+    history.replaceState(null,'',u);
+  }
+}
+
+document.querySelectorAll('.temas button').forEach(b =>
+  b.addEventListener('click', () => aplicarTema(b.dataset.tema, true)));
+
+/* ==========================================================
+   APLICAR CONFIGURACIÓN
+   ========================================================== */
+const $ = id => document.getElementById(id);
+
+$('lugarNombre').textContent = CONFIG.lugar;
+$('lugarDir').textContent    = CONFIG.direccion;
+$('evFecha').textContent     = CONFIG.fecha;
+$('evHora').textContent      = CONFIG.hora;
+$('numCuenta').textContent   = CONFIG.numeroCuenta;
+$('titularCuenta').textContent = CONFIG.titularCuenta;
+$('linkPago').href           = CONFIG.linkPago;
+
+const q = encodeURIComponent(CONFIG.mapaQuery);
+$('mapaFrame').src = `https://www.google.com/maps?q=${q}&output=embed`;
+$('linkMapa').href = `https://www.google.com/maps/search/?api=1&query=${q}`;
+
+/* esquinas doradas en cada tarjeta */
+const ESQUINA = `<svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.1">
+  <path d="M1 12 C1 5 5 1 12 1"/><path d="M1 20 C1 9 9 1 20 1" opacity=".5"/>
+  <circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>`;
+document.querySelectorAll('.tarjeta').forEach(card => {
+  ['tl','tr','bl','br'].forEach(pos => {
+    const d = document.createElement('div');
+    d.className = 'esquina ' + pos; d.innerHTML = ESQUINA;
+    card.appendChild(d);
+  });
+});
+
+/* tema inicial: ?tema= > guardado > CONFIG */
+const temaURL = new URLSearchParams(location.search).get('tema');
+let temaGuardado = null;
+try{ temaGuardado = localStorage.getItem('tema'); }catch(e){}
+aplicarTema(temaURL || temaGuardado || CONFIG.temaInicial, false);
+
+/* ==========================================================
+   FELICITACIONES
+   ========================================================== */
+const form = $('formFelic'), okMsg = $('okMsg');
+
+const escapeHTML = s => String(s).replace(/[&<>"']/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function leer(){
+  try{ return JSON.parse(localStorage.getItem('felicitaciones') || '[]'); }
+  catch(e){ return []; }
 }
 
 function pintarLista(){
-  const data = JSON.parse(localStorage.getItem('felicitaciones') || '[]');
-  const lista = document.getElementById('listaFelic');
-  const toolbar = document.getElementById('toolbar');
+  const data = leer(), lista = $('listaFelic'), toolbar = $('toolbar');
   lista.innerHTML = '';
-  if(data.length){
-    toolbar.style.display = 'flex';
-    data.forEach(f=>{
-      const div = document.createElement('div');
-      div.className = 'felic';
-      div.innerHTML = `<div class="de">💌 ${escapeHTML(f.nombre)}</div>
-        <div class="msg">${escapeHTML(f.mensaje)}</div>`;
-      lista.appendChild(div);
-    });
-  } else { toolbar.style.display = 'none'; }
+  toolbar.style.display = data.length ? 'flex' : 'none';
+  data.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'felic';
+    div.innerHTML = `<div class="de">${escapeHTML(f.nombre)}</div>
+                     <div class="msg">“${escapeHTML(f.mensaje)}”</div>`;
+    lista.appendChild(div);
+  });
 }
 
-function escapeHTML(s){
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-form.addEventListener('submit', async (e)=>{
+form.addEventListener('submit', async e => {
   e.preventDefault();
-  const nombre = document.getElementById('nombre').value.trim();
-  const mensaje = document.getElementById('mensaje').value.trim();
-  if(!nombre || !mensaje) return;
+  const nombre  = $('nombre').value.trim();
+  const mensaje = $('mensaje').value.trim();
+  if(!nombre || !mensaje){ form.reportValidity(); return; }
 
-  // guardar siempre localmente
-  guardarLocal(nombre, mensaje);
+  const btn = $('btnEnviar');
+  btn.disabled = true; btn.textContent = 'Enviando…';
 
-  // enviar al correo vía Formspree (si está configurado)
+  // guardar siempre en este dispositivo
+  const data = leer();
+  data.unshift({nombre, mensaje, fecha:new Date().toLocaleString('es-CO')});
+  try{ localStorage.setItem('felicitaciones', JSON.stringify(data)); }catch(e){}
+  pintarLista();
+
+  // enviar al correo por Formspree
   if(CONFIG.formspreeID && CONFIG.formspreeID !== 'TU_ID_DE_FORMSPREE'){
     try{
       await fetch('https://formspree.io/f/' + CONFIG.formspreeID, {
         method:'POST',
         headers:{'Accept':'application/json','Content-Type':'application/json'},
         body: JSON.stringify({
-          _subject:'🎉 Nueva felicitación para los XV de Sara Valentina',
+          _subject:'Nueva felicitación para los XV de Sara Valentina',
           nombre, mensaje
         })
       });
@@ -278,112 +654,125 @@ form.addEventListener('submit', async (e)=>{
   }
 
   form.reset();
+  btn.disabled = false; btn.textContent = 'Enviar felicitación';
   okMsg.style.display = 'block';
-  lanzarConfeti();
-  setTimeout(()=> okMsg.style.display='none', 6000);
+  lluviaPetalos();
+  setTimeout(() => okMsg.style.display = 'none', 6000);
 });
 
-function descargarFelic(){
-  const data = JSON.parse(localStorage.getItem('felicitaciones') || '[]');
+$('btnDescargar').addEventListener('click', () => {
   let txt = 'FELICITACIONES — XV de Sara Valentina Marín Acosta\n\n';
-  data.forEach(f=> txt += `De: ${f.nombre} (${f.fecha})\n${f.mensaje}\n\n----------------\n\n`);
-  const blob = new Blob([txt], {type:'text/plain'});
+  leer().forEach(f => txt += `De: ${f.nombre} (${f.fecha})\n${f.mensaje}\n\n------------------------\n\n`);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
+  a.href = URL.createObjectURL(new Blob([txt], {type:'text/plain;charset=utf-8'}));
   a.download = 'felicitaciones-sara.txt';
-  a.click();
-}
+  a.click(); URL.revokeObjectURL(a.href);
+});
 
-function borrarFelic(){
+$('btnBorrar').addEventListener('click', () => {
   if(confirm('¿Borrar las felicitaciones guardadas en este dispositivo?')){
-    localStorage.removeItem('felicitaciones');
+    try{ localStorage.removeItem('felicitaciones'); }catch(e){}
     pintarLista();
   }
-}
+});
 
-function copiarCuenta(){
+$('btnCopiar').addEventListener('click', () => {
   navigator.clipboard.writeText(CONFIG.numeroCuenta)
-    .then(()=> alert('¡Número de cuenta copiado! 📋'));
-}
+    .then(() => {
+      const b = $('btnCopiar'), t = b.textContent;
+      b.textContent = '¡Copiado!';
+      setTimeout(() => b.textContent = t, 2000);
+    })
+    .catch(() => alert('Número de cuenta: ' + CONFIG.numeroCuenta));
+});
 
 pintarLista();
 
-/* ---------- Canvas: globos + confeti ---------- */
-const canvas = document.getElementById('fondo');
-const ctx = canvas.getContext('2d');
-let W, H, globos = [], confeti = [];
+/* ==========================================================
+   CANVAS — pétalos de rosa y chispas doradas
+   ========================================================== */
+const canvas = $('fondo'), ctx = canvas.getContext('2d');
+let W, H;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function size(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+function size(){
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
 size(); addEventListener('resize', size);
 
-const colores = ['#ff6fa5','#b984ff','#f6c453','#ff9ec7','#9be7ff','#ffd6e7'];
-function rnd(a,b){ return a + Math.random()*(b-a); }
+const rnd = (a,b) => a + Math.random()*(b-a);
 
-for(let i=0;i<14;i++){
-  globos.push({
-    x: rnd(0,W), y: rnd(H, H*2), r: rnd(16,30),
-    col: colores[i%colores.length], vel: rnd(.4,1.1), sway: rnd(0,Math.PI*2)
+for(let i = 0; i < 26; i++){
+  petalos.push({
+    x: rnd(0,W), y: rnd(-H,H), r: rnd(5,12),
+    col: petalColores[i % petalColores.length],
+    vy: rnd(.35,1.05), vx: rnd(-.35,.35),
+    rot: rnd(0,Math.PI*2), vr: rnd(-.012,.012),
+    sway: rnd(0,Math.PI*2), swaySp: rnd(.006,.016),
+    alpha: rnd(.35,.72)
   });
 }
 
-function dibujarGlobo(g){
+function dibujarPetalo(p){
   ctx.save();
-  ctx.globalAlpha = .55;
-  ctx.fillStyle = g.col;
+  ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+  ctx.globalAlpha = p.alpha; ctx.fillStyle = p.col;
   ctx.beginPath();
-  ctx.ellipse(g.x, g.y, g.r*0.8, g.r, 0, 0, Math.PI*2);
+  ctx.moveTo(0, -p.r);
+  ctx.bezierCurveTo(p.r, -p.r, p.r, p.r*.85, 0, p.r);
+  ctx.bezierCurveTo(-p.r, p.r*.85, -p.r, -p.r, 0, -p.r);
   ctx.fill();
-  // nudito
-  ctx.beginPath();
-  ctx.moveTo(g.x, g.y+g.r);
-  ctx.lineTo(g.x-4, g.y+g.r+6);
-  ctx.lineTo(g.x+4, g.y+g.r+6);
-  ctx.fill();
-  // hilo
-  ctx.globalAlpha = .25;
-  ctx.strokeStyle = g.col;
-  ctx.beginPath();
-  ctx.moveTo(g.x, g.y+g.r+6);
-  ctx.quadraticCurveTo(g.x+8, g.y+g.r+30, g.x, g.y+g.r+55);
-  ctx.stroke();
   ctx.restore();
 }
 
-function lanzarConfeti(){
-  for(let i=0;i<120;i++){
-    confeti.push({
-      x: W/2, y: H/2, r: rnd(4,9),
-      col: colores[Math.floor(Math.random()*colores.length)],
-      vx: rnd(-7,7), vy: rnd(-12,-3), g: .25, vida: rnd(60,120),
-      rot: rnd(0,Math.PI*2), vr: rnd(-.2,.2)
+function lluviaPetalos(){
+  for(let i = 0; i < 90; i++){
+    chispas.push({
+      x: W/2, y: H*.45, r: rnd(4,10),
+      col: petalColores[Math.floor(Math.random()*petalColores.length)],
+      vx: rnd(-6,6), vy: rnd(-10,-2), g:.20, vida: rnd(70,140),
+      rot: rnd(0,Math.PI*2), vr: rnd(-.15,.15)
     });
   }
 }
 
 function loop(){
   ctx.clearRect(0,0,W,H);
-  // globos
-  globos.forEach(g=>{
-    g.y -= g.vel; g.sway += .01; g.x += Math.sin(g.sway)*.4;
-    if(g.y < -g.r-60){ g.y = H + rnd(20,200); g.x = rnd(0,W); }
-    dibujarGlobo(g);
+
+  petalos.forEach(p => {
+    p.y += p.vy; p.sway += p.swaySp;
+    p.x += p.vx + Math.sin(p.sway)*.55;
+    p.rot += p.vr;
+    if(p.y > H + 24){ p.y = -24; p.x = rnd(0,W); }
+    if(p.x > W + 24) p.x = -24;
+    if(p.x < -24)    p.x = W + 24;
+    dibujarPetalo(p);
   });
-  // confeti
-  confeti.forEach(c=>{
+
+  chispas.forEach(c => {
     c.vy += c.g; c.x += c.vx; c.y += c.vy; c.vida--; c.rot += c.vr;
     ctx.save();
-    ctx.translate(c.x,c.y); ctx.rotate(c.rot);
+    ctx.translate(c.x, c.y); ctx.rotate(c.rot);
+    ctx.globalAlpha = Math.max(0, Math.min(.85, c.vida/70));
     ctx.fillStyle = c.col;
-    ctx.fillRect(-c.r/2,-c.r/2,c.r,c.r*0.6);
+    ctx.beginPath();
+    ctx.moveTo(0, -c.r);
+    ctx.bezierCurveTo(c.r, -c.r, c.r, c.r*.85, 0, c.r);
+    ctx.bezierCurveTo(-c.r, c.r*.85, -c.r, -c.r, 0, -c.r);
+    ctx.fill();
     ctx.restore();
   });
-  confeti = confeti.filter(c=> c.vida>0 && c.y < H+30);
+  chispas = chispas.filter(c => c.vida > 0 && c.y < H + 40);
+
   requestAnimationFrame(loop);
 }
-loop();
 
-// confeti de bienvenida
-setTimeout(lanzarConfeti, 600);
+if(!reduce){ loop(); setTimeout(lluviaPetalos, 900); }
+else { petalos.forEach(dibujarPetalo); }
 </script>
 </body>
 </html>
