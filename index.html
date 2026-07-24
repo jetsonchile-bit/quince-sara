@@ -295,6 +295,23 @@
   #gownB{ stop-color:var(--oro) }
   #spotA{ stop-color:var(--oro) }
   #spotB{ stop-color:var(--oro) }
+  .escena .cielo{ fill:url(#skyGrad) }
+  .escena .sol{ fill:url(#sunGrad) }
+  .escena .castilloLejos{ fill:var(--secundario); opacity:.34 }
+  .escena .castilloCerca{ fill:var(--secundario); opacity:.58 }
+  .escena .torreLuz{ fill:var(--oro) }
+  .escena .follaje{ fill:var(--textoSuave); opacity:.2 }
+  .escena .terraza{ fill:var(--acento); opacity:.6 }
+  .escena .baranda{ stroke:var(--oro); stroke-width:2; fill:none; opacity:.7 }
+  .escena .balaustre{ fill:var(--oro); opacity:.65 }
+  .escena .rosaPetalo{ fill:var(--principal) }
+  .escena .rosaHoja{ fill:var(--textoSuave); opacity:.5 }
+  .escena .gownLinea{ fill:none; stroke:var(--oro); stroke-width:1.4; opacity:.4 }
+  #skyA{ stop-color:var(--acento) }
+  #skyB{ stop-color:var(--oro) }
+  #sunA{ stop-color:var(--oro) }
+  #sunB{ stop-color:var(--oro) }
+  .escena .torreLuz{ animation:destella 2.8s ease-in-out infinite }
 
   .escena .bob{ animation:valsBob 3.6s ease-in-out infinite }
   .escena .pareja{ transform-box:view-box; transform-origin:400px 384px; animation:vals 3.6s ease-in-out infinite alternate }
@@ -412,7 +429,7 @@
 
       <div class="ballroom">
         <svg viewBox="0 0 800 470" class="escena" role="img"
-             aria-label="Una pareja de gala baila un vals en un gran salón, bajo una araña de cristal">
+             aria-label="Una pareja de gala baila un vals en una terraza, con un castillo de cuento al atardecer dorado">
           <defs>
             <linearGradient id="gownGrad" x1="0" y1="0" x2="0" y2="1">
               <stop id="gownA" offset="0"/>
@@ -422,47 +439,80 @@
               <stop id="spotA" offset="0" stop-opacity=".55"/>
               <stop id="spotB" offset="1" stop-opacity="0"/>
             </radialGradient>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop id="skyA" offset="0"/>
+              <stop id="skyB" offset="1"/>
+            </linearGradient>
+            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+              <stop id="sunA" offset="0" stop-opacity=".85"/>
+              <stop id="sunB" offset="1" stop-opacity="0"/>
+            </radialGradient>
           </defs>
 
-          <!-- piso -->
-          <rect class="piso" x="0" y="380" width="800" height="90"/>
-          <path class="pisoLinea" d="M400 380 L120 470"/>
-          <path class="pisoLinea" d="M400 380 L300 470"/>
-          <path class="pisoLinea" d="M400 380 L500 470"/>
-          <path class="pisoLinea" d="M400 380 L680 470"/>
-          <path class="pisoLinea" d="M0 416 H800"/>
-          <path class="pisoLinea" d="M0 446 H800"/>
+          <!-- cielo al atardecer -->
+          <rect class="cielo" x="0" y="0" width="800" height="400"/>
+          <ellipse class="sol" cx="400" cy="336" rx="270" ry="210"/>
 
-          <!-- ventanas del salón -->
-          <path class="ventana" d="M96 150 q0 -46 40 -46 q40 0 40 46 v150 h-80 Z"/>
-          <path class="marcoV" d="M136 106 v192 M96 200 h80"/>
-          <path class="ventana" d="M624 150 q0 -46 40 -46 q40 0 40 46 v150 h-80 Z"/>
-          <path class="marcoV" d="M664 106 v192 M624 200 h80"/>
+          <!-- castillo lejano (brumoso) -->
+          <g class="castilloLejos">
+            <rect x="250" y="250" width="16" height="130"/><polygon points="258,214 248,252 268,252"/>
+            <rect x="286" y="272" width="12" height="108"/><polygon points="292,244 284,274 300,274"/>
+            <rect x="518" y="262" width="14" height="118"/><polygon points="525,226 516,264 534,264"/>
+            <rect x="548" y="278" width="12" height="102"/><polygon points="554,250 546,280 562,280"/>
+          </g>
 
-          <!-- luz / reflector -->
+          <!-- castillo principal -->
+          <g class="castilloCerca">
+            <rect x="300" y="330" width="200" height="50"/>
+            <rect x="372" y="248" width="56" height="132"/>
+            <polygon points="400,194 366,250 434,250"/>
+            <rect x="312" y="286" width="34" height="94"/><polygon points="329,242 308,288 350,288"/>
+            <rect x="454" y="286" width="34" height="94"/><polygon points="471,242 450,288 492,288"/>
+            <rect x="350" y="300" width="18" height="80"/><polygon points="359,264 347,302 371,302"/>
+            <rect x="432" y="300" width="18" height="80"/><polygon points="441,264 429,302 453,302"/>
+            <rect x="284" y="344" width="24" height="36"/>
+            <rect x="492" y="344" width="24" height="36"/>
+          </g>
+          <!-- ventanitas iluminadas -->
+          <rect class="torreLuz" x="396" y="272" width="8" height="14" rx="3"/>
+          <rect class="torreLuz" x="325" y="310" width="6" height="11" rx="2"/>
+          <rect class="torreLuz" x="469" y="310" width="6" height="11" rx="2"/>
+
+          <!-- follaje que enmarca -->
+          <path class="follaje" d="M0 0 H212 Q152 42 150 80 Q120 122 60 130 Q20 152 0 192 Z"/>
+          <path class="follaje" d="M800 0 H588 Q648 42 650 80 Q680 122 740 130 Q780 152 800 192 Z"/>
+
+          <!-- resplandor cálido sobre la pareja -->
           <ellipse class="glowShape" cx="400" cy="300" rx="215" ry="185"/>
 
-          <!-- araña de cristal -->
+          <!-- terraza -->
+          <rect class="terraza" x="0" y="380" width="800" height="90"/>
+          <path class="baranda" d="M0 380 H250 M0 400 H250 M560 380 H800 M560 400 H800"/>
+          <rect class="balaustre" x="24" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="70" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="116" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="162" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="208" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="588" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="634" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="680" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="726" y="381" width="6" height="18"/>
+          <rect class="balaustre" x="772" y="381" width="6" height="18"/>
+
+          <!-- rosales -->
           <g>
-            <path class="arania" d="M400 42 V66"/>
-            <circle class="cera" cx="400" cy="40" r="4"/>
-            <ellipse class="arania" cx="400" cy="80" rx="70" ry="14"/>
-            <path class="arania" d="M330 80 Q400 60 470 80"/>
-            <!-- velas -->
-            <rect class="cera" x="342" y="56" width="4" height="14"/>
-            <g class="flama" style="animation-delay:0s"><ellipse cx="344" cy="52" rx="3" ry="6.5" fill="#f4c063"/><ellipse cx="344" cy="53" rx="1.4" ry="3.6" fill="#fff4d2"/></g>
-            <rect class="cera" x="370" y="53" width="4" height="14"/>
-            <g class="flama" style="animation-delay:.35s"><ellipse cx="372" cy="49" rx="3" ry="6.5" fill="#f4c063"/><ellipse cx="372" cy="50" rx="1.4" ry="3.6" fill="#fff4d2"/></g>
-            <rect class="cera" x="398" y="51" width="4" height="14"/>
-            <g class="flama" style="animation-delay:.6s"><ellipse cx="400" cy="47" rx="3.2" ry="7" fill="#f4c063"/><ellipse cx="400" cy="48" rx="1.5" ry="3.8" fill="#fff4d2"/></g>
-            <rect class="cera" x="426" y="53" width="4" height="14"/>
-            <g class="flama" style="animation-delay:.15s"><ellipse cx="428" cy="49" rx="3" ry="6.5" fill="#f4c063"/><ellipse cx="428" cy="50" rx="1.4" ry="3.6" fill="#fff4d2"/></g>
-            <rect class="cera" x="454" y="56" width="4" height="14"/>
-            <g class="flama" style="animation-delay:.45s"><ellipse cx="456" cy="52" rx="3" ry="6.5" fill="#f4c063"/><ellipse cx="456" cy="53" rx="1.4" ry="3.6" fill="#fff4d2"/></g>
-            <!-- cristales -->
-            <path class="arania" d="M356 92 V101"/><path class="cristal destello" d="M356 101 l4 5 -4 6 -4 -6 Z" style="animation-delay:.2s"/>
-            <path class="arania" d="M400 94 V110"/><path class="cristal destello" d="M400 110 l5 7 -5 8 -5 -8 Z" style="animation-delay:0s"/>
-            <path class="arania" d="M444 92 V101"/><path class="cristal destello" d="M444 101 l4 5 -4 6 -4 -6 Z" style="animation-delay:.9s"/>
+            <path class="rosaHoja" d="M54 456 Q60 422 70 456 Z"/>
+            <circle class="rosaPetalo" cx="44" cy="442" r="9"/>
+            <circle class="rosaPetalo" cx="66" cy="448" r="8"/>
+            <circle class="rosaPetalo" cx="32" cy="454" r="7"/>
+            <circle class="rosaPetalo" cx="56" cy="460" r="8"/>
+          </g>
+          <g>
+            <path class="rosaHoja" d="M742 456 Q748 422 758 456 Z"/>
+            <circle class="rosaPetalo" cx="756" cy="442" r="9"/>
+            <circle class="rosaPetalo" cx="734" cy="448" r="8"/>
+            <circle class="rosaPetalo" cx="768" cy="454" r="7"/>
+            <circle class="rosaPetalo" cx="744" cy="460" r="8"/>
           </g>
 
           <!-- destellos que suben -->
@@ -473,49 +523,51 @@
           <g class="sube" style="animation-delay:3.6s"><path class="cristal destello" d="M366 326 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6 Z"/></g>
 
           <!-- sombra en el piso -->
-          <ellipse class="sombra" cx="404" cy="386" rx="98" ry="12"/>
+          <ellipse class="sombra" cx="416" cy="386" rx="106" ry="12"/>
 
           <!-- ===== LA PAREJA ===== -->
           <g class="bob">
             <g class="pareja">
 
-              <!-- Caballero (frac) -->
+              <!-- Caballero -->
               <g>
-                <path class="cabello" d="M343 168 q1 -17 13 -18 q13 1 14 17 q-8 -7 -27 1 Z"/>
-                <circle class="figura" cx="356" cy="173" r="12.5"/>
-                <!-- brazo exterior (mano enlazada) -->
-                <path class="figura" d="M344 200 Q322 205 305 214 L308 221 Q326 214 348 210 Z"/>
-                <!-- torso / frac -->
-                <path class="figura" d="M342 196 Q356 189 372 196 L369 250 Q356 256 346 250 Z"/>
-                <!-- cola del frac -->
-                <path class="figura" d="M346 248 L370 248 Q375 288 366 322 L358 302 L350 322 Q341 286 346 248 Z"/>
-                <!-- piernas -->
-                <path class="figura" d="M351 250 L347 378 L340 378 L345 250 Z"/>
-                <path class="figura" d="M361 252 L378 366 L370 370 L352 256 Z"/>
-                <ellipse class="figura" cx="343" cy="380" rx="9" ry="4"/>
-                <ellipse class="figura" cx="375" cy="368" rx="9" ry="4" transform="rotate(13 375 368)"/>
-                <!-- brazo interior (en la cintura de ella) -->
-                <path class="figura" d="M369 202 Q392 205 409 231 L403 238 Q388 216 366 210 Z"/>
+                <path class="figura" d="M349 250 L343 380 L336 380 L345 250 Z"/>
+                <path class="figura" d="M361 252 L371 373 L363 377 L351 256 Z"/>
+                <ellipse class="figura" cx="339" cy="381" rx="9" ry="4"/>
+                <ellipse class="figura" cx="368" cy="375" rx="9" ry="4" transform="rotate(10 368 375)"/>
+                <path class="figura" d="M344 246 L369 248 Q371 290 361 320 L354 300 L346 320 Q339 284 344 246 Z"/>
+                <path class="figura" d="M339 176 Q353 168 368 177 L372 250 Q356 258 344 250 Z"/>
+                <!-- brazo interior: rodea la cintura de ella -->
+                <path class="figura" d="M366 187 Q389 191 408 214 L402 222 Q385 201 362 197 Z"/>
+                <!-- brazo exterior: sube a enlazar la mano -->
+                <path class="figura" d="M341 181 Q321 167 302 153 L299 161 Q319 175 339 189 Z"/>
+                <!-- cabeza -->
+                <path class="cabello" d="M339 148 q2 -16 13 -17 q12 1 12 15 q-7 -7 -25 2 Z"/>
+                <circle class="figura" cx="351" cy="151" r="13"/>
               </g>
 
-              <!-- Dama (vestido de baile) -->
+              <!-- Dama -->
               <g>
-                <!-- falda (ondea) -->
+                <!-- falda (ondea hacia la derecha) -->
                 <g class="falda">
-                  <path class="gown" d="M404 244 C381 262 355 322 347 384 C362 393 471 393 491 383 C481 320 452 268 418 244 Z"/>
-                  <path class="gownSombra" d="M404 250 C392 276 372 330 366 384 C384 389 430 389 452 385 C446 330 430 282 414 250 Z"/>
+                  <path class="gown" d="M402 252 C386 272 378 324 384 384 C404 393 502 393 516 379 C510 322 472 270 426 250 Z"/>
+                  <path class="gownSombra" d="M426 256 C422 302 426 348 438 386 C462 388 494 384 508 378 C504 332 474 284 442 254 Z"/>
+                  <path class="gownLinea" d="M392 372 Q446 384 508 371"/>
+                  <path class="gownLinea" d="M388 340 Q444 352 500 337"/>
                 </g>
-                <!-- brazo exterior (mano enlazada con él) -->
-                <path class="figura" d="M401 190 Q351 196 306 214 L309 222 Q353 205 403 200 Z"/>
-                <circle class="figura" cx="305" cy="217" r="6"/>
-                <!-- bodice -->
-                <path class="bodice" d="M399 185 Q408 181 417 185 L414 248 Q407 252 402 248 Z"/>
-                <!-- cuello y cabeza -->
-                <circle class="figura" cx="408" cy="167" r="11.5"/>
-                <path class="cabello" d="M397 168 q9 -17 22 -7 q7 4 6 13 q-6 -9 -16 -7 q-9 1 -12 8 Z"/>
-                <circle class="cabello" cx="420" cy="160" r="7"/>
-                <!-- brazo interior (sobre su hombro) -->
-                <path class="figura" d="M414 189 Q397 191 378 199 L380 206 Q399 199 416 197 Z"/>
+                <!-- brazo exterior: enlaza con la mano de él -->
+                <path class="figura" d="M404 192 Q356 174 302 154 L299 162 Q354 182 406 200 Z"/>
+                <circle class="figura" cx="300" cy="156" r="6"/>
+                <!-- torso / corpiño -->
+                <path class="bodice" d="M397 190 Q408 184 420 191 L424 252 Q409 260 394 251 Z"/>
+                <!-- cuello -->
+                <rect class="figura" x="404" y="168" width="7" height="11" rx="3"/>
+                <!-- brazo interior: sobre el hombro de él -->
+                <path class="figura" d="M406 196 Q390 193 373 189 L372 197 Q389 202 405 203 Z"/>
+                <!-- cabeza inclinada hacia él + peinado -->
+                <circle class="figura" cx="408" cy="159" r="12"/>
+                <path class="cabello" d="M397 158 q3 -15 22 -7 q-6 -5 -14 -3 q-7 1 -8 10 Z"/>
+                <circle class="cabello" cx="420" cy="153" r="6"/>
               </g>
 
             </g>
@@ -523,7 +575,7 @@
         </svg>
       </div>
 
-      <p class="intro">Como en los cuentos… una noche, un gran salón y un baile que no se olvida. 🥂</p>
+      <p class="intro">Como en los cuentos… un castillo, un atardecer dorado y un baile que no se olvida. 🥂🌹</p>
     </div>
   </section>
 
