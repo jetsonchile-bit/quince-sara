@@ -274,6 +274,43 @@
     text-transform:uppercase; color:var(--textoSuave); margin-top:10px;
   }
 
+  /* ============ SALÓN · EL VALS ============ */
+  .ballroom{ position:relative; margin:18px auto 6px; max-width:640px }
+  .escena{ width:100%; height:auto; display:block; overflow:visible }
+  .escena .figura{ fill:var(--texto) }
+  .escena .cabello{ fill:var(--texto) }
+  .escena .bodice{ fill:var(--principal) }
+  .escena .gown{ fill:url(#gownGrad) }
+  .escena .gownSombra{ fill:var(--oro); opacity:.22 }
+  .escena .sombra{ fill:var(--texto); opacity:.12 }
+  .escena .piso{ fill:var(--acento); opacity:.5 }
+  .escena .pisoLinea{ stroke:var(--oro); stroke-width:.6; opacity:.32; fill:none }
+  .escena .ventana{ fill:var(--acento); opacity:.4; stroke:var(--oro); stroke-width:1 }
+  .escena .marcoV{ stroke:var(--oro); stroke-width:1; fill:none; opacity:.55 }
+  .escena .arania{ stroke:var(--oro); fill:none; stroke-width:1.4 }
+  .escena .cera{ fill:var(--oro) }
+  .escena .cristal{ fill:var(--oro) }
+  .escena .glowShape{ fill:url(#spotGrad) }
+  #gownA{ stop-color:var(--principal) }
+  #gownB{ stop-color:var(--oro) }
+  #spotA{ stop-color:var(--oro) }
+  #spotB{ stop-color:var(--oro) }
+
+  .escena .bob{ animation:valsBob 3.6s ease-in-out infinite }
+  .escena .pareja{ transform-box:view-box; transform-origin:400px 384px; animation:vals 3.6s ease-in-out infinite alternate }
+  .escena .falda{ transform-box:view-box; transform-origin:407px 250px; animation:faldea 2.7s ease-in-out infinite alternate }
+  .escena .glowShape{ transform-box:view-box; transform-origin:400px 300px; animation:spot 3.6s ease-in-out infinite }
+  .escena .flama{ transform-box:fill-box; transform-origin:center bottom; animation:flamea 1.6s ease-in-out infinite }
+  .escena .destello{ transform-box:fill-box; transform-origin:center; animation:destella 2.4s ease-in-out infinite }
+  .escena .sube{ animation:subeSube 5.5s ease-in infinite }
+  @keyframes vals{ from{transform:rotate(-4.2deg)} to{transform:rotate(4.2deg)} }
+  @keyframes valsBob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  @keyframes faldea{ from{transform:rotate(-3deg)} to{transform:rotate(3.4deg)} }
+  @keyframes spot{ 0%,100%{opacity:.45} 50%{opacity:.85} }
+  @keyframes flamea{ 0%,100%{transform:scaleY(1) scaleX(1)} 50%{transform:scaleY(1.28) scaleX(.82)} }
+  @keyframes destella{ 0%,100%{opacity:.25; transform:scale(.7)} 50%{opacity:1; transform:scale(1.1)} }
+  @keyframes subeSube{ 0%{transform:translateY(12px); opacity:0} 16%{opacity:.9} 100%{transform:translateY(-72px); opacity:0} }
+
   @media(max-width:520px){
     body{font-size:17px}
     .tarjeta{padding:38px 20px 34px}
@@ -359,6 +396,136 @@
     </div>
     <div class="scroll-hint">Desliza para descubrir</div>
   </header>
+
+  <!-- ===== EL VALS ===== -->
+  <section class="bloque salon" id="baile">
+    <div class="tarjeta">
+      <div class="subtitulo">Un cuento hecho realidad</div>
+      <h2>Nuestro Vals</h2>
+      <svg class="filigrana" viewBox="0 0 150 16" aria-hidden="true">
+        <path d="M2 8 H55" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M95 8 H148" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M60 8 Q66 2 72 8 Q66 14 60 8 Z" fill="currentColor" opacity=".65"/>
+        <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
+        <circle cx="75" cy="8" r="3" fill="currentColor"/>
+      </svg>
+
+      <div class="ballroom">
+        <svg viewBox="0 0 800 470" class="escena" role="img"
+             aria-label="Una pareja de gala baila un vals en un gran salón, bajo una araña de cristal">
+          <defs>
+            <linearGradient id="gownGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop id="gownA" offset="0"/>
+              <stop id="gownB" offset="1"/>
+            </linearGradient>
+            <radialGradient id="spotGrad" cx="50%" cy="50%" r="50%">
+              <stop id="spotA" offset="0" stop-opacity=".55"/>
+              <stop id="spotB" offset="1" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- piso -->
+          <rect class="piso" x="0" y="380" width="800" height="90"/>
+          <path class="pisoLinea" d="M400 380 L120 470"/>
+          <path class="pisoLinea" d="M400 380 L300 470"/>
+          <path class="pisoLinea" d="M400 380 L500 470"/>
+          <path class="pisoLinea" d="M400 380 L680 470"/>
+          <path class="pisoLinea" d="M0 416 H800"/>
+          <path class="pisoLinea" d="M0 446 H800"/>
+
+          <!-- ventanas del salón -->
+          <path class="ventana" d="M96 150 q0 -46 40 -46 q40 0 40 46 v150 h-80 Z"/>
+          <path class="marcoV" d="M136 106 v192 M96 200 h80"/>
+          <path class="ventana" d="M624 150 q0 -46 40 -46 q40 0 40 46 v150 h-80 Z"/>
+          <path class="marcoV" d="M664 106 v192 M624 200 h80"/>
+
+          <!-- luz / reflector -->
+          <ellipse class="glowShape" cx="400" cy="300" rx="215" ry="185"/>
+
+          <!-- araña de cristal -->
+          <g>
+            <path class="arania" d="M400 42 V66"/>
+            <circle class="cera" cx="400" cy="40" r="4"/>
+            <ellipse class="arania" cx="400" cy="80" rx="70" ry="14"/>
+            <path class="arania" d="M330 80 Q400 60 470 80"/>
+            <!-- velas -->
+            <rect class="cera" x="342" y="56" width="4" height="14"/>
+            <g class="flama" style="animation-delay:0s"><ellipse cx="344" cy="52" rx="3" ry="6.5" fill="#f4c063"/><ellipse cx="344" cy="53" rx="1.4" ry="3.6" fill="#fff4d2"/></g>
+            <rect class="cera" x="370" y="53" width="4" height="14"/>
+            <g class="flama" style="animation-delay:.35s"><ellipse cx="372" cy="49" rx="3" ry="6.5" fill="#f4c063"/><ellipse cx="372" cy="50" rx="1.4" ry="3.6" fill="#fff4d2"/></g>
+            <rect class="cera" x="398" y="51" width="4" height="14"/>
+            <g class="flama" style="animation-delay:.6s"><ellipse cx="400" cy="47" rx="3.2" ry="7" fill="#f4c063"/><ellipse cx="400" cy="48" rx="1.5" ry="3.8" fill="#fff4d2"/></g>
+            <rect class="cera" x="426" y="53" width="4" height="14"/>
+            <g class="flama" style="animation-delay:.15s"><ellipse cx="428" cy="49" rx="3" ry="6.5" fill="#f4c063"/><ellipse cx="428" cy="50" rx="1.4" ry="3.6" fill="#fff4d2"/></g>
+            <rect class="cera" x="454" y="56" width="4" height="14"/>
+            <g class="flama" style="animation-delay:.45s"><ellipse cx="456" cy="52" rx="3" ry="6.5" fill="#f4c063"/><ellipse cx="456" cy="53" rx="1.4" ry="3.6" fill="#fff4d2"/></g>
+            <!-- cristales -->
+            <path class="arania" d="M356 92 V101"/><path class="cristal destello" d="M356 101 l4 5 -4 6 -4 -6 Z" style="animation-delay:.2s"/>
+            <path class="arania" d="M400 94 V110"/><path class="cristal destello" d="M400 110 l5 7 -5 8 -5 -8 Z" style="animation-delay:0s"/>
+            <path class="arania" d="M444 92 V101"/><path class="cristal destello" d="M444 101 l4 5 -4 6 -4 -6 Z" style="animation-delay:.9s"/>
+          </g>
+
+          <!-- destellos que suben -->
+          <g class="sube" style="animation-delay:0s"><path class="cristal destello" d="M326 340 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 Z"/></g>
+          <g class="sube" style="animation-delay:1.4s"><path class="cristal destello" d="M470 330 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 Z"/></g>
+          <g class="sube" style="animation-delay:2.7s"><path class="cristal destello" d="M300 360 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6 Z"/></g>
+          <g class="sube" style="animation-delay:.8s"><path class="cristal destello" d="M496 356 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6 Z"/></g>
+          <g class="sube" style="animation-delay:3.6s"><path class="cristal destello" d="M366 326 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6 Z"/></g>
+
+          <!-- sombra en el piso -->
+          <ellipse class="sombra" cx="404" cy="386" rx="98" ry="12"/>
+
+          <!-- ===== LA PAREJA ===== -->
+          <g class="bob">
+            <g class="pareja">
+
+              <!-- Caballero (frac) -->
+              <g>
+                <path class="cabello" d="M343 168 q1 -17 13 -18 q13 1 14 17 q-8 -7 -27 1 Z"/>
+                <circle class="figura" cx="356" cy="173" r="12.5"/>
+                <!-- brazo exterior (mano enlazada) -->
+                <path class="figura" d="M344 200 Q322 205 305 214 L308 221 Q326 214 348 210 Z"/>
+                <!-- torso / frac -->
+                <path class="figura" d="M342 196 Q356 189 372 196 L369 250 Q356 256 346 250 Z"/>
+                <!-- cola del frac -->
+                <path class="figura" d="M346 248 L370 248 Q375 288 366 322 L358 302 L350 322 Q341 286 346 248 Z"/>
+                <!-- piernas -->
+                <path class="figura" d="M351 250 L347 378 L340 378 L345 250 Z"/>
+                <path class="figura" d="M361 252 L378 366 L370 370 L352 256 Z"/>
+                <ellipse class="figura" cx="343" cy="380" rx="9" ry="4"/>
+                <ellipse class="figura" cx="375" cy="368" rx="9" ry="4" transform="rotate(13 375 368)"/>
+                <!-- brazo interior (en la cintura de ella) -->
+                <path class="figura" d="M369 202 Q392 205 409 231 L403 238 Q388 216 366 210 Z"/>
+              </g>
+
+              <!-- Dama (vestido de baile) -->
+              <g>
+                <!-- falda (ondea) -->
+                <g class="falda">
+                  <path class="gown" d="M404 244 C381 262 355 322 347 384 C362 393 471 393 491 383 C481 320 452 268 418 244 Z"/>
+                  <path class="gownSombra" d="M404 250 C392 276 372 330 366 384 C384 389 430 389 452 385 C446 330 430 282 414 250 Z"/>
+                </g>
+                <!-- brazo exterior (mano enlazada con él) -->
+                <path class="figura" d="M401 190 Q351 196 306 214 L309 222 Q353 205 403 200 Z"/>
+                <circle class="figura" cx="305" cy="217" r="6"/>
+                <!-- bodice -->
+                <path class="bodice" d="M399 185 Q408 181 417 185 L414 248 Q407 252 402 248 Z"/>
+                <!-- cuello y cabeza -->
+                <circle class="figura" cx="408" cy="167" r="11.5"/>
+                <path class="cabello" d="M397 168 q9 -17 22 -7 q7 4 6 13 q-6 -9 -16 -7 q-9 1 -12 8 Z"/>
+                <circle class="cabello" cx="420" cy="160" r="7"/>
+                <!-- brazo interior (sobre su hombro) -->
+                <path class="figura" d="M414 189 Q397 191 378 199 L380 206 Q399 199 416 197 Z"/>
+              </g>
+
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <p class="intro">Como en los cuentos… una noche, un gran salón y un baile que no se olvida. 🥂</p>
+    </div>
+  </section>
 
   <!-- ===== FELICITACIONES ===== -->
   <section class="bloque" id="felicitaciones">
