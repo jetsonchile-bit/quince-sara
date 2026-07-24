@@ -307,6 +307,23 @@
   .escena .rosaPetalo{ fill:var(--principal) }
   .escena .rosaHoja{ fill:var(--textoSuave); opacity:.5 }
   .escena .gownLinea{ fill:none; stroke:var(--oro); stroke-width:1.4; opacity:.4 }
+
+  /* foto opcional de los bailarines */
+  .fotoBailarines{ margin:20px auto 6px; text-align:center }
+  .fotoBailarines .marcoFoto{
+    position:relative; display:inline-block; padding:9px;
+    border-radius:210px 210px 22px 22px;
+    background:linear-gradient(160deg,var(--oro),var(--principal));
+    box-shadow:var(--sombra);
+    animation:flotaFoto 4.5s ease-in-out infinite;
+  }
+  .fotoBailarines img{
+    display:block; width:100%; max-width:400px; height:auto;
+    aspect-ratio:4/5; object-fit:cover;
+    border-radius:204px 204px 15px 15px;
+    border:3px solid var(--tarjeta);
+  }
+  @keyframes flotaFoto{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
   #skyA{ stop-color:var(--acento) }
   #skyB{ stop-color:var(--oro) }
   #sunA{ stop-color:var(--oro) }
@@ -575,6 +592,13 @@
         </svg>
       </div>
 
+      <!-- Foto opcional de los bailarines (aparece si existe el archivo) -->
+      <figure class="fotoBailarines" id="fotoBailarines" hidden>
+        <div class="marcoFoto">
+          <img id="imgBailarines" alt="Los bailarines de los XV de Sara Valentina" />
+        </div>
+      </figure>
+
       <p class="intro">Como en los cuentos… un castillo, un atardecer dorado y un baile que no se olvida. 🥂🌹</p>
     </div>
   </section>
@@ -703,7 +727,12 @@ const CONFIG = {
   titularCuenta: "Nombre del titular",
   linkPago:      "https://",
 
-  // 4) Tema inicial: "rosa" | "azul" | "dorado"
+  // 4) Foto de los bailarines (sección "Nuestro Vals")
+  //    Deja tu foto en esta misma carpeta y pon aquí su nombre.
+  //    Si el archivo existe, reemplaza al dibujo. Si no, se ve el dibujo animado.
+  imagenBailarines: "bailarines.jpg",
+
+  // 5) Tema inicial: "rosa" | "azul" | "dorado"
   temaInicial: "rosa"
 };
 
@@ -798,6 +827,15 @@ $('linkPago').href           = CONFIG.linkPago;
 const q = encodeURIComponent(CONFIG.mapaQuery);
 $('mapaFrame').src = `https://www.google.com/maps?q=${q}&output=embed`;
 $('linkMapa').href = `https://www.google.com/maps/search/?api=1&query=${q}`;
+
+/* foto de los bailarines: si el archivo existe, reemplaza al dibujo */
+const rutaFoto = (CONFIG.imagenBailarines || '').trim();
+if(rutaFoto){
+  const fig = $('fotoBailarines'), img = $('imgBailarines'), esc = document.querySelector('.ballroom');
+  img.onload  = () => { if(esc) esc.style.display = 'none'; fig.hidden = false; };
+  img.onerror = () => { fig.hidden = true; };   // no hay foto → se queda el dibujo animado
+  img.src = rutaFoto;
+}
 
 /* esquinas doradas en cada tarjeta */
 const ESQUINA = `<svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.1">
