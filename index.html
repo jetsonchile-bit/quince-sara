@@ -59,9 +59,9 @@
   }
   .temas button:hover{transform:scale(1.16)}
   .temas button[aria-pressed="true"]{outline-color:var(--textoSuave)}
-  .t-rosa{background:linear-gradient(135deg,#e8c4cf,#d9a5b3)}
-  .t-azul{background:linear-gradient(135deg,#c5d4e8,#a8bfd8)}
-  .t-dorado{background:linear-gradient(135deg,#f5dfb8,#e8c99a)}
+  .t-rosa{background:linear-gradient(135deg,#dd5583,#cf3f6f)}
+  .t-azul{background:linear-gradient(135deg,#5a86c8,#3a6fbf)}
+  .t-dorado{background:linear-gradient(135deg,#e3a941,#cf8021)}
 
   /* ============ PORTADA ============ */
   .hero{
@@ -189,14 +189,14 @@
     border-radius:2px; padding:14px 32px;
     font-family:'Montserrat',sans-serif; font-size:11px; font-weight:600;
     letter-spacing:2.6px; text-transform:uppercase;
-    color:var(--texto); background:var(--gradBoton);
+    color:var(--btnText,#fff); background:var(--gradBoton);
     box-shadow:var(--sombraSuave); text-decoration:none; text-align:center;
     transition:transform .18s,box-shadow .18s,filter .18s;
   }
   .btn:hover{ transform:translateY(-2px); box-shadow:var(--sombra); filter:brightness(1.04) }
   .btn:active{ transform:translateY(0) }
   .btn.full{ width:100%; margin-top:26px }
-  .btn.oro{ background:var(--gradOro) }
+  .btn.oro{ background:var(--gradOro); color:var(--texto) }
   .btn.linea{
     background:transparent; border-color:var(--oro); color:var(--textoSuave);
     box-shadow:none; padding:11px 22px; font-size:10px;
@@ -387,6 +387,17 @@
   .lightbox.on{ display:flex }
   .lightbox img,.lightbox video{ max-width:96vw; max-height:90vh; border-radius:6px; box-shadow:0 10px 50px rgba(0,0,0,.6) }
   .lightbox .cerrar{ position:absolute; top:14px; right:20px; color:#fff; font-size:36px; line-height:1; cursor:pointer; background:none; border:none }
+
+  /* ====== FONDO DE CASTILLO EN LA PORTADA ====== */
+  .hero{ position:relative; overflow:hidden }
+  .hero::before{
+    content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:url('img/castillo.jpg') center 32% / cover no-repeat;
+    opacity:.30;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 26%,#000 76%,transparent 100%);
+            mask-image:linear-gradient(180deg,transparent 0%,#000 26%,#000 76%,transparent 100%);
+  }
+  .hero > *{ position:relative; z-index:1 }
   #skyA{ stop-color:var(--acento) }
   #skyB{ stop-color:var(--oro) }
   #sunA{ stop-color:var(--oro) }
@@ -973,50 +984,53 @@ const TEMAS = {
   rosa: {
     nombre:'Rosa Encantada',
     vars:{
-      '--fondoA':'#fff5f7', '--fondoB':'#fdeef2',
-      '--principal':'#d9a5b3', '--secundario':'#e8c4cf', '--acento':'#f7e6eb',
-      '--oro':'#dcbf90',
-      '--texto':'#4a2b33', '--textoSuave':'#6f4a54',
-      '--tarjeta':'#fffbfc', '--borde':'#f0d8de',
-      '--gradTitulo':'linear-gradient(135deg,#d9a5b3 0%,#c9a6c4 50%,#dcbf90 100%)',
-      '--gradBoton':'linear-gradient(135deg,#e8c4cf 0%,#d9a5b3 100%)',
-      '--gradOro':'linear-gradient(135deg,#f0dcbb 0%,#dcbf90 100%)',
-      '--sombra':'0 12px 40px rgba(120,70,85,.14)',
-      '--sombraSuave':'0 4px 16px rgba(120,70,85,.10)'
+      '--fondoA':'#ffd0e2', '--fondoB':'#f5b2ce',
+      '--principal':'#cf3f6f', '--secundario':'#dd5583', '--acento':'#fbbad2',
+      '--oro':'#bd8a28',
+      '--texto':'#3d1622', '--textoSuave':'#6a2f45',
+      '--tarjeta':'#fff7fa', '--borde':'#f0a8c3',
+      '--btnText':'#ffffff',
+      '--gradTitulo':'linear-gradient(135deg,#cf3f6f 0%,#b048a6 50%,#bd8a28 100%)',
+      '--gradBoton':'linear-gradient(135deg,#cf3f6f 0%,#a82f5e 100%)',
+      '--gradOro':'linear-gradient(135deg,#e2bb56 0%,#bd8a28 100%)',
+      '--sombra':'0 12px 40px rgba(150,40,85,.22)',
+      '--sombraSuave':'0 4px 16px rgba(150,40,85,.15)'
     },
-    petalos:['#e8c4cf','#d9a5b3','#f3d9e0','#dcbf90','#c9a6c4']
+    petalos:['#dd5583','#cf3f6f','#f199b8','#bd8a28','#b048a6']
   },
   azul: {
     nombre:'Azul Encantado',
     vars:{
-      '--fondoA':'#f4f8fc', '--fondoB':'#eef1fa',
-      '--principal':'#a8bfd8', '--secundario':'#c5d4e8', '--acento':'#e6eef7',
-      '--oro':'#d9c79b',
-      '--texto':'#24354a', '--textoSuave':'#46586e',
-      '--tarjeta':'#fbfdff', '--borde':'#dae4f0',
-      '--gradTitulo':'linear-gradient(135deg,#a8bfd8 0%,#b9b3d9 50%,#d9c79b 100%)',
-      '--gradBoton':'linear-gradient(135deg,#c5d4e8 0%,#a8bfd8 100%)',
-      '--gradOro':'linear-gradient(135deg,#ecdfba 0%,#d9c79b 100%)',
-      '--sombra':'0 12px 40px rgba(55,80,115,.14)',
-      '--sombraSuave':'0 4px 16px rgba(55,80,115,.10)'
+      '--fondoA':'#cfe1f7', '--fondoB':'#b0cdef',
+      '--principal':'#3a6fbf', '--secundario':'#5a86c8', '--acento':'#bad3f0',
+      '--oro':'#bb9232',
+      '--texto':'#122238', '--textoSuave':'#324c6c',
+      '--tarjeta':'#f7fbff', '--borde':'#accae8',
+      '--btnText':'#ffffff',
+      '--gradTitulo':'linear-gradient(135deg,#3a6fbf 0%,#6a5fc0 50%,#bb9232 100%)',
+      '--gradBoton':'linear-gradient(135deg,#3a6fbf 0%,#2b5399 100%)',
+      '--gradOro':'linear-gradient(135deg,#ddc272 0%,#bb9232 100%)',
+      '--sombra':'0 12px 40px rgba(30,60,115,.22)',
+      '--sombraSuave':'0 4px 16px rgba(30,60,115,.15)'
     },
-    petalos:['#c5d4e8','#a8bfd8','#dce6f2','#d9c79b','#b9b3d9']
+    petalos:['#5a86c8','#3a6fbf','#aecbee','#bb9232','#6a5fc0']
   },
   dorado: {
     nombre:'Dorado Durazno',
     vars:{
-      '--fondoA':'#fff9f0', '--fondoB':'#fdf3e4',
-      '--principal':'#e8c99a', '--secundario':'#f5dfb8', '--acento':'#fbf0d9',
-      '--oro':'#d9b477',
-      '--texto':'#4a3520', '--textoSuave':'#6e5537',
-      '--tarjeta':'#fffcf7', '--borde':'#f0dcbe',
-      '--gradTitulo':'linear-gradient(135deg,#e8c99a 0%,#e5b98c 50%,#d9b477 100%)',
-      '--gradBoton':'linear-gradient(135deg,#f5dfb8 0%,#e8c99a 100%)',
-      '--gradOro':'linear-gradient(135deg,#f2ddaf 0%,#d9b477 100%)',
-      '--sombra':'0 12px 40px rgba(120,90,45,.14)',
-      '--sombraSuave':'0 4px 16px rgba(120,90,45,.10)'
+      '--fondoA':'#ffe0ac', '--fondoB':'#f8c987',
+      '--principal':'#cf8021', '--secundario':'#e3a941', '--acento':'#fbd799',
+      '--oro':'#b5741c',
+      '--texto':'#3d280a', '--textoSuave':'#6b4c1c',
+      '--tarjeta':'#fffbf3', '--borde':'#eec888',
+      '--btnText':'#3d280a',
+      '--gradTitulo':'linear-gradient(135deg,#cf8021 0%,#d96e3a 50%,#b5741c 100%)',
+      '--gradBoton':'linear-gradient(135deg,#efc877 0%,#e0a63f 100%)',
+      '--gradOro':'linear-gradient(135deg,#ecc164 0%,#b5741c 100%)',
+      '--sombra':'0 12px 40px rgba(150,95,25,.22)',
+      '--sombraSuave':'0 4px 16px rgba(150,95,25,.15)'
     },
-    petalos:['#f5dfb8','#e8c99a','#fceccd','#d9b477','#e5b98c']
+    petalos:['#e3a941','#cf8021','#f5d190','#b5741c','#d96e3a']
   }
 };
 
@@ -1144,10 +1158,36 @@ async function avisoEmail(asunto, datos){
     body:JSON.stringify({_subject:asunto, ...datos})}); }catch(e){}
 }
 
+/* Comprime imágenes en el navegador antes de subir (ahorra espacio y datos) */
+function comprimirImagen(file, maxLado = 1600, calidad = 0.82){
+  return new Promise(resolve => {
+    if(!file.type.startsWith('image/') || file.type === 'image/gif'){ resolve(file); return; }
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let w = img.naturalWidth, h = img.naturalHeight;
+      if(w > maxLado || h > maxLado){
+        if(w >= h){ h = Math.round(h * maxLado / w); w = maxLado; }
+        else { w = Math.round(w * maxLado / h); h = maxLado; }
+      }
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      c.toBlob(blob => resolve(blob && blob.size < file.size ? blob : file), 'image/jpeg', calidad);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
 async function subirArchivo(file, carpeta){
-  const ext = (file.name.split('.').pop() || 'dat').toLowerCase();
+  const esImagen = file.type.startsWith('image/') && file.type !== 'image/gif';
+  const datos = esImagen ? await comprimirImagen(file) : file;
+  const comprimida = esImagen && datos !== file;        // se convirtió a jpeg
+  const ext = comprimida ? 'jpg' : ((file.name.split('.').pop() || 'dat').toLowerCase());
+  const contentType = comprimida ? 'image/jpeg' : (file.type || undefined);
   const path = carpeta + '/' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
-  const { error } = await sb.storage.from('galeria').upload(path, file, { cacheControl:'3600', upsert:false });
+  const { error } = await sb.storage.from('galeria').upload(path, datos, { cacheControl:'31536000', upsert:false, contentType });
   if(error) throw error;
   const { data } = sb.storage.from('galeria').getPublicUrl(path);
   return { url: data.publicUrl, path, tipo: file.type.startsWith('video') ? 'video' : 'foto' };
