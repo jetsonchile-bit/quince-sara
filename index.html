@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   /* ============ TEMA POR DEFECTO (Rosa Encantada) ============ */
   :root{
@@ -324,6 +325,68 @@
     border:3px solid var(--tarjeta);
   }
   @keyframes flotaFoto{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+
+  /* ====== CUENTA REGRESIVA ====== */
+  .cuenta-regresiva{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin:20px 0 6px }
+  .cr-box{ min-width:72px; padding:14px 10px; border:1px solid var(--borde); border-radius:4px;
+    background:linear-gradient(160deg,#fff,var(--acento)); box-shadow:var(--sombraSuave); text-align:center }
+  .cr-num{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:2.1rem; line-height:1; color:var(--texto) }
+  .cr-lbl{ font-family:'Montserrat',sans-serif; font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--textoSuave); margin-top:6px }
+  .cr-msg{ text-align:center; font-style:italic; color:var(--textoSuave); margin-top:10px }
+
+  /* ====== CÓDIGO DE VESTIMENTA ====== */
+  .dresscode{ text-align:center; margin-top:20px }
+  .dresscode .dc{ display:inline-block; padding:9px 20px; border:1px solid var(--oro); border-radius:40px;
+    font-family:'Montserrat',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--textoSuave) }
+
+  /* ====== RSVP ====== */
+  .radiofila{ display:flex; gap:12px; margin-top:8px }
+  .radio-op{ flex:1; cursor:pointer; position:relative }
+  .radio-op input{ position:absolute; opacity:0; inset:0; cursor:pointer }
+  .radio-op span{ display:block; text-align:center; padding:12px; border:1px solid var(--borde); border-radius:3px;
+    font-family:'Montserrat',sans-serif; font-size:12px; letter-spacing:1px; color:var(--textoSuave); transition:all .2s }
+  .radio-op input:checked + span{ border-color:var(--principal); background:var(--acento); color:var(--texto); font-weight:600 }
+
+  /* ====== GALERÍA + SUBIDA ====== */
+  .galeria-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:8px; margin-top:22px }
+  .galeria-grid figure{ margin:0; position:relative; aspect-ratio:1; border-radius:3px; overflow:hidden;
+    border:1px solid var(--borde); background:var(--acento) }
+  .galeria-grid img,.galeria-grid video{ width:100%; height:100%; object-fit:cover; display:block; cursor:pointer }
+  .galeria-grid .play{ position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; color:#fff;
+    text-shadow:0 2px 8px rgba(0,0,0,.5); font-size:28px }
+  .galeria-vacia{ text-align:center; color:var(--textoSuave); font-style:italic; margin-top:18px; opacity:.8 }
+  .subir-zona{ margin-top:22px; text-align:center; padding:24px 18px; border:2px dashed var(--oro); border-radius:6px; background:var(--acento) }
+  .subir-zona input[type=file]{ display:none }
+  .barra-prog{ height:6px; background:var(--borde); border-radius:4px; overflow:hidden; margin-top:14px; display:none }
+  .barra-prog i{ display:block; height:100%; width:0; background:var(--principal); transition:width .25s }
+
+  /* ====== FELICITACIÓN CON FOTO ====== */
+  .felic .felic-foto{ margin-top:10px; max-width:170px; border-radius:5px; border:1px solid var(--borde); display:block; cursor:pointer }
+
+  /* ====== CONTACTO / REDES ====== */
+  .redes{ display:flex; justify-content:center; gap:14px; margin-top:20px }
+  .red{ width:46px; height:46px; border-radius:50%; display:grid; place-items:center; border:1px solid var(--oro);
+    color:var(--textoSuave); background:var(--tarjeta); box-shadow:var(--sombraSuave); transition:transform .18s }
+  .red:hover{ transform:translateY(-3px) }
+  .red svg{ width:20px; height:20px; fill:currentColor }
+
+  /* ====== REGALOS: QR / BINANCE ====== */
+  .qr-img{ width:184px; height:184px; object-fit:contain; padding:8px; border-radius:10px; background:#fff;
+    box-shadow:var(--sombraSuave); margin:12px auto 4px; display:block }
+  .cripto{ font-family:'Montserrat',sans-serif; font-size:.95rem; word-break:break-all; color:var(--texto); margin:8px 0 }
+
+  /* ====== BOTONES FLOTANTES ====== */
+  .flotante{ position:fixed; z-index:40; width:54px; height:54px; border-radius:50%; display:grid; place-items:center;
+    box-shadow:var(--sombra); cursor:pointer; border:none }
+  .fab-wa{ right:16px; bottom:16px; background:#25D366; color:#fff }
+  .fab-music{ left:16px; bottom:16px; background:var(--gradBoton); color:var(--texto) }
+  .flotante svg{ width:26px; height:26px; fill:currentColor }
+
+  /* ====== LIGHTBOX ====== */
+  .lightbox{ position:fixed; inset:0; z-index:60; background:rgba(20,10,20,.9); display:none; align-items:center; justify-content:center; padding:20px }
+  .lightbox.on{ display:flex }
+  .lightbox img,.lightbox video{ max-width:96vw; max-height:90vh; border-radius:6px; box-shadow:0 10px 50px rgba(0,0,0,.6) }
+  .lightbox .cerrar{ position:absolute; top:14px; right:20px; color:#fff; font-size:36px; line-height:1; cursor:pointer; background:none; border:none }
   #skyA{ stop-color:var(--acento) }
   #skyB{ stop-color:var(--oro) }
   #sunA{ stop-color:var(--oro) }
@@ -410,6 +473,11 @@
         <path class="chispa" d="M142 108 l2.2 5.4 5.4 2.2 -5.4 2.2 -2.2 5.4 -2.2 -5.4 -5.4 -2.2 5.4 -2.2 Z" style="transform-origin:142px 115px"/>
         <path class="chispa" d="M120 62 l1.8 4.4 4.4 1.8 -4.4 1.8 -1.8 4.4 -1.8 -4.4 -4.4 -1.8 4.4 -1.8 Z" style="transform-origin:120px 68px"/>
       </svg>
+
+      <!-- Foto opcional de la homenajeada en la portada -->
+      <figure class="fotoBailarines" id="fotoPortada" hidden style="margin:4px auto 16px">
+        <div class="marcoFoto"><img id="imgPortada" alt="Sara Valentina Marín Acosta" /></div>
+      </figure>
 
       <div class="eyebrow">Mis Quince Años</div>
       <div class="nombre script">Sara Valentina</div>
@@ -603,6 +671,73 @@
     </div>
   </section>
 
+  <!-- ===== DETALLES / CUENTA REGRESIVA ===== -->
+  <section class="bloque" id="detalles">
+    <div class="tarjeta">
+      <div class="subtitulo">Marca la fecha</div>
+      <h2>Cuenta Regresiva</h2>
+      <svg class="filigrana" viewBox="0 0 150 16" aria-hidden="true">
+        <path d="M2 8 H55" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M95 8 H148" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M60 8 Q66 2 72 8 Q66 14 60 8 Z" fill="currentColor" opacity=".65"/>
+        <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
+        <circle cx="75" cy="8" r="3" fill="currentColor"/>
+      </svg>
+      <div class="cuenta-regresiva" id="countdown">
+        <div class="cr-box"><div class="cr-num" id="cd-dias">--</div><div class="cr-lbl">Días</div></div>
+        <div class="cr-box"><div class="cr-num" id="cd-horas">--</div><div class="cr-lbl">Horas</div></div>
+        <div class="cr-box"><div class="cr-num" id="cd-min">--</div><div class="cr-lbl">Minutos</div></div>
+        <div class="cr-box"><div class="cr-num" id="cd-seg">--</div><div class="cr-lbl">Segundos</div></div>
+      </div>
+      <p class="cr-msg" id="cd-msg">Cada segundo nos acerca a la gran celebración.</p>
+
+      <div class="evento" style="margin-top:28px">
+        <div class="fechaHora">
+          <div class="fh"><div class="k">Fecha</div><div class="v" id="detFecha">00 · 00 · 0000</div></div>
+          <div class="divisorV"></div>
+          <div class="fh"><div class="k">Hora</div><div class="v" id="detHora">0:00 p.m.</div></div>
+        </div>
+        <div class="dresscode"><span class="dc" id="detDress">Código de vestimenta</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RSVP ===== -->
+  <section class="bloque" id="rsvp">
+    <div class="tarjeta">
+      <div class="subtitulo">Tu presencia es muy importante</div>
+      <h2>Confirma tu Asistencia</h2>
+      <svg class="filigrana" viewBox="0 0 150 16" aria-hidden="true">
+        <path d="M2 8 H55" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M95 8 H148" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M60 8 Q66 2 72 8 Q66 14 60 8 Z" fill="currentColor" opacity=".65"/>
+        <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
+        <circle cx="75" cy="8" r="3" fill="currentColor"/>
+      </svg>
+      <p class="intro">Ayúdame a organizar este día mágico confirmando si podrás acompañarme.</p>
+
+      <form id="formRSVP" novalidate>
+        <label for="rNombre">Nombre completo</label>
+        <input id="rNombre" type="text" placeholder="Tu nombre y apellido" required autocomplete="name" />
+
+        <label>¿Podrás asistir?</label>
+        <div class="radiofila">
+          <label class="radio-op"><input type="radio" name="asiste" value="si" checked><span>✓ Sí, asistiré</span></label>
+          <label class="radio-op"><input type="radio" name="asiste" value="no"><span>✗ No podré</span></label>
+        </div>
+
+        <label for="rAcomp">Número de acompañantes</label>
+        <input id="rAcomp" type="number" min="0" max="20" value="0" inputmode="numeric" />
+
+        <label for="rComent">Mensaje o comentarios (opcional)</label>
+        <textarea id="rComent" placeholder="Alergias, una canción que quieras escuchar, etc."></textarea>
+
+        <button type="submit" class="btn full" id="btnRSVP">Enviar confirmación</button>
+      </form>
+      <div class="ok" id="okRSVP">¡Gracias! Tu confirmación quedó registrada con cariño. 💛</div>
+    </div>
+  </section>
+
   <!-- ===== FELICITACIONES ===== -->
   <section class="bloque" id="felicitaciones">
     <div class="tarjeta">
@@ -624,17 +759,45 @@
         <label for="mensaje">Tu mensaje</label>
         <textarea id="mensaje" name="mensaje" placeholder="Escribe aquí tu felicitación…" required></textarea>
 
+        <label for="felicFoto">Una foto junto a tu mensaje (opcional)</label>
+        <input type="file" id="felicFoto" accept="image/*" />
+
         <button type="submit" class="btn full" id="btnEnviar">Enviar felicitación</button>
-        <p class="nota">Tu mensaje llegará al correo de Sara Valentina.</p>
+        <p class="nota">Tu mensaje quedará guardado en el libro de felicitaciones de Sara.</p>
       </form>
 
-      <div class="ok" id="okMsg">Gracias por tus palabras. Sara las recibirá con mucho cariño.</div>
+      <div class="ok" id="okMsg">Gracias por tus palabras. Sara las recibirá con mucho cariño. 💌</div>
 
-      <div class="lista" id="listaFelic"></div>
-      <div class="toolbar" id="toolbar" style="display:none">
-        <button class="btn linea" type="button" id="btnDescargar">Descargar todas</button>
-        <button class="btn linea" type="button" id="btnBorrar">Borrar guardadas</button>
+      <div class="lista" id="listaFelic"><p class="galeria-vacia" id="felicVacia">Sé el primero en dejar una felicitación.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== GALERÍA ===== -->
+  <section class="bloque" id="galeria">
+    <div class="tarjeta">
+      <div class="subtitulo">Momentos para recordar</div>
+      <h2>Galería</h2>
+      <svg class="filigrana" viewBox="0 0 150 16" aria-hidden="true">
+        <path d="M2 8 H55" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M95 8 H148" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M60 8 Q66 2 72 8 Q66 14 60 8 Z" fill="currentColor" opacity=".65"/>
+        <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
+        <circle cx="75" cy="8" r="3" fill="currentColor"/>
+      </svg>
+      <p class="intro">Revive los mejores momentos y comparte los tuyos.</p>
+
+      <div class="subir-zona">
+        <p class="nota" style="margin:0 0 14px; font-size:.95rem">¿Estuviste en la fiesta? Comparte tus fotos y videos 💛</p>
+        <input type="text" id="galeriaNombre" placeholder="Tu nombre (opcional)" autocomplete="name" />
+        <input type="file" id="galeriaFile" accept="image/*,video/*" multiple />
+        <label for="galeriaFile" class="btn oro" style="margin-top:16px; cursor:pointer">📷 Elegir fotos o videos</label>
+        <p class="nota" id="galeriaElegidos"></p>
+        <button type="button" class="btn full" id="btnSubir" style="display:none; margin-top:6px">Subir a la galería</button>
+        <div class="barra-prog" id="barraProg"><i id="barraProgFill"></i></div>
       </div>
+
+      <div class="galeria-grid" id="galeriaGrid"></div>
+      <p class="galeria-vacia" id="galeriaVacia">Aún no hay fotos. ¡Sé el primero en compartir!</p>
     </div>
   </section>
 
@@ -681,20 +844,54 @@
         <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
         <circle cx="75" cy="8" r="3" fill="currentColor"/>
       </svg>
-      <p class="intro">Tu presencia es mi mejor regalo. Pero si quieres consentirme, aquí te dejo dos caminos.</p>
+      <p class="intro">Tu presencia es mi mejor regalo. Pero si quieres tener un detalle conmigo, aquí tienes varias opciones. 💛</p>
 
-      <div class="regalo">
-        <div class="tit">Cuenta bancaria</div>
+      <div class="regalo" id="rgCuenta">
+        <div class="tit">Transferencia bancaria</div>
+        <div id="rgBanco" style="color:var(--textoSuave); font-style:italic; margin-bottom:2px">Banco</div>
         <div class="cuenta" id="numCuenta">000-000000-00</div>
         <div class="titular">A nombre de <span id="titularCuenta">Nombre del titular</span></div>
         <button class="btn linea" type="button" id="btnCopiar" style="margin-top:16px">Copiar número</button>
       </div>
 
-      <div class="regalo">
-        <div class="tit">Tarjeta crédito o débito</div>
-        <p class="intro" style="margin:6px 0 18px">Un pago rápido y seguro desde el botón.</p>
-        <a class="btn oro" id="linkPago" target="_blank" rel="noopener">Pagar con tarjeta</a>
+      <div class="regalo" id="rgQR" style="display:none">
+        <div class="tit">Código QR de pago</div>
+        <img class="qr-img" id="qrImg" alt="Código QR para pagar" />
+        <p class="nota">Escanea con tu app de banco o billetera.</p>
       </div>
+
+      <div class="regalo" id="rgBinance" style="display:none">
+        <div class="tit">Binance Pay · USDT</div>
+        <div class="nota" id="binanceRed" style="margin-bottom:6px"></div>
+        <div class="cripto" id="binanceId"></div>
+        <button class="btn linea" type="button" id="btnCopiarBin">Copiar</button>
+      </div>
+
+      <div class="regalo" id="rgTienda" style="display:none">
+        <div class="tit">Lista de regalos</div>
+        <p class="intro" style="margin:6px 0 18px">Elige un detalle de mi lista de deseos.</p>
+        <a class="btn oro" id="tiendaLink" target="_blank" rel="noopener">Ver lista de regalos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section class="bloque" id="contacto">
+    <div class="tarjeta">
+      <div class="subtitulo">¿Dudas? Escríbeme</div>
+      <h2>Contacto</h2>
+      <svg class="filigrana" viewBox="0 0 150 16" aria-hidden="true">
+        <path d="M2 8 H55" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M95 8 H148" stroke="currentColor" stroke-width="1" fill="none"/>
+        <path d="M60 8 Q66 2 72 8 Q66 14 60 8 Z" fill="currentColor" opacity=".65"/>
+        <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
+        <circle cx="75" cy="8" r="3" fill="currentColor"/>
+      </svg>
+      <p class="intro">Para cualquier pregunta sobre la celebración, con gusto te ayudo.</p>
+      <a class="btn full" id="btnWhatsappInline" target="_blank" rel="noopener" style="background:#25D366; color:#fff">
+        Escríbeme por WhatsApp
+      </a>
+      <div class="redes" id="redes"></div>
     </div>
   </section>
 
@@ -703,6 +900,20 @@
     <p>Mis XV Años · Gracias por acompañarme</p>
   </footer>
 
+  <!-- Botones flotantes -->
+  <a class="flotante fab-wa" id="fabWhatsapp" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </a>
+  <button class="flotante fab-music" id="fabMusic" aria-label="Música" title="Música" style="display:none">
+    <svg viewBox="0 0 24 24" id="iconMusicOff"><path d="M12 3v10.55A4 4 0 108 17V7h6V3h-2zm-2 0H8v2h2V3z"/></svg>
+  </button>
+
+  <!-- Visor de fotos -->
+  <div class="lightbox" id="lightbox">
+    <button class="cerrar" id="lightboxCerrar" aria-label="Cerrar">&times;</button>
+    <div id="lightboxCont"></div>
+  </div>
+
 </div>
 
 <script>
@@ -710,29 +921,48 @@
    CONFIGURACIÓN — edita solo este bloque
    ========================================================== */
 const CONFIG = {
-  // 1) ID de Formspree (crea el formulario gratis en https://formspree.io
-  //    usando el CORREO DE SARA). Copia el código que va después de /f/
-  formspreeID: "TU_ID_DE_FORMSPREE",
+  /* ====== SUPABASE (ya configurado — no lo cambies) ====== */
+  supabaseUrl: "https://fqajmcvrijjthbgqhpgl.supabase.co",
+  supabaseKey: "sb_publishable_VgfrzNKCje9xD4pkYXjmDA_jeabiZA1",
 
-  // 2) Datos del evento
+  /* ====== EVENTO ====== */
   lugar:   "Salón de eventos",
   direccion: "Dirección del evento aquí",
   fecha:   "00 · 00 · 0000",
   hora:    "0:00 p.m.",
-  // Escribe la dirección tal cual la buscarías en Google Maps
+  // Fecha y hora EXACTA para la cuenta regresiva (AÑO-MES-DÍAThora:min:seg)
+  fechaISO: "2026-12-31T19:00:00",
+  codigoVestimenta: "Etiqueta rigurosa · Formal",
+  // Dirección tal cual la buscarías en Google Maps
   mapaQuery: "Bogotá, Colombia",
 
-  // 3) Regalos
+  /* ====== FOTOS (nombre del archivo en la carpeta, o "" para nada) ====== */
+  fotoPortada: "",                     // ej. "sara.jpg" — foto de la homenajeada en la portada
+  imagenBailarines: "bailarines.jpg",  // sección del baile (si no existe, se ve el dibujo)
+
+  /* ====== REGALOS ====== */
   numeroCuenta:  "000-000000-00",
+  bancoNombre:   "Banco — Cuenta de ahorros",
   titularCuenta: "Nombre del titular",
-  linkPago:      "https://",
+  qrPago:        "",                   // ej. "qr.png" — imagen del QR en la carpeta
+  binanceId:     "",                   // Binance Pay ID o dirección USDT
+  binanceRed:    "USDT · red BEP20 / TRC20",
+  tiendaRegalosUrl: "",                // enlace a lista de regalos o tienda
 
-  // 4) Foto de los bailarines (sección "Nuestro Vals")
-  //    Deja tu foto en esta misma carpeta y pon aquí su nombre.
-  //    Si el archivo existe, reemplaza al dibujo. Si no, se ve el dibujo animado.
-  imagenBailarines: "bailarines.jpg",
+  /* ====== CONTACTO ====== */
+  whatsapp:    "57XXXXXXXXXX",         // número con código de país, SIN el +
+  whatsappMsg: "¡Hola! Quiero confirmar mi asistencia a los XV de Sara Valentina 🎉",
+  instagram:   "",                     // usuario sin @  (vacío = no se muestra)
+  facebook:    "",                     // usuario o URL
+  tiktok:      "",                     // usuario sin @
 
-  // 5) Tema inicial: "rosa" | "azul" | "dorado"
+  /* ====== MÚSICA (archivo de audio en la carpeta, o "") ====== */
+  musica: "",                          // ej. "musica.mp3"
+
+  /* ====== EMAIL opcional (Formspree) para avisos ====== */
+  formspreeID: "",                     // opcional: si lo pones, te llegan avisos por correo
+
+  /* ====== Tema inicial: "rosa" | "azul" | "dorado" ====== */
   temaInicial: "rosa"
 };
 
@@ -816,17 +1046,62 @@ document.querySelectorAll('.temas button').forEach(b =>
    ========================================================== */
 const $ = id => document.getElementById(id);
 
-$('lugarNombre').textContent = CONFIG.lugar;
-$('lugarDir').textContent    = CONFIG.direccion;
-$('evFecha').textContent     = CONFIG.fecha;
-$('evHora').textContent      = CONFIG.hora;
-$('numCuenta').textContent   = CONFIG.numeroCuenta;
+$('lugarNombre').textContent   = CONFIG.lugar;
+$('lugarDir').textContent      = CONFIG.direccion;
+$('evFecha').textContent       = CONFIG.fecha;
+$('evHora').textContent        = CONFIG.hora;
+$('detFecha').textContent      = CONFIG.fecha;
+$('detHora').textContent       = CONFIG.hora;
+$('detDress').textContent      = CONFIG.codigoVestimenta;
+$('numCuenta').textContent     = CONFIG.numeroCuenta;
 $('titularCuenta').textContent = CONFIG.titularCuenta;
-$('linkPago').href           = CONFIG.linkPago;
+$('rgBanco').textContent       = CONFIG.bancoNombre;
 
 const q = encodeURIComponent(CONFIG.mapaQuery);
 $('mapaFrame').src = `https://www.google.com/maps?q=${q}&output=embed`;
 $('linkMapa').href = `https://www.google.com/maps/search/?api=1&query=${q}`;
+
+/* Regalos opcionales */
+if(CONFIG.qrPago){ $('qrImg').src = CONFIG.qrPago; $('rgQR').style.display = ''; }
+if(CONFIG.binanceId){
+  $('binanceId').textContent = CONFIG.binanceId;
+  $('binanceRed').textContent = CONFIG.binanceRed || '';
+  $('rgBinance').style.display = '';
+}
+if(CONFIG.tiendaRegalosUrl){ $('tiendaLink').href = CONFIG.tiendaRegalosUrl; $('rgTienda').style.display = ''; }
+
+/* WhatsApp */
+const waNum = (CONFIG.whatsapp || '').replace(/[^0-9]/g,'');
+const waHref = 'https://wa.me/' + waNum + '?text=' + encodeURIComponent(CONFIG.whatsappMsg || '');
+if(waNum && !/[Xx]/.test(CONFIG.whatsapp)){
+  $('fabWhatsapp').href = waHref;
+  $('btnWhatsappInline').href = waHref;
+}else{
+  $('fabWhatsapp').style.display = 'none';
+  $('btnWhatsappInline').style.display = 'none';
+}
+
+/* Redes sociales */
+(function(){
+  const cont = $('redes');
+  const iconos = {
+    instagram:'<svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 1.8.25 2.2.42.6.2 1 .46 1.4.87.4.4.67.8.87 1.4.17.4.36 1 .42 2.2.07 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 1.8-.42 2.2-.2.6-.46 1-.87 1.4-.4.4-.8.67-1.4.87-.4.17-1 .36-2.2.42-1.3.07-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-1.8-.25-2.2-.42-.6-.2-1-.46-1.4-.87-.4-.4-.67-.8-.87-1.4-.17-.4-.36-1-.42-2.2-.07-1.3-.07-1.7-.07-4.9s0-3.6.07-4.9c.06-1.2.25-1.8.42-2.2.2-.6.46-1 .87-1.4.4-.4.8-.67 1.4-.87.4-.17 1-.36 2.2-.42 1.3-.07 1.7-.07 4.9-.07m0 3.55a6.25 6.25 0 100 12.5 6.25 6.25 0 000-12.5m0 10.31a4.06 4.06 0 110-8.12 4.06 4.06 0 010 8.12M18.9 5.55a1.46 1.46 0 11-2.92 0 1.46 1.46 0 012.92 0"/></svg>',
+    facebook:'<svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12"/></svg>',
+    tiktok:'<svg viewBox="0 0 24 24"><path d="M16.6 5.82a4.28 4.28 0 01-1.05-2.82h-3.1v12.4a2.42 2.42 0 11-2.42-2.42c.14 0 .28.01.42.04v-3.15a5.6 5.6 0 00-.42-.02 5.57 5.57 0 105.57 5.57V9.01a7.35 7.35 0 004.3 1.38V7.28a4.28 4.28 0 01-3.3-1.46"/></svg>'
+  };
+  const add = (url,key) => { const a=document.createElement('a'); a.className='red'; a.href=url; a.target='_blank'; a.rel='noopener'; a.setAttribute('aria-label',key); a.innerHTML=iconos[key]; cont.appendChild(a); };
+  if(CONFIG.instagram) add('https://instagram.com/'+CONFIG.instagram.replace('@',''),'instagram');
+  if(CONFIG.facebook)  add(/^https?:/.test(CONFIG.facebook)?CONFIG.facebook:'https://facebook.com/'+CONFIG.facebook,'facebook');
+  if(CONFIG.tiktok)    add('https://tiktok.com/@'+CONFIG.tiktok.replace('@',''),'tiktok');
+})();
+
+/* Foto de portada opcional (si existe, oculta la rosa) */
+if(CONFIG.fotoPortada){
+  const fp=$('fotoPortada'), ip=$('imgPortada'), cloche=document.querySelector('.cloche');
+  ip.onload  = () => { if(cloche) cloche.style.display='none'; fp.hidden=false; };
+  ip.onerror = () => { fp.hidden=true; };
+  ip.src = CONFIG.fotoPortada;
+}
 
 /* foto de los bailarines: si el archivo existe, reemplaza al dibujo */
 const rutaFoto = (CONFIG.imagenBailarines || '').trim();
@@ -856,94 +1131,182 @@ try{ temaGuardado = localStorage.getItem('tema'); }catch(e){}
 aplicarTema(temaURL || temaGuardado || CONFIG.temaInicial, false);
 
 /* ==========================================================
-   FELICITACIONES
+   SUPABASE + DATOS
    ========================================================== */
-const form = $('formFelic'), okMsg = $('okMsg');
-
+const sb = window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey);
 const escapeHTML = s => String(s).replace(/[&<>"']/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-function leer(){
-  try{ return JSON.parse(localStorage.getItem('felicitaciones') || '[]'); }
-  catch(e){ return []; }
+async function avisoEmail(asunto, datos){
+  if(!CONFIG.formspreeID) return;
+  try{ await fetch('https://formspree.io/f/'+CONFIG.formspreeID,{method:'POST',
+    headers:{'Accept':'application/json','Content-Type':'application/json'},
+    body:JSON.stringify({_subject:asunto, ...datos})}); }catch(e){}
 }
 
-function pintarLista(){
-  const data = leer(), lista = $('listaFelic'), toolbar = $('toolbar');
+async function subirArchivo(file, carpeta){
+  const ext = (file.name.split('.').pop() || 'dat').toLowerCase();
+  const path = carpeta + '/' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
+  const { error } = await sb.storage.from('galeria').upload(path, file, { cacheControl:'3600', upsert:false });
+  if(error) throw error;
+  const { data } = sb.storage.from('galeria').getPublicUrl(path);
+  return { url: data.publicUrl, path, tipo: file.type.startsWith('video') ? 'video' : 'foto' };
+}
+
+/* ---------- FELICITACIONES ---------- */
+const form = $('formFelic'), okMsg = $('okMsg');
+
+async function cargarFelic(){
+  const lista = $('listaFelic'), vacia = $('felicVacia');
+  const { data, error } = await sb.from('felicitaciones').select('*').order('created_at',{ascending:false});
+  if(error) return;
+  if(!data || !data.length){ if(vacia) vacia.style.display=''; return; }
   lista.innerHTML = '';
-  toolbar.style.display = data.length ? 'flex' : 'none';
   data.forEach(f => {
     const div = document.createElement('div');
     div.className = 'felic';
     div.innerHTML = `<div class="de">${escapeHTML(f.nombre)}</div>
-                     <div class="msg">“${escapeHTML(f.mensaje)}”</div>`;
+      <div class="msg">“${escapeHTML(f.mensaje)}”</div>` +
+      (f.foto_url ? `<img class="felic-foto" src="${f.foto_url}" alt="foto de ${escapeHTML(f.nombre)}" loading="lazy">` : '');
     lista.appendChild(div);
   });
 }
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
-  const nombre  = $('nombre').value.trim();
-  const mensaje = $('mensaje').value.trim();
+  const nombre = $('nombre').value.trim(), mensaje = $('mensaje').value.trim();
   if(!nombre || !mensaje){ form.reportValidity(); return; }
-
-  const btn = $('btnEnviar');
-  btn.disabled = true; btn.textContent = 'Enviando…';
-
-  // guardar siempre en este dispositivo
-  const data = leer();
-  data.unshift({nombre, mensaje, fecha:new Date().toLocaleString('es-CO')});
-  try{ localStorage.setItem('felicitaciones', JSON.stringify(data)); }catch(e){}
-  pintarLista();
-
-  // enviar al correo por Formspree
-  if(CONFIG.formspreeID && CONFIG.formspreeID !== 'TU_ID_DE_FORMSPREE'){
-    try{
-      await fetch('https://formspree.io/f/' + CONFIG.formspreeID, {
-        method:'POST',
-        headers:{'Accept':'application/json','Content-Type':'application/json'},
-        body: JSON.stringify({
-          _subject:'Nueva felicitación para los XV de Sara Valentina',
-          nombre, mensaje
-        })
-      });
-    }catch(err){ console.warn('No se pudo enviar al correo:', err); }
-  }
-
-  form.reset();
+  const btn = $('btnEnviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+  try{
+    let foto_url = null;
+    const fileI = $('felicFoto');
+    if(fileI.files && fileI.files[0]) foto_url = (await subirArchivo(fileI.files[0], 'felicitaciones')).url;
+    const { error } = await sb.from('felicitaciones').insert({ nombre, mensaje, foto_url });
+    if(error) throw error;
+    avisoEmail('Nueva felicitación · XV Sara Valentina', { nombre, mensaje });
+    form.reset();
+    okMsg.style.display = 'block'; lluviaPetalos();
+    setTimeout(()=> okMsg.style.display='none', 6000);
+    cargarFelic();
+  }catch(err){ alert('No se pudo enviar: ' + (err.message||err)); }
   btn.disabled = false; btn.textContent = 'Enviar felicitación';
-  okMsg.style.display = 'block';
-  lluviaPetalos();
-  setTimeout(() => okMsg.style.display = 'none', 6000);
 });
 
-$('btnDescargar').addEventListener('click', () => {
-  let txt = 'FELICITACIONES — XV de Sara Valentina Marín Acosta\n\n';
-  leer().forEach(f => txt += `De: ${f.nombre} (${f.fecha})\n${f.mensaje}\n\n------------------------\n\n`);
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([txt], {type:'text/plain;charset=utf-8'}));
-  a.download = 'felicitaciones-sara.txt';
-  a.click(); URL.revokeObjectURL(a.href);
+/* ---------- RSVP ---------- */
+$('formRSVP').addEventListener('submit', async e => {
+  e.preventDefault();
+  const nombre = $('rNombre').value.trim();
+  if(!nombre){ $('formRSVP').reportValidity(); return; }
+  const asistira = (document.querySelector('input[name="asiste"]:checked')||{}).value === 'si';
+  const acompanantes = Math.max(0, Math.min(20, parseInt($('rAcomp').value||'0',10)||0));
+  const comentario = $('rComent').value.trim() || null;
+  const btn = $('btnRSVP'); btn.disabled = true; btn.textContent = 'Enviando…';
+  try{
+    const { error } = await sb.from('rsvp').insert({ nombre, asistira, acompanantes, comentario });
+    if(error) throw error;
+    avisoEmail('Nueva confirmación · XV Sara Valentina', { nombre, asistira: asistira?'Sí':'No', acompanantes, comentario });
+    $('formRSVP').reset();
+    $('okRSVP').style.display = 'block'; lluviaPetalos();
+    setTimeout(()=> $('okRSVP').style.display='none', 7000);
+  }catch(err){ alert('No se pudo enviar: ' + (err.message||err)); }
+  btn.disabled = false; btn.textContent = 'Enviar confirmación';
 });
 
-$('btnBorrar').addEventListener('click', () => {
-  if(confirm('¿Borrar las felicitaciones guardadas en este dispositivo?')){
-    try{ localStorage.removeItem('felicitaciones'); }catch(e){}
-    pintarLista();
+/* ---------- GALERÍA ---------- */
+const galFile = $('galeriaFile');
+galFile.addEventListener('change', () => {
+  const n = galFile.files.length;
+  $('galeriaElegidos').textContent = n ? (n + (n===1?' archivo elegido':' archivos elegidos')) : '';
+  $('btnSubir').style.display = n ? 'inline-block' : 'none';
+});
+
+$('btnSubir').addEventListener('click', async () => {
+  const files = [...galFile.files]; if(!files.length) return;
+  const nombre = $('galeriaNombre').value.trim() || null;
+  const btn = $('btnSubir'), barra = $('barraProg'), fill = $('barraProgFill');
+  btn.disabled = true; barra.style.display = 'block';
+  let hechos = 0;
+  for(const file of files){
+    try{
+      const r = await subirArchivo(file, 'galeria');
+      await sb.from('galeria').insert({ nombre, tipo:r.tipo, url:r.url, path:r.path });
+    }catch(err){ console.warn('Error subiendo', file.name, err); }
+    hechos++; fill.style.width = Math.round(hechos/files.length*100) + '%';
   }
+  btn.disabled = false; btn.style.display='none'; galFile.value=''; $('galeriaElegidos').textContent='';
+  setTimeout(()=>{ barra.style.display='none'; fill.style.width='0'; }, 800);
+  lluviaPetalos(); cargarGaleria();
 });
 
-$('btnCopiar').addEventListener('click', () => {
-  navigator.clipboard.writeText(CONFIG.numeroCuenta)
-    .then(() => {
-      const b = $('btnCopiar'), t = b.textContent;
-      b.textContent = '¡Copiado!';
-      setTimeout(() => b.textContent = t, 2000);
-    })
-    .catch(() => alert('Número de cuenta: ' + CONFIG.numeroCuenta));
-});
+async function cargarGaleria(){
+  const grid = $('galeriaGrid'), vacia = $('galeriaVacia');
+  const { data, error } = await sb.from('galeria').select('*').order('created_at',{ascending:false});
+  if(error) return;
+  if(!data || !data.length){ vacia.style.display=''; grid.innerHTML=''; return; }
+  vacia.style.display='none'; grid.innerHTML='';
+  data.forEach(item => {
+    const fig = document.createElement('figure');
+    fig.innerHTML = item.tipo === 'video'
+      ? `<video src="${item.url}" muted playsinline preload="metadata"></video><span class="play">▶</span>`
+      : `<img src="${item.url}" alt="${escapeHTML(item.nombre||'foto')}" loading="lazy">`;
+    fig.addEventListener('click', () => abrirLightbox(item));
+    grid.appendChild(fig);
+  });
+}
 
-pintarLista();
+/* ---------- LIGHTBOX ---------- */
+const lb = $('lightbox'), lbCont = $('lightboxCont');
+function abrirLightbox(item){
+  lbCont.innerHTML = item.tipo==='video'
+    ? `<video src="${item.url}" controls autoplay playsinline></video>`
+    : `<img src="${item.url}" alt="">`;
+  lb.classList.add('on');
+}
+function cerrarLightbox(){ lb.classList.remove('on'); lbCont.innerHTML=''; }
+$('lightboxCerrar').addEventListener('click', cerrarLightbox);
+lb.addEventListener('click', e => { if(e.target === lb) cerrarLightbox(); });
+
+/* ---------- COPIAR ---------- */
+function copiar(btn, texto){
+  navigator.clipboard.writeText(texto).then(()=>{
+    const t = btn.textContent; btn.textContent='¡Copiado!';
+    setTimeout(()=> btn.textContent=t, 2000);
+  }).catch(()=> alert(texto));
+}
+$('btnCopiar').addEventListener('click', () => copiar($('btnCopiar'), CONFIG.numeroCuenta));
+if(CONFIG.binanceId) $('btnCopiarBin').addEventListener('click', () => copiar($('btnCopiarBin'), CONFIG.binanceId));
+
+/* ---------- CUENTA REGRESIVA ---------- */
+(function(){
+  const destino = new Date(CONFIG.fechaISO).getTime();
+  if(isNaN(destino)) return;
+  const dd=$('cd-dias'), hh=$('cd-horas'), mm=$('cd-min'), ss=$('cd-seg'), msg=$('cd-msg');
+  function tick(){
+    const diff = destino - Date.now();
+    if(diff <= 0){ dd.textContent=hh.textContent=mm.textContent=ss.textContent='0';
+      msg.textContent='¡Hoy es el gran día! 🎉'; return; }
+    dd.textContent = Math.floor(diff/86400000);
+    hh.textContent = String(Math.floor(diff/3600000)%24).padStart(2,'0');
+    mm.textContent = String(Math.floor(diff/60000)%60).padStart(2,'0');
+    ss.textContent = String(Math.floor(diff/1000)%60).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+/* ---------- MÚSICA ---------- */
+if(CONFIG.musica){
+  const audio = new Audio(CONFIG.musica); audio.loop = true; audio.volume = 0.6;
+  const fab = $('fabMusic'); fab.style.display = 'grid'; fab.style.opacity = .6;
+  let sonando = false;
+  fab.addEventListener('click', () => {
+    if(sonando){ audio.pause(); sonando=false; fab.style.opacity=.6; }
+    else{ audio.play().then(()=>{ sonando=true; fab.style.opacity=1; }).catch(()=>{}); }
+  });
+}
+
+/* cargar contenido inicial */
+cargarFelic();
+cargarGaleria();
 
 /* ==========================================================
    CANVAS — pétalos de rosa y chispas doradas

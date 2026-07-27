@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Administración · XV Sara Valentina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --rosa:#d9a5b3; --rosaOsc:#b9788b; --oro:#dcbf90;
+    --texto:#4a2b33; --suave:#6f4a54; --fondo:#fdf3f7; --tarjeta:#fff; --borde:#f0d8de;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{ font-family:'Montserrat',system-ui,sans-serif; background:var(--fondo); color:var(--texto); font-size:15px; line-height:1.5 }
+  h1,h2,h3{ font-family:'Cormorant Garamond',serif }
+  .wrap{ max-width:960px; margin:0 auto; padding:22px 16px 80px }
+
+  /* Login */
+  .login{ max-width:380px; margin:12vh auto; background:var(--tarjeta); border:1px solid var(--borde);
+    border-radius:12px; padding:34px 28px; box-shadow:0 12px 40px rgba(120,70,85,.14); text-align:center }
+  .login h1{ font-size:2rem; color:var(--rosaOsc) }
+  .login p{ color:var(--suave); font-size:.9rem; margin:6px 0 22px }
+  input,select{ width:100%; padding:12px 14px; border:1px solid var(--borde); border-radius:8px; font:inherit; background:#fff; color:var(--texto) }
+  input:focus{ outline:none; border-color:var(--rosa) }
+  .btn{ display:inline-block; cursor:pointer; border:none; border-radius:8px; padding:12px 20px;
+    font-family:'Montserrat',sans-serif; font-size:13px; font-weight:600; color:#fff;
+    background:linear-gradient(135deg,var(--rosa),var(--rosaOsc)); transition:filter .15s, transform .15s }
+  .btn:hover{ filter:brightness(1.05); transform:translateY(-1px) }
+  .btn.full{ width:100%; margin-top:16px }
+  .btn.mini{ padding:7px 12px; font-size:11px }
+  .btn.linea{ background:#fff; color:var(--rosaOsc); border:1px solid var(--rosa) }
+  .btn.rojo{ background:#fff; color:#c0392b; border:1px solid #e6b3ac }
+  .err{ color:#c0392b; font-size:.85rem; margin-top:12px; min-height:1em }
+
+  /* Panel */
+  .top{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px }
+  .top h1{ font-size:1.9rem; color:var(--rosaOsc); line-height:1.1 }
+  .top .sub{ font-family:'Montserrat'; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--suave) }
+  .top-acciones{ display:flex; gap:8px; flex-wrap:wrap }
+
+  .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-bottom:22px }
+  .stat{ background:var(--tarjeta); border:1px solid var(--borde); border-radius:10px; padding:16px; text-align:center }
+  .stat .n{ font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:600; color:var(--rosaOsc); line-height:1 }
+  .stat .l{ font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--suave); margin-top:6px }
+
+  .tabs{ display:flex; gap:6px; border-bottom:1px solid var(--borde); margin-bottom:18px; flex-wrap:wrap }
+  .tab{ padding:10px 16px; cursor:pointer; border:none; background:none; font:inherit; font-weight:600; color:var(--suave);
+    border-bottom:3px solid transparent; margin-bottom:-1px }
+  .tab.on{ color:var(--rosaOsc); border-bottom-color:var(--rosa) }
+  .vista{ display:none } .vista.on{ display:block }
+
+  table{ width:100%; border-collapse:collapse; background:var(--tarjeta); border-radius:10px; overflow:hidden; font-size:14px }
+  th,td{ padding:11px 12px; text-align:left; border-bottom:1px solid var(--borde); vertical-align:top }
+  th{ font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--suave); background:#fbeef2 }
+  .tabla-scroll{ overflow-x:auto; border:1px solid var(--borde); border-radius:10px }
+  .pill{ display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600 }
+  .pill.si{ background:#e7ffe9; color:#1c7a36 } .pill.no{ background:#ffecec; color:#c0392b }
+
+  .felic-item{ background:var(--tarjeta); border:1px solid var(--borde); border-left:4px solid var(--rosa);
+    border-radius:8px; padding:14px 16px; margin-bottom:10px }
+  .felic-item .de{ font-weight:600; color:var(--rosaOsc); font-size:13px }
+  .felic-item .msg{ font-family:'Cormorant Garamond',serif; font-size:1.15rem; margin:4px 0 }
+  .felic-item img{ max-width:140px; border-radius:6px; margin-top:8px; display:block }
+  .felic-item .fecha{ font-size:11px; color:var(--suave); margin-top:6px }
+
+  .gal-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px }
+  .gal-grid figure{ margin:0; border:1px solid var(--borde); border-radius:8px; overflow:hidden; background:#fff; position:relative }
+  .gal-grid img,.gal-grid video{ width:100%; aspect-ratio:1; object-fit:cover; display:block }
+  .gal-grid figcaption{ font-size:10px; color:var(--suave); padding:5px 6px; display:flex; justify-content:space-between; align-items:center; gap:4px }
+  .vacio{ color:var(--suave); text-align:center; padding:30px; font-style:italic }
+  .cargando{ text-align:center; color:var(--suave); padding:20px }
+  dialog{ border:none; border-radius:12px; padding:24px; max-width:360px; box-shadow:0 20px 60px rgba(0,0,0,.3) }
+  dialog h3{ font-size:1.4rem; color:var(--rosaOsc); margin-bottom:14px }
+  dialog::backdrop{ background:rgba(74,43,51,.4) }
+  .campo{ text-align:left; margin-bottom:12px }
+  .campo label{ font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--suave); display:block; margin-bottom:5px }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <h1>Administración</h1>
+  <p>XV de Sara Valentina · Ingresa la contraseña</p>
+  <form id="formLogin">
+    <input type="password" id="pass" placeholder="Contraseña" autocomplete="current-password" required />
+    <button class="btn full" type="submit" id="btnLogin">Entrar</button>
+  </form>
+  <div class="err" id="loginErr"></div>
+</div>
+
+<!-- PANEL -->
+<div class="wrap" id="panel" hidden>
+  <div class="top">
+    <div>
+      <div class="sub">Panel de administración</div>
+      <h1>XV de Sara Valentina</h1>
+    </div>
+    <div class="top-acciones">
+      <button class="btn linea mini" id="btnPass">Cambiar contraseña</button>
+      <button class="btn linea mini" id="btnSalir">Salir</button>
+    </div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="tabs">
+    <button class="tab on" data-v="v-rsvp">Confirmaciones</button>
+    <button class="tab" data-v="v-felic">Felicitaciones</button>
+    <button class="tab" data-v="v-gal">Galería</button>
+  </div>
+
+  <!-- Confirmaciones -->
+  <section class="vista on" id="v-rsvp">
+    <div style="display:flex; justify-content:flex-end; margin-bottom:12px">
+      <button class="btn mini" id="btnCSV">⬇ Descargar lista (CSV)</button>
+    </div>
+    <div class="tabla-scroll">
+      <table id="tablaRsvp">
+        <thead><tr><th>Nombre</th><th>Asiste</th><th>Acomp.</th><th>Comentario</th><th>Fecha</th><th></th></tr></thead>
+        <tbody id="rsvpBody"><tr><td colspan="6" class="cargando">Cargando…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Felicitaciones -->
+  <section class="vista" id="v-felic">
+    <div id="felicList"><div class="cargando">Cargando…</div></div>
+  </section>
+
+  <!-- Galería -->
+  <section class="vista" id="v-gal">
+    <div style="display:flex; justify-content:flex-end; margin-bottom:12px">
+      <button class="btn mini" id="btnDescargarFotos">⬇ Descargar todas</button>
+    </div>
+    <div class="gal-grid" id="galGrid"><div class="cargando">Cargando…</div></div>
+  </section>
+</div>
+
+<!-- Diálogo cambiar contraseña -->
+<dialog id="dlgPass">
+  <h3>Cambiar contraseña</h3>
+  <form id="formPass">
+    <div class="campo"><label>Contraseña actual</label><input type="password" id="passActual" required></div>
+    <div class="campo"><label>Nueva contraseña</label><input type="password" id="passNueva" minlength="6" required></div>
+    <div class="err" id="passErr"></div>
+    <div style="display:flex; gap:8px; margin-top:8px">
+      <button class="btn full" type="submit">Guardar</button>
+      <button class="btn linea full" type="button" id="passCancel">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+const SB_URL = "https://fqajmcvrijjthbgqhpgl.supabase.co";
+const SB_KEY = "sb_publishable_VgfrzNKCje9xD4pkYXjmDA_jeabiZA1";
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
+const $ = id => document.getElementById(id);
+const escapeHTML = s => String(s==null?'':s).replace(/[&<>"']/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtFecha = s => { try{ return new Date(s).toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'}); }catch(e){ return s; } };
+
+let PASS = null;
+try{ PASS = sessionStorage.getItem('adminPass'); }catch(e){}
+
+/* ---------- LOGIN ---------- */
+$('formLogin').addEventListener('submit', async e => {
+  e.preventDefault();
+  const p = $('pass').value;
+  $('loginErr').textContent = '';
+  $('btnLogin').disabled = true; $('btnLogin').textContent = 'Verificando…';
+  const ok = await validar(p);
+  $('btnLogin').disabled = false; $('btnLogin').textContent = 'Entrar';
+  if(ok){ PASS = p; try{ sessionStorage.setItem('adminPass', p); }catch(e){} entrar(); }
+  else { $('loginErr').textContent = 'Contraseña incorrecta.'; }
+});
+
+async function validar(p){
+  const { error } = await sb.rpc('admin_rsvp', { pass: p });
+  return !error;
+}
+
+function entrar(){
+  $('login').style.display = 'none';
+  $('panel').hidden = false;
+  cargarTodo();
+}
+
+$('btnSalir').addEventListener('click', () => {
+  PASS = null; try{ sessionStorage.removeItem('adminPass'); }catch(e){}
+  location.reload();
+});
+
+/* ---------- TABS ---------- */
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  document.querySelectorAll('.vista').forEach(x => x.classList.remove('on'));
+  t.classList.add('on'); $(t.dataset.v).classList.add('on');
+}));
+
+/* ---------- CARGAR DATOS ---------- */
+let RSVP = [], GAL = [];
+
+async function cargarTodo(){ await Promise.all([cargarRsvp(), cargarFelic(), cargarGal()]); }
+
+async function cargarRsvp(){
+  const { data, error } = await sb.rpc('admin_rsvp', { pass: PASS });
+  const body = $('rsvpBody');
+  if(error){ body.innerHTML = '<tr><td colspan="6" class="vacio">Error al cargar.</td></tr>'; return; }
+  RSVP = data || [];
+  if(!RSVP.length){ body.innerHTML = '<tr><td colspan="6" class="vacio">Aún no hay confirmaciones.</td></tr>'; }
+  else {
+    body.innerHTML = RSVP.map(r => `<tr>
+      <td>${escapeHTML(r.nombre)}</td>
+      <td><span class="pill ${r.asistira?'si':'no'}">${r.asistira?'Sí':'No'}</span></td>
+      <td>${r.acompanantes}</td>
+      <td>${escapeHTML(r.comentario)||'—'}</td>
+      <td>${fmtFecha(r.created_at)}</td>
+      <td><button class="btn rojo mini" data-del-rsvp="${r.id}">Borrar</button></td>
+    </tr>`).join('');
+  }
+  // estadísticas
+  const asisten = RSVP.filter(r => r.asistira);
+  const totalPersonas = asisten.reduce((a,r) => a + 1 + (r.acompanantes||0), 0);
+  $('stats').innerHTML = `
+    <div class="stat"><div class="n">${RSVP.length}</div><div class="l">Respuestas</div></div>
+    <div class="stat"><div class="n">${asisten.length}</div><div class="l">Asistirán</div></div>
+    <div class="stat"><div class="n">${RSVP.length - asisten.length}</div><div class="l">No podrán</div></div>
+    <div class="stat"><div class="n">${totalPersonas}</div><div class="l">Total personas</div></div>`;
+}
+
+async function cargarFelic(){
+  const { data, error } = await sb.from('felicitaciones').select('*').order('created_at',{ascending:false});
+  const cont = $('felicList');
+  if(error){ cont.innerHTML = '<div class="vacio">Error al cargar.</div>'; return; }
+  if(!data || !data.length){ cont.innerHTML = '<div class="vacio">Aún no hay felicitaciones.</div>'; return; }
+  cont.innerHTML = data.map(f => `<div class="felic-item">
+    <div class="de">💌 ${escapeHTML(f.nombre)}</div>
+    <div class="msg">“${escapeHTML(f.mensaje)}”</div>
+    ${f.foto_url ? `<img src="${f.foto_url}" alt="">` : ''}
+    <div class="fecha">${fmtFecha(f.created_at)}</div>
+    <button class="btn rojo mini" style="margin-top:8px" data-del-felic="${f.id}">Borrar</button>
+  </div>`).join('');
+}
+
+async function cargarGal(){
+  const { data, error } = await sb.from('galeria').select('*').order('created_at',{ascending:false});
+  const grid = $('galGrid');
+  if(error){ grid.innerHTML = '<div class="vacio">Error al cargar.</div>'; return; }
+  GAL = data || [];
+  if(!GAL.length){ grid.innerHTML = '<div class="vacio">Aún no hay fotos ni videos.</div>'; return; }
+  grid.innerHTML = GAL.map(g => `<figure>
+    ${g.tipo==='video' ? `<video src="${g.url}" muted playsinline preload="metadata"></video>` : `<img src="${g.url}" alt="" loading="lazy">`}
+    <figcaption><span>${escapeHTML(g.nombre)||'—'}</span><button class="btn rojo mini" data-del-gal="${g.id}">✕</button></figcaption>
+  </figure>`).join('');
+}
+
+/* ---------- BORRAR (delegación) ---------- */
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-del-rsvp],[data-del-felic],[data-del-gal]');
+  if(!b) return;
+  if(!confirm('¿Borrar este elemento? No se puede deshacer.')) return;
+  let rpc, arg;
+  if(b.dataset.delRsvp){ rpc='admin_del_rsvp'; arg={ pass:PASS, rid:b.dataset.delRsvp }; }
+  else if(b.dataset.delFelic){ rpc='admin_del_felicitacion'; arg={ pass:PASS, fid:b.dataset.delFelic }; }
+  else { rpc='admin_del_galeria'; arg={ pass:PASS, gid:b.dataset.delGal }; }
+  b.disabled = true;
+  const { error } = await sb.rpc(rpc, arg);
+  if(error){ alert('No se pudo borrar: ' + error.message); b.disabled = false; return; }
+  cargarTodo();
+});
+
+/* ---------- CSV ---------- */
+$('btnCSV').addEventListener('click', () => {
+  if(!RSVP.length){ alert('No hay confirmaciones.'); return; }
+  const esc = v => '"' + String(v==null?'':v).replace(/"/g,'""') + '"';
+  const filas = [['Nombre','Asiste','Acompañantes','Comentario','Fecha']];
+  RSVP.forEach(r => filas.push([r.nombre, r.asistira?'Sí':'No', r.acompanantes, r.comentario||'', fmtFecha(r.created_at)]));
+  const csv = '﻿' + filas.map(f => f.map(esc).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = 'invitados-sara-xv.csv'; a.click(); URL.revokeObjectURL(a.href);
+});
+
+/* ---------- DESCARGAR TODAS LAS FOTOS ---------- */
+$('btnDescargarFotos').addEventListener('click', async () => {
+  if(!GAL.length){ alert('No hay archivos.'); return; }
+  const btn = $('btnDescargarFotos'); btn.disabled = true;
+  for(let i=0; i<GAL.length; i++){
+    const g = GAL[i];
+    btn.textContent = `Descargando ${i+1}/${GAL.length}…`;
+    try{
+      const resp = await fetch(g.url); const blob = await resp.blob();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (g.path||('archivo-'+i)).split('/').pop();
+      a.click(); URL.revokeObjectURL(a.href);
+      await new Promise(r => setTimeout(r, 400));
+    }catch(err){ console.warn('Error descargando', g.url, err); }
+  }
+  btn.disabled = false; btn.textContent = '⬇ Descargar todas';
+});
+
+/* ---------- CAMBIAR CONTRASEÑA ---------- */
+$('btnPass').addEventListener('click', () => $('dlgPass').showModal());
+$('passCancel').addEventListener('click', () => $('dlgPass').close());
+$('formPass').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('passErr').textContent = '';
+  const actual = $('passActual').value, nueva = $('passNueva').value;
+  const { data, error } = await sb.rpc('admin_change_password', { current_pass: actual, new_pass: nueva });
+  if(error){ $('passErr').textContent = 'Error: ' + error.message; return; }
+  if(data === false){ $('passErr').textContent = 'La contraseña actual es incorrecta.'; return; }
+  PASS = nueva; try{ sessionStorage.setItem('adminPass', nueva); }catch(e){}
+  $('dlgPass').close(); $('formPass').reset();
+  alert('Contraseña actualizada. ✔');
+});
+
+/* ---------- auto-login si hay sesión ---------- */
+(async () => {
+  if(PASS && await validar(PASS)) entrar();
+})();
+</script>
+</body>
+</html>
