@@ -74,7 +74,7 @@
     padding:52px 30px 44px;
     border:1px solid var(--oro);
     border-radius:4px;
-    background:rgba(255,255,255,.42);
+    background:rgba(12,12,28,.32);
     backdrop-filter:blur(3px);
   }
   .marco::before{
@@ -116,22 +116,7 @@
   }
   @keyframes flota{0%,100%{transform:translateY(0);opacity:.75}50%{transform:translateY(9px);opacity:1}}
 
-  /* ============ ROSA ENCANTADA (SVG) ============ */
-  .cloche{ width:min(200px,52vw); height:auto; display:block; margin:0 auto 8px }
-  .cloche .vidrio{ fill:rgba(255,255,255,.30); stroke:var(--oro); stroke-width:1.6 }
-  .cloche .base{ fill:var(--oro); opacity:.85 }
-  .cloche .petalo{ fill:var(--rojo) }
-  .cloche .petaloInt{ fill:var(--rojoOsc) }
-  .cloche .tallo{ stroke:var(--textoSuave); stroke-width:2; fill:none; opacity:.55 }
-  .cloche .hoja{ fill:var(--textoSuave); opacity:.4 }
-  .cloche .brillo{ fill:none; stroke:#fff; stroke-width:3; opacity:.55; stroke-linecap:round }
-  .cloche .chispa{ fill:var(--oro) }
-  .cloche .chispa{ animation:titila 3s ease-in-out infinite }
-  .cloche .chispa:nth-of-type(2){ animation-delay:.9s }
-  .cloche .chispa:nth-of-type(3){ animation-delay:1.7s }
-  @keyframes titila{0%,100%{opacity:.25;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
-  .cloche .caida{ animation:cae 6s ease-in infinite }
-  @keyframes cae{0%{transform:translateY(-28px) rotate(0);opacity:0}20%{opacity:1}100%{transform:translateY(34px) rotate(150deg);opacity:0}}
+  /* (la rosa encantada ahora es una imagen real: img/rosa-cupula.jpg) */
 
   /* ============ SECCIONES ============ */
   section.bloque{ max-width:660px; margin:0 auto; padding:34px 20px }
@@ -388,16 +373,30 @@
   .lightbox img,.lightbox video{ max-width:96vw; max-height:90vh; border-radius:6px; box-shadow:0 10px 50px rgba(0,0,0,.6) }
   .lightbox .cerrar{ position:absolute; top:14px; right:20px; color:#fff; font-size:36px; line-height:1; cursor:pointer; background:none; border:none }
 
-  /* ====== FONDO DE CASTILLO EN LA PORTADA ====== */
+  /* ====== PORTADA CINEMATOGRÁFICA (salón real) ====== */
   .hero{ position:relative }
   .hero::before{
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
-    background:url('img/castillo.jpg') center 32% / cover no-repeat;
-    opacity:.30;
-    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 26%,#000 76%,transparent 100%);
-            mask-image:linear-gradient(180deg,transparent 0%,#000 26%,#000 76%,transparent 100%);
+    background:
+      linear-gradient(180deg, rgba(16,18,42,.60), rgba(16,18,42,.40) 42%, rgba(22,14,10,.74)),
+      url('img/salon.jpg') center / cover no-repeat;
   }
   .hero > *{ position:relative; z-index:1 }
+  /* texto claro y legible sobre el salón oscuro */
+  .hero .eyebrow,
+  .hero .apellidos,
+  .hero .frase,
+  .hero .anios,
+  .hero .scroll-hint{ color:#efdcae }
+  .hero .apellidos{ text-shadow:0 1px 8px rgba(0,0,0,.55) }
+  .hero .frase{ text-shadow:0 1px 12px rgba(0,0,0,.6) }
+  /* rosa encantada real (imagen) */
+  .rosa-real{
+    display:block; width:min(230px,60vw); height:auto; margin:2px auto 8px;
+    border-radius:14px; border:2px solid var(--oro);
+    box-shadow:0 12px 44px rgba(0,0,0,.55), 0 0 34px rgba(192,40,63,.25);
+    animation:flotaFoto 5s ease-in-out infinite;
+  }
   #skyA{ stop-color:var(--acento) }
   #skyB{ stop-color:var(--oro) }
   #sunA{ stop-color:var(--oro) }
@@ -448,42 +447,8 @@
   <!-- ===== PORTADA ===== -->
   <header class="hero">
     <div class="marco">
-      <!-- Rosa encantada bajo la campana de cristal -->
-      <svg class="cloche" viewBox="0 0 200 268" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- base -->
-        <rect class="base" x="30" y="212" width="140" height="15" rx="7"/>
-        <rect class="base" x="40" y="227" width="120" height="10" rx="5" opacity="0.6"/>
-        <!-- tallo y hojas -->
-        <path class="tallo" d="M100 148 C 100 175, 101 192, 100 210"/>
-        <ellipse class="hoja" cx="112" cy="176" rx="13" ry="6" transform="rotate(-22 112 176)"/>
-        <ellipse class="hoja" cx="88"  cy="190" rx="11" ry="5" transform="rotate(20 88 190)"/>
-        <!-- rosa -->
-        <g transform="translate(100 132)">
-          <ellipse class="petalo" cx="0"   cy="-13" rx="15" ry="11"/>
-          <ellipse class="petalo" cx="15"  cy="-4"  rx="15" ry="11" transform="rotate(72 15 -4)"/>
-          <ellipse class="petalo" cx="9"   cy="14"  rx="15" ry="11" transform="rotate(144 9 14)"/>
-          <ellipse class="petalo" cx="-9"  cy="14"  rx="15" ry="11" transform="rotate(216 -9 14)"/>
-          <ellipse class="petalo" cx="-15" cy="-4"  rx="15" ry="11" transform="rotate(288 -15 -4)"/>
-          <ellipse class="petaloInt" cx="0"  cy="-6" rx="10" ry="8"/>
-          <ellipse class="petaloInt" cx="7"  cy="4"  rx="10" ry="8" transform="rotate(120 7 4)"/>
-          <ellipse class="petaloInt" cx="-7" cy="4"  rx="10" ry="8" transform="rotate(240 -7 4)"/>
-          <circle  class="petalo" cx="0" cy="0" r="6"/>
-        </g>
-        <!-- pétalos cayendo dentro -->
-        <ellipse class="petalo caida" cx="72"  cy="176" rx="6" ry="4" opacity=".8"/>
-        <ellipse class="petalo caida" cx="128" cy="168" rx="5" ry="3.5" opacity=".7" style="animation-delay:2.4s"/>
-        <!-- pétalos en la base -->
-        <ellipse class="petalo" cx="70"  cy="207" rx="7" ry="4" opacity=".75" transform="rotate(-18 70 207)"/>
-        <ellipse class="petalo" cx="128" cy="209" rx="6" ry="3.5" opacity=".6" transform="rotate(22 128 209)"/>
-        <!-- campana de cristal -->
-        <path class="vidrio" d="M38 212 L38 108 C38 52 62 30 100 30 C138 30 162 52 162 108 L162 212"/>
-        <circle class="vidrio" cx="100" cy="22" r="9"/>
-        <path class="brillo" d="M58 190 C 54 140, 60 82, 82 54"/>
-        <!-- chispas -->
-        <path class="chispa" d="M58 78 l2.6 6.4 6.4 2.6 -6.4 2.6 -2.6 6.4 -2.6 -6.4 -6.4 -2.6 6.4 -2.6 Z" style="transform-origin:58px 87px"/>
-        <path class="chispa" d="M142 108 l2.2 5.4 5.4 2.2 -5.4 2.2 -2.2 5.4 -2.2 -5.4 -5.4 -2.2 5.4 -2.2 Z" style="transform-origin:142px 115px"/>
-        <path class="chispa" d="M120 62 l1.8 4.4 4.4 1.8 -4.4 1.8 -1.8 4.4 -1.8 -4.4 -4.4 -1.8 4.4 -1.8 Z" style="transform-origin:120px 68px"/>
-      </svg>
+      <!-- Rosa encantada real bajo la cúpula de cristal -->
+      <img class="rosa-real" src="img/rosa-cupula.jpg" alt="La rosa encantada bajo la cúpula de cristal" loading="eager" />
 
       <!-- Foto opcional de la homenajeada en la portada -->
       <figure class="fotoBailarines" id="fotoPortada" hidden style="margin:4px auto 16px">
@@ -1114,8 +1079,8 @@ if(waNum && !/[Xx]/.test(CONFIG.whatsapp)){
 
 /* Foto de portada opcional (si existe, oculta la rosa) */
 if(CONFIG.fotoPortada){
-  const fp=$('fotoPortada'), ip=$('imgPortada'), cloche=document.querySelector('.cloche');
-  ip.onload  = () => { if(cloche) cloche.style.display='none'; fp.hidden=false; };
+  const fp=$('fotoPortada'), ip=$('imgPortada'), rosa=document.querySelector('.rosa-real');
+  ip.onload  = () => { if(rosa) rosa.style.display='none'; fp.hidden=false; };
   ip.onerror = () => { fp.hidden=true; };
   ip.src = CONFIG.fotoPortada;
 }
