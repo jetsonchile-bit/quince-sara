@@ -262,6 +262,8 @@
 
   /* ============ SALÓN · EL VALS ============ */
   .ballroom{ position:relative; margin:18px auto 6px; max-width:640px }
+  .vals-img{ display:block; width:100%; max-width:520px; margin:16px auto 4px;
+    border-radius:6px; border:2px solid var(--oro); box-shadow:var(--sombra) }
   .escena{ width:100%; height:auto; display:block; overflow:visible }
   .escena .figura{ fill:var(--texto) }
   .escena .cabello{ fill:var(--texto) }
@@ -489,7 +491,8 @@
       </svg>
 
       <div class="ballroom">
-        <svg viewBox="0 0 800 470" class="escena" role="img"
+        <img class="vals-img" src="img/vals-pareja.jpg" alt="Pareja bailando el vals en el salón real" loading="lazy" />
+        <svg viewBox="0 0 800 470" class="escena" role="img" aria-hidden="true" style="display:none"
              aria-label="Una pareja de gala baila un vals en una terraza, con un castillo de cuento al atardecer dorado">
           <defs>
             <linearGradient id="gownGrad" x1="0" y1="0" x2="0" y2="1">
