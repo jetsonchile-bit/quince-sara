@@ -10,24 +10,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  /* ============ TEMA POR DEFECTO (Rosa Encantada) ============ */
+  /* ============ TEMA POR DEFECTO (Real Dorado) ============ */
   :root{
-    --fondoA:#fff5f7;  --fondoB:#fdeef2;
-    --principal:#d9a5b3; --secundario:#e8c4cf; --acento:#f3d9e0;
-    --oro:#dcbf90;
-    --texto:#4a2b33; --textoSuave:#6f4a54;
-    --tarjeta:#fffbfc; --borde:#f0d8de;
-    --gradTitulo:linear-gradient(135deg,#d9a5b3 0%,#c9a6c4 50%,#dcbf90 100%);
-    --gradBoton:linear-gradient(135deg,#e8c4cf 0%,#d9a5b3 100%);
-    --gradOro:linear-gradient(135deg,#f0dcbb 0%,#dcbf90 100%);
-    --sombra:0 12px 40px rgba(120,70,85,.14);
-    --sombraSuave:0 4px 16px rgba(120,70,85,.10);
+    --fondoA:#f8efd6;  --fondoB:#efe0bd;
+    --principal:#a97f22; --secundario:#2a3f7e; --acento:#f3e2b6;
+    --oro:#bd942f; --rojo:#c0283f; --rojoOsc:#8c1a2c;
+    --texto:#3a2a0e; --textoSuave:#5d4820;
+    --tarjeta:#fffdf5; --borde:#e6cd94; --btnText:#ffffff;
+    --gradTitulo:linear-gradient(135deg,#bd942f 0%,#8a6a1c 45%,#c0283f 100%);
+    --gradBoton:linear-gradient(135deg,#33498f 0%,#22315f 100%);
+    --gradOro:linear-gradient(135deg,#e0bc5f 0%,#bd942f 100%);
+    --sombra:0 14px 44px rgba(120,90,25,.24);
+    --sombraSuave:0 5px 18px rgba(120,90,25,.16);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
     font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:18px; line-height:1.65;
+    font-size:19px; line-height:1.66;
     color:var(--texto);
     background:linear-gradient(165deg,var(--fondoA) 0%,var(--fondoB) 100%);
     background-attachment:fixed;
@@ -59,9 +59,9 @@
   }
   .temas button:hover{transform:scale(1.16)}
   .temas button[aria-pressed="true"]{outline-color:var(--textoSuave)}
-  .t-rosa{background:linear-gradient(135deg,#dd5583,#cf3f6f)}
-  .t-azul{background:linear-gradient(135deg,#5a86c8,#3a6fbf)}
-  .t-dorado{background:linear-gradient(135deg,#e3a941,#cf8021)}
+  .t-rosa{background:linear-gradient(135deg,#e0bc5f,#a97f22)}
+  .t-azul{background:linear-gradient(135deg,#3a56a0,#26386f)}
+  .t-dorado{background:linear-gradient(135deg,#c0283f,#a11f34)}
 
   /* ============ PORTADA ============ */
   .hero{
@@ -82,19 +82,19 @@
     border:1px solid var(--oro); opacity:.45; border-radius:2px; pointer-events:none;
   }
   .eyebrow{
-    font-family:'Montserrat',sans-serif; font-size:11px; font-weight:500;
-    letter-spacing:6px; text-transform:uppercase; color:var(--textoSuave);
+    font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:4.5px; text-transform:uppercase; color:var(--textoSuave);
     margin-bottom:18px;
   }
   .nombre{
     font-family:'Great Vibes',cursive;
-    font-size:clamp(3.2rem,13vw,5.6rem); line-height:1.05;
+    font-size:clamp(3rem,12vw,5.2rem); line-height:1.3;
     background:var(--gradTitulo); -webkit-background-clip:text; background-clip:text;
-    color:transparent; padding:0 4px 10px;
+    color:transparent; padding:.16em .2em .24em; overflow:visible;
   }
   .apellidos{
     font-family:'Cormorant Garamond',serif; font-weight:300;
-    font-size:clamp(1rem,3.6vw,1.5rem); letter-spacing:7px;
+    font-size:clamp(1.1rem,4.2vw,1.65rem); letter-spacing:5px;
     text-transform:uppercase; color:var(--textoSuave); margin-top:2px;
   }
   .quince{ margin:26px 0 20px; display:flex; align-items:center; justify-content:center; gap:20px }
@@ -120,8 +120,8 @@
   .cloche{ width:min(200px,52vw); height:auto; display:block; margin:0 auto 8px }
   .cloche .vidrio{ fill:rgba(255,255,255,.30); stroke:var(--oro); stroke-width:1.6 }
   .cloche .base{ fill:var(--oro); opacity:.85 }
-  .cloche .petalo{ fill:var(--principal) }
-  .cloche .petaloInt{ fill:var(--secundario) }
+  .cloche .petalo{ fill:var(--rojo) }
+  .cloche .petaloInt{ fill:var(--rojoOsc) }
   .cloche .tallo{ stroke:var(--textoSuave); stroke-width:2; fill:none; opacity:.55 }
   .cloche .hoja{ fill:var(--textoSuave); opacity:.4 }
   .cloche .brillo{ fill:none; stroke:#fff; stroke-width:3; opacity:.55; stroke-linecap:round }
@@ -155,20 +155,20 @@
 
   h2{
     font-family:'Great Vibes',cursive; font-weight:400;
-    font-size:clamp(2.3rem,8vw,3.2rem); line-height:1.2;
+    font-size:clamp(2.6rem,8.5vw,3.7rem); line-height:1.22;
     text-align:center; color:var(--texto); margin-bottom:4px;
   }
   .subtitulo{
-    font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:4px;
+    font-family:'Montserrat',sans-serif; font-size:11px; letter-spacing:3.2px;
     text-transform:uppercase; color:var(--textoSuave); text-align:center; margin-bottom:6px;
   }
   .filigrana{ display:block; margin:14px auto 22px; width:150px; height:16px; color:var(--oro) }
-  .intro{ text-align:center; color:var(--textoSuave); font-size:1.08rem; margin-bottom:8px }
+  .intro{ text-align:center; color:var(--textoSuave); font-size:1.18rem; margin-bottom:8px }
 
   /* ============ FORMULARIO ============ */
   label{
-    display:block; font-family:'Montserrat',sans-serif; font-size:10px;
-    letter-spacing:2.2px; text-transform:uppercase; font-weight:500;
+    display:block; font-family:'Montserrat',sans-serif; font-size:11px;
+    letter-spacing:2px; text-transform:uppercase; font-weight:600;
     color:var(--textoSuave); margin:22px 0 7px;
   }
   input,textarea{
@@ -188,7 +188,7 @@
     display:inline-block; cursor:pointer; border:1px solid transparent;
     border-radius:2px; padding:14px 32px;
     font-family:'Montserrat',sans-serif; font-size:11px; font-weight:600;
-    letter-spacing:2.6px; text-transform:uppercase;
+    font-size:12px; letter-spacing:2.2px; text-transform:uppercase;
     color:var(--btnText,#fff); background:var(--gradBoton);
     box-shadow:var(--sombraSuave); text-decoration:none; text-align:center;
     transition:transform .18s,box-shadow .18s,filter .18s;
@@ -330,7 +330,7 @@
   .cuenta-regresiva{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin:20px 0 6px }
   .cr-box{ min-width:72px; padding:14px 10px; border:1px solid var(--borde); border-radius:4px;
     background:linear-gradient(160deg,#fff,var(--acento)); box-shadow:var(--sombraSuave); text-align:center }
-  .cr-num{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:2.1rem; line-height:1; color:var(--texto) }
+  .cr-num{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:2.6rem; line-height:1; color:var(--texto) }
   .cr-lbl{ font-family:'Montserrat',sans-serif; font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--textoSuave); margin-top:6px }
   .cr-msg{ text-align:center; font-style:italic; color:var(--textoSuave); margin-top:10px }
 
@@ -389,7 +389,7 @@
   .lightbox .cerrar{ position:absolute; top:14px; right:20px; color:#fff; font-size:36px; line-height:1; cursor:pointer; background:none; border:none }
 
   /* ====== FONDO DE CASTILLO EN LA PORTADA ====== */
-  .hero{ position:relative; overflow:hidden }
+  .hero{ position:relative }
   .hero::before{
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
     background:url('img/castillo.jpg') center 32% / cover no-repeat;
@@ -438,9 +438,9 @@
 <!-- SELECTOR DE TEMA -->
 <div class="temas" role="group" aria-label="Elegir color">
   <span class="lbl">Color</span>
-  <button class="t-rosa"   data-tema="rosa"   title="Rosa Encantada"  aria-label="Tema Rosa Encantada"></button>
-  <button class="t-azul"   data-tema="azul"   title="Azul Encantado"  aria-label="Tema Azul Encantado"></button>
-  <button class="t-dorado" data-tema="dorado" title="Dorado Durazno" aria-label="Tema Dorado Durazno"></button>
+  <button class="t-rosa"   data-tema="rosa"   title="Real Dorado" aria-label="Tema Real Dorado"></button>
+  <button class="t-azul"   data-tema="azul"   title="Real Azul"   aria-label="Tema Real Azul"></button>
+  <button class="t-dorado" data-tema="dorado" title="Real Rojo"   aria-label="Tema Real Rojo"></button>
 </div>
 
 <div class="contenido">
@@ -504,7 +504,7 @@
       </div>
 
       <p class="frase" id="fraseHero">
-        Hay historias que no envejecen, y sueños que florecen<br>como una rosa encantada. Acompáñame a vivir el mío.
+        Una noche mágica en un castillo encantado,<br>donde los sueños de una princesa se hacen realidad.
       </p>
     </div>
     <div class="scroll-hint">Desliza para descubrir</div>
@@ -937,15 +937,15 @@ const CONFIG = {
   supabaseKey: "sb_publishable_VgfrzNKCje9xD4pkYXjmDA_jeabiZA1",
 
   /* ====== EVENTO ====== */
-  lugar:   "Salón de eventos",
-  direccion: "Dirección del evento aquí",
+  lugar:   "Av. Diego Portales 96",
+  direccion: "La Florida · Paradero 26, Vicuña Mackenna · Santiago",
   fecha:   "00 · 00 · 0000",
   hora:    "0:00 p.m.",
   // Fecha y hora EXACTA para la cuenta regresiva (AÑO-MES-DÍAThora:min:seg)
   fechaISO: "2026-12-31T19:00:00",
-  codigoVestimenta: "Etiqueta rigurosa · Formal",
+  codigoVestimenta: "Etiqueta rigurosa · Elegante",
   // Dirección tal cual la buscarías en Google Maps
-  mapaQuery: "Bogotá, Colombia",
+  mapaQuery: "Av. Diego Portales 96, La Florida, Santiago, Chile",
 
   /* ====== FOTOS (nombre del archivo en la carpeta, o "" para nada) ====== */
   fotoPortada: "",                     // ej. "sara.jpg" — foto de la homenajeada en la portada
@@ -982,67 +982,70 @@ const CONFIG = {
    ========================================================== */
 const TEMAS = {
   rosa: {
-    nombre:'Rosa Encantada',
+    nombre:'Real Dorado',
     vars:{
-      '--fondoA':'#ffd0e2', '--fondoB':'#f5b2ce',
-      '--principal':'#cf3f6f', '--secundario':'#dd5583', '--acento':'#fbbad2',
-      '--oro':'#bd8a28',
-      '--texto':'#3d1622', '--textoSuave':'#6a2f45',
-      '--tarjeta':'#fff7fa', '--borde':'#f0a8c3',
+      '--fondoA':'#f8efd6', '--fondoB':'#efe0bd',
+      '--principal':'#a97f22', '--secundario':'#2a3f7e', '--acento':'#f3e2b6',
+      '--oro':'#bd942f', '--rojo':'#c0283f', '--rojoOsc':'#8c1a2c',
+      '--texto':'#3a2a0e', '--textoSuave':'#5d4820',
+      '--tarjeta':'#fffdf5', '--borde':'#e6cd94',
       '--btnText':'#ffffff',
-      '--gradTitulo':'linear-gradient(135deg,#cf3f6f 0%,#b048a6 50%,#bd8a28 100%)',
-      '--gradBoton':'linear-gradient(135deg,#cf3f6f 0%,#a82f5e 100%)',
-      '--gradOro':'linear-gradient(135deg,#e2bb56 0%,#bd8a28 100%)',
-      '--sombra':'0 12px 40px rgba(150,40,85,.22)',
-      '--sombraSuave':'0 4px 16px rgba(150,40,85,.15)'
+      '--gradTitulo':'linear-gradient(135deg,#bd942f 0%,#8a6a1c 45%,#c0283f 100%)',
+      '--gradBoton':'linear-gradient(135deg,#33498f 0%,#22315f 100%)',
+      '--gradOro':'linear-gradient(135deg,#e0bc5f 0%,#bd942f 100%)',
+      '--sombra':'0 14px 44px rgba(120,90,25,.24)',
+      '--sombraSuave':'0 5px 18px rgba(120,90,25,.16)'
     },
-    petalos:['#dd5583','#cf3f6f','#f199b8','#bd8a28','#b048a6']
+    petalos:['#c0283f','#bd942f','#2a3f7e','#e6cd94','#8a6a1c']
   },
   azul: {
-    nombre:'Azul Encantado',
+    nombre:'Real Azul',
     vars:{
-      '--fondoA':'#cfe1f7', '--fondoB':'#b0cdef',
-      '--principal':'#3a6fbf', '--secundario':'#5a86c8', '--acento':'#bad3f0',
-      '--oro':'#bb9232',
-      '--texto':'#122238', '--textoSuave':'#324c6c',
-      '--tarjeta':'#f7fbff', '--borde':'#accae8',
+      '--fondoA':'#e6ecf8', '--fondoB':'#d0dcf1',
+      '--principal':'#26386f', '--secundario':'#b58f2c', '--acento':'#dde5f4',
+      '--oro':'#bd942f', '--rojo':'#c0283f', '--rojoOsc':'#8c1a2c',
+      '--texto':'#161f38', '--textoSuave':'#30436b',
+      '--tarjeta':'#f8fbff', '--borde':'#c1d1ea',
       '--btnText':'#ffffff',
-      '--gradTitulo':'linear-gradient(135deg,#3a6fbf 0%,#6a5fc0 50%,#bb9232 100%)',
-      '--gradBoton':'linear-gradient(135deg,#3a6fbf 0%,#2b5399 100%)',
-      '--gradOro':'linear-gradient(135deg,#ddc272 0%,#bb9232 100%)',
-      '--sombra':'0 12px 40px rgba(30,60,115,.22)',
-      '--sombraSuave':'0 4px 16px rgba(30,60,115,.15)'
+      '--gradTitulo':'linear-gradient(135deg,#2a3f7e 0%,#3a56a0 45%,#bd942f 100%)',
+      '--gradBoton':'linear-gradient(135deg,#33498f 0%,#1e2c5c 100%)',
+      '--gradOro':'linear-gradient(135deg,#e0bc5f 0%,#bd942f 100%)',
+      '--sombra':'0 14px 44px rgba(25,45,100,.24)',
+      '--sombraSuave':'0 5px 18px rgba(25,45,100,.16)'
     },
-    petalos:['#5a86c8','#3a6fbf','#aecbee','#bb9232','#6a5fc0']
+    petalos:['#2a3f7e','#bd942f','#c0283f','#d0dcf1','#3a56a0']
   },
   dorado: {
-    nombre:'Dorado Durazno',
+    nombre:'Real Rojo',
     vars:{
-      '--fondoA':'#ffe0ac', '--fondoB':'#f8c987',
-      '--principal':'#cf8021', '--secundario':'#e3a941', '--acento':'#fbd799',
-      '--oro':'#b5741c',
-      '--texto':'#3d280a', '--textoSuave':'#6b4c1c',
-      '--tarjeta':'#fffbf3', '--borde':'#eec888',
-      '--btnText':'#3d280a',
-      '--gradTitulo':'linear-gradient(135deg,#cf8021 0%,#d96e3a 50%,#b5741c 100%)',
-      '--gradBoton':'linear-gradient(135deg,#efc877 0%,#e0a63f 100%)',
-      '--gradOro':'linear-gradient(135deg,#ecc164 0%,#b5741c 100%)',
-      '--sombra':'0 12px 40px rgba(150,95,25,.22)',
-      '--sombraSuave':'0 4px 16px rgba(150,95,25,.15)'
+      '--fondoA':'#f8e7dd', '--fondoB':'#f0d0c2',
+      '--principal':'#a11f34', '--secundario':'#b58f2c', '--acento':'#f5ddd0',
+      '--oro':'#bd942f', '--rojo':'#c0283f', '--rojoOsc':'#8c1a2c',
+      '--texto':'#3c1416', '--textoSuave':'#67282b',
+      '--tarjeta':'#fffbf8', '--borde':'#eac6ba',
+      '--btnText':'#ffffff',
+      '--gradTitulo':'linear-gradient(135deg,#a11f34 0%,#7d1a3a 45%,#bd942f 100%)',
+      '--gradBoton':'linear-gradient(135deg,#b3253c 0%,#821b2c 100%)',
+      '--gradOro':'linear-gradient(135deg,#e0bc5f 0%,#bd942f 100%)',
+      '--sombra':'0 14px 44px rgba(130,30,45,.24)',
+      '--sombraSuave':'0 5px 18px rgba(130,30,45,.16)'
     },
-    petalos:['#e3a941','#cf8021','#f5d190','#b5741c','#d96e3a']
+    petalos:['#a11f34','#bd942f','#c0283f','#f0d0c2','#7d1a3a']
   }
 };
 
 let petalColores = TEMAS.rosa.petalos;
-let petalos = [], chispas = [];
+let petalos = [], chispas = [], globos = [], corazones = [], estrellas = [];
 
 function aplicarTema(id, guardar){
   const t = TEMAS[id]; if(!t) return;
   const r = document.documentElement;
   for(const k in t.vars) r.style.setProperty(k, t.vars[k]);
   petalColores = t.petalos;
-  petalos.forEach(p => p.col = petalColores[Math.floor(Math.random()*petalColores.length)]);
+  const rc = () => petalColores[Math.floor(Math.random()*petalColores.length)];
+  petalos.forEach(p => p.col = rc());
+  globos.forEach(o => o.col = rc());
+  estrellas.forEach(o => o.col = rc());
   document.querySelectorAll('.temas button').forEach(b =>
     b.setAttribute('aria-pressed', String(b.dataset.tema === id)));
   if(guardar){
@@ -1365,16 +1368,27 @@ function size(){
 size(); addEventListener('resize', size);
 
 const rnd = (a,b) => a + Math.random()*(b-a);
+const pick = () => petalColores[Math.floor(Math.random()*petalColores.length)];
 
-for(let i = 0; i < 26; i++){
+// pétalos de rosa que caen
+for(let i = 0; i < 24; i++){
   petalos.push({
-    x: rnd(0,W), y: rnd(-H,H), r: rnd(5,12),
-    col: petalColores[i % petalColores.length],
-    vy: rnd(.35,1.05), vx: rnd(-.35,.35),
+    x: rnd(0,W), y: rnd(-H,H), r: rnd(5,12), col: pick(),
+    vy: rnd(.35,1.0), vx: rnd(-.35,.35),
     rot: rnd(0,Math.PI*2), vr: rnd(-.012,.012),
-    sway: rnd(0,Math.PI*2), swaySp: rnd(.006,.016),
-    alpha: rnd(.35,.72)
+    sway: rnd(0,Math.PI*2), swaySp: rnd(.006,.016), alpha: rnd(.4,.78)
   });
+}
+// orbes de luz cálida (velas del castillo) que suben lento
+for(let i = 0; i < 9; i++){
+  globos.push({ x: rnd(0,W), y: rnd(H*.15,H*2.1), r: rnd(7,17), col: pick(),
+    vy: rnd(.18,.5), sway: rnd(0,Math.PI*2), swaySp: rnd(.004,.011),
+    fase: rnd(0,Math.PI*2), vfase: rnd(.01,.03), alpha: rnd(.22,.46) });
+}
+// destellos dorados que titilan
+for(let i = 0; i < 30; i++){
+  estrellas.push({ x: rnd(0,W), y: rnd(0,H), r: rnd(1.3,3.2), col: pick(),
+    fase: rnd(0,Math.PI*2), vel: rnd(.02,.05) });
 }
 
 function dibujarPetalo(p){
@@ -1389,12 +1403,33 @@ function dibujarPetalo(p){
   ctx.restore();
 }
 
+function dibujarOrbe(g){
+  const a = Math.max(0, g.alpha * (0.6 + 0.4*Math.sin(g.fase)));
+  const grad = ctx.createRadialGradient(g.x, g.y, 0, g.x, g.y, g.r);
+  grad.addColorStop(0, g.col);
+  grad.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = grad;
+  ctx.beginPath(); ctx.arc(g.x, g.y, g.r, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function dibujarDestello(s){
+  const a = .22 + .55*(0.5 + 0.5*Math.sin(s.fase));
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = s.col;
+  ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+  ctx.globalAlpha = a*.45; ctx.strokeStyle = s.col; ctx.lineWidth = .6;
+  ctx.beginPath();
+  ctx.moveTo(s.x-s.r*2.4, s.y); ctx.lineTo(s.x+s.r*2.4, s.y);
+  ctx.moveTo(s.x, s.y-s.r*2.4); ctx.lineTo(s.x, s.y+s.r*2.4);
+  ctx.stroke();
+  ctx.restore();
+}
+
 function lluviaPetalos(){
-  for(let i = 0; i < 90; i++){
+  for(let i = 0; i < 110; i++){
     chispas.push({
-      x: W/2, y: H*.45, r: rnd(4,10),
-      col: petalColores[Math.floor(Math.random()*petalColores.length)],
-      vx: rnd(-6,6), vy: rnd(-10,-2), g:.20, vida: rnd(70,140),
+      x: W/2, y: H*.42, r: rnd(4,11), col: pick(),
+      vx: rnd(-7,7), vy: rnd(-11,-2), g:.20, vida: rnd(70,150),
       rot: rnd(0,Math.PI*2), vr: rnd(-.15,.15)
     });
   }
@@ -1402,6 +1437,15 @@ function lluviaPetalos(){
 
 function loop(){
   ctx.clearRect(0,0,W,H);
+
+  estrellas.forEach(s => { s.fase += s.vel; dibujarDestello(s); });
+
+  globos.forEach(g => {
+    g.y -= g.vy; g.sway += g.swaySp; g.fase += g.vfase;
+    g.x += Math.sin(g.sway)*.35;
+    if(g.y < -g.r-30){ g.y = H + rnd(20, H*.7); g.x = rnd(0,W); g.col = pick(); }
+    dibujarOrbe(g);
+  });
 
   petalos.forEach(p => {
     p.y += p.vy; p.sway += p.swaySp;
@@ -1432,7 +1476,7 @@ function loop(){
 }
 
 if(!reduce){ loop(); setTimeout(lluviaPetalos, 900); }
-else { petalos.forEach(dibujarPetalo); }
+else { petalos.forEach(dibujarPetalo); globos.forEach(dibujarOrbe); }
 </script>
 </body>
 </html>
