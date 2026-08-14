@@ -29,7 +29,7 @@
     font-family:'Cormorant Garamond',Georgia,serif;
     font-size:19px; line-height:1.66;
     color:var(--texto);
-    background:linear-gradient(160deg,#fbeeb2 0%,#f3d980 38%,#f9e7a6 62%,#eecd72 100%);
+    background:radial-gradient(135% 120% at 50% 6%, #fcefcb 0%, #edcd7d 44%, #d9ad52 100%);
     background-attachment:fixed;
     overflow-x:hidden;
     transition:background .6s ease,color .6s ease;
@@ -901,17 +901,17 @@ const CONFIG = {
   /* ====== EVENTO ====== */
   lugar:   "Av. Diego Portales 96",
   direccion: "La Florida · Paradero 26, Vicuña Mackenna · Santiago",
-  fecha:   "00 · 00 · 0000",
-  hora:    "0:00 p.m.",
+  fecha:   "Sábado 17 de Octubre, 2026",
+  hora:    "8:00 p.m.",
   // Fecha y hora EXACTA para la cuenta regresiva (AÑO-MES-DÍAThora:min:seg)
-  fechaISO: "2026-12-31T19:00:00",
+  fechaISO: "2026-10-17T20:00:00",
   codigoVestimenta: "Etiqueta rigurosa · Elegante",
   // Dirección tal cual la buscarías en Google Maps
   mapaQuery: "Av. Diego Portales 96, La Florida, Santiago, Chile",
 
   /* ====== FOTOS (nombre del archivo en la carpeta, o "" para nada) ====== */
   fotoPortada: "",                     // ej. "sara.jpg" — foto de la homenajeada en la portada
-  imagenBailarines: "bailarines.jpg",  // sección del baile (si no existe, se ve el dibujo)
+  imagenBailarines: "",                // (obsoleto: el vals ahora usa una imagen fija)
 
   /* ====== REGALOS ====== */
   numeroCuenta:  "000-000000-00",
