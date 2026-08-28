@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mis XV Años · Sara Valentina Marín Acosta</title>
-<meta name="description" content="Invitación a los XV años de Sara Valentina Marín Acosta" />
+<title>Mis 15 Años · Sara Valentina Marín Acosta</title>
+<meta name="description" content="Invitación a los 15 años de Sara Valentina Marín Acosta" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -29,7 +29,10 @@
     font-family:'Cormorant Garamond',Georgia,serif;
     font-size:19px; line-height:1.66;
     color:var(--texto);
-    background:radial-gradient(135% 120% at 50% 6%, #fcefcb 0%, #edcd7d 44%, #d9ad52 100%);
+    background:
+      radial-gradient(55% 45% at 15% 10%, rgba(46,74,150,.24), transparent 60%),
+      radial-gradient(55% 50% at 85% 90%, rgba(168,30,50,.20), transparent 62%),
+      radial-gradient(130% 120% at 50% 6%, #faf4e6 0%, #f1e7d1 58%, #e7dabf 100%);
     background-attachment:fixed;
     overflow-x:hidden;
     transition:background .6s ease,color .6s ease;
@@ -384,6 +387,13 @@
       url('img/salon.jpg') center / cover no-repeat;
   }
   .hero > *{ position:relative; z-index:1 }
+  /* pareja de vals sobre el salón, detrás del marco */
+  .hero-vals{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; pointer-events:none; overflow:hidden }
+  .hero-vals svg{ width:min(82vh,600px); height:auto; color:#e7c66a; opacity:.30;
+    filter:drop-shadow(0 0 36px rgba(231,198,106,.5));
+    transform-origin:50% 88%; animation:valsGira 6s ease-in-out infinite alternate }
+  .hero-vals .vals-bob{ animation:valsBobFondo 4.2s ease-in-out infinite }
+  .hero-vals .vals-falda{ transform-box:fill-box; transform-origin:50% 0; animation:valsFalda 4.2s ease-in-out infinite alternate }
   /* texto claro y legible sobre el salón oscuro */
   .hero .eyebrow,
   .hero .apellidos,
@@ -420,6 +430,24 @@
   @keyframes destella{ 0%,100%{opacity:.25; transform:scale(.7)} 50%{opacity:1; transform:scale(1.1)} }
   @keyframes subeSube{ 0%{transform:translateY(12px); opacity:0} 16%{opacity:.9} 100%{transform:translateY(-72px); opacity:0} }
 
+  /* ====== PAREJA BAILANDO VALS (fondo) ====== */
+  .fondo-vals{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    display:grid; place-items:center; overflow:hidden;
+  }
+  .fondo-vals svg{
+    width:min(56vh,440px); height:auto; color:#b4892f;
+    opacity:.20;
+    filter:drop-shadow(0 12px 34px rgba(150,110,30,.30));
+    transform-origin:50% 90%;
+    animation:valsGira 6s ease-in-out infinite alternate;
+  }
+  .fondo-vals .vals-bob{ animation:valsBobFondo 4.2s ease-in-out infinite }
+  .fondo-vals .vals-falda{ transform-box:fill-box; transform-origin:50% 0; animation:valsFalda 4.2s ease-in-out infinite alternate }
+  @keyframes valsGira{ from{transform:rotate(-3.4deg)} to{transform:rotate(3.4deg)} }
+  @keyframes valsBobFondo{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+  @keyframes valsFalda{ from{transform:skewX(4.5deg) scaleX(.97)} to{transform:skewX(-4.5deg) scaleX(1.03)} }
+
   @media(max-width:520px){
     body{font-size:17px}
     .tarjeta{padding:38px 20px 34px}
@@ -436,12 +464,63 @@
 <body>
 <canvas id="fondo" aria-hidden="true"></canvas>
 
+<!-- Pareja bailando un vals (silueta animada de fondo) -->
+<div class="fondo-vals" aria-hidden="true">
+  <svg viewBox="0 0 320 300" role="img" aria-label="Una pareja baila un vals">
+    <g class="vals-bob" fill="currentColor">
+      <!-- Caballero -->
+      <path d="M112 150 L100 208 L114 208 L122 162 Z"/>
+      <path d="M122 164 L119 266 L110 266 L116 164 Z"/>
+      <path d="M139 164 L157 254 L148 258 L127 168 Z"/>
+      <ellipse cx="111" cy="268" rx="9" ry="3.5"/>
+      <ellipse cx="154" cy="256" rx="9" ry="3.5" transform="rotate(14 154 256)"/>
+      <path d="M110 92 Q112 78 128 72 Q144 78 146 92 L150 156 Q150 167 139 168 L117 168 Q106 167 108 156 Z"/>
+      <circle cx="128" cy="58" r="13"/>
+      <path d="M146 96 Q176 104 198 138 L192 146 Q172 118 142 106 Z"/>
+      <path d="M115 92 Q98 82 84 70 L79 77 Q94 92 111 102 Z"/>
+      <!-- Dama -->
+      <path d="M204 96 Q160 82 88 71 L86 78 Q158 92 202 106 Z"/>
+      <path class="vals-falda" d="M198 158 C182 186 174 228 158 264 Q154 274 166 274 L256 274 Q268 274 262 262 C248 226 240 186 226 158 Q212 150 198 158 Z"/>
+      <path d="M196 90 Q210 84 220 92 L224 162 Q210 168 200 162 Z"/>
+      <rect x="205" y="72" width="7" height="12" rx="3"/>
+      <circle cx="208" cy="61" r="12"/>
+      <circle cx="220" cy="56" r="6"/>
+      <path d="M200 100 Q182 94 158 94 L158 102 Q182 108 202 110 Z"/>
+      <circle cx="82" cy="72" r="6"/>
+    </g>
+  </svg>
+</div>
+
 <!-- (selector de color retirado) -->
 
 <div class="contenido">
 
   <!-- ===== PORTADA ===== -->
   <header class="hero">
+    <!-- Pareja bailando un vals sobre el salón -->
+    <div class="hero-vals" aria-hidden="true">
+      <svg viewBox="0 0 320 300" role="img" aria-label="Una pareja baila un vals">
+        <g class="vals-bob" fill="currentColor">
+          <path d="M112 150 L100 208 L114 208 L122 162 Z"/>
+          <path d="M122 164 L119 266 L110 266 L116 164 Z"/>
+          <path d="M139 164 L157 254 L148 258 L127 168 Z"/>
+          <ellipse cx="111" cy="268" rx="9" ry="3.5"/>
+          <ellipse cx="154" cy="256" rx="9" ry="3.5" transform="rotate(14 154 256)"/>
+          <path d="M110 92 Q112 78 128 72 Q144 78 146 92 L150 156 Q150 167 139 168 L117 168 Q106 167 108 156 Z"/>
+          <circle cx="128" cy="58" r="13"/>
+          <path d="M146 96 Q176 104 198 138 L192 146 Q172 118 142 106 Z"/>
+          <path d="M115 92 Q98 82 84 70 L79 77 Q94 92 111 102 Z"/>
+          <path d="M204 96 Q160 82 88 71 L86 78 Q158 92 202 106 Z"/>
+          <path class="vals-falda" d="M198 158 C182 186 174 228 158 264 Q154 274 166 274 L256 274 Q268 274 262 262 C248 226 240 186 226 158 Q212 150 198 158 Z"/>
+          <path d="M196 90 Q210 84 220 92 L224 162 Q210 168 200 162 Z"/>
+          <rect x="205" y="72" width="7" height="12" rx="3"/>
+          <circle cx="208" cy="61" r="12"/>
+          <circle cx="220" cy="56" r="6"/>
+          <path d="M200 100 Q182 94 158 94 L158 102 Q182 108 202 110 Z"/>
+          <circle cx="82" cy="72" r="6"/>
+        </g>
+      </svg>
+    </div>
     <div class="marco">
       <!-- Rosa encantada real bajo la cúpula de cristal -->
       <img class="rosa-real" src="img/rosa-cupula.jpg" alt="La rosa encantada bajo la cúpula de cristal" loading="eager" />
@@ -636,7 +715,7 @@
       <!-- Foto opcional de los bailarines (aparece si existe el archivo) -->
       <figure class="fotoBailarines" id="fotoBailarines" hidden>
         <div class="marcoFoto">
-          <img id="imgBailarines" alt="Los bailarines de los XV de Sara Valentina" />
+          <img id="imgBailarines" alt="Los bailarines de los 15 de Sara Valentina" />
         </div>
       </figure>
 
@@ -870,7 +949,7 @@
 
   <footer>
     <div class="fnombre script">Sara Valentina</div>
-    <p>Mis XV Años · Gracias por acompañarme</p>
+    <p>Mis 15 Años · Gracias por acompañarme</p>
   </footer>
 
   <!-- Botones flotantes -->
@@ -924,7 +1003,7 @@ const CONFIG = {
 
   /* ====== CONTACTO ====== */
   whatsapp:    "57XXXXXXXXXX",         // número con código de país, SIN el +
-  whatsappMsg: "¡Hola! Quiero confirmar mi asistencia a los XV de Sara Valentina 🎉",
+  whatsappMsg: "¡Hola! Quiero confirmar mi asistencia a los 15 de Sara Valentina 🎉",
   instagram:   "",                     // usuario sin @  (vacío = no se muestra)
   facebook:    "",                     // usuario o URL
   tiktok:      "",                     // usuario sin @
@@ -1004,10 +1083,6 @@ function aplicarTema(id, guardar){
   const r = document.documentElement;
   for(const k in t.vars) r.style.setProperty(k, t.vars[k]);
   petalColores = t.petalos;
-  const rc = () => petalColores[Math.floor(Math.random()*petalColores.length)];
-  petalos.forEach(p => p.col = rc());
-  globos.forEach(o => o.col = rc());
-  estrellas.forEach(o => o.col = rc());
   document.querySelectorAll('.temas button').forEach(b =>
     b.setAttribute('aria-pressed', String(b.dataset.tema === id)));
   if(guardar){
@@ -1188,7 +1263,7 @@ form.addEventListener('submit', async e => {
     if(fileI.files && fileI.files[0]) foto_url = (await subirArchivo(fileI.files[0], 'felicitaciones')).url;
     const { error } = await sb.from('felicitaciones').insert({ nombre, mensaje, foto_url });
     if(error) throw error;
-    avisoEmail('Nueva felicitación · XV Sara Valentina', { nombre, mensaje });
+    avisoEmail('Nueva felicitación · 15 Sara Valentina', { nombre, mensaje });
     form.reset();
     okMsg.style.display = 'block'; lluviaPetalos();
     setTimeout(()=> okMsg.style.display='none', 6000);
@@ -1209,7 +1284,7 @@ $('formRSVP').addEventListener('submit', async e => {
   try{
     const { error } = await sb.from('rsvp').insert({ nombre, asistira, acompanantes, comentario });
     if(error) throw error;
-    avisoEmail('Nueva confirmación · XV Sara Valentina', { nombre, asistira: asistira?'Sí':'No', acompanantes, comentario });
+    avisoEmail('Nueva confirmación · 15 Sara Valentina', { nombre, asistira: asistira?'Sí':'No', acompanantes, comentario });
     $('formRSVP').reset();
     $('okRSVP').style.display = 'block'; lluviaPetalos();
     setTimeout(()=> $('okRSVP').style.display='none', 7000);
@@ -1333,10 +1408,10 @@ const rnd = (a,b) => a + Math.random()*(b-a);
 const pick = () => petalColores[Math.floor(Math.random()*petalColores.length)];
 
 // destellos AZUL REY que titilan (sin pétalos ni orbes)
-const AZULREY = ['#1e3cae','#2a4ed0','#12266e','#3a5ce0','#ffffff'];
-for(let i = 0; i < 48; i++){
+const DEST = [[38,56,111],[58,92,224],[161,31,52],[192,40,63],[255,255,255]]; // azul rey, rojo, blanco
+for(let i = 0; i < 52; i++){
   estrellas.push({ x: rnd(0,W), y: rnd(0,H), r: rnd(1.8,4.4),
-    col: AZULREY[Math.random() < 0.14 ? 4 : Math.floor(Math.random()*4)],
+    col: DEST[Math.random() < 0.10 ? 4 : Math.floor(Math.random()*4)],
     fase: rnd(0,Math.PI*2), vel: rnd(.02,.06) });
 }
 
@@ -1364,14 +1439,15 @@ function dibujarOrbe(g){
 
 function dibujarDestello(s){
   const a = .4 + .6*(0.5 + 0.5*Math.sin(s.fase));
+  const r0 = s.col[0], g0 = s.col[1], b0 = s.col[2];
   ctx.save();
   const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r*4.5);
-  g.addColorStop(0, s.col); g.addColorStop(1, 'rgba(20,40,150,0)');
-  ctx.globalAlpha = a*.55; ctx.fillStyle = g;
+  g.addColorStop(0, `rgba(${r0},${g0},${b0},1)`); g.addColorStop(1, `rgba(${r0},${g0},${b0},0)`);
+  ctx.globalAlpha = a*.5; ctx.fillStyle = g;
   ctx.beginPath(); ctx.arc(s.x, s.y, s.r*4.5, 0, Math.PI*2); ctx.fill();
-  ctx.globalAlpha = a; ctx.fillStyle = s.col;
+  ctx.globalAlpha = a; ctx.fillStyle = `rgb(${r0},${g0},${b0})`;
   ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
-  ctx.globalAlpha = a*.7; ctx.strokeStyle = s.col; ctx.lineWidth = 1.1;
+  ctx.globalAlpha = a*.65; ctx.strokeStyle = `rgb(${r0},${g0},${b0})`; ctx.lineWidth = 1.1;
   ctx.beginPath();
   ctx.moveTo(s.x-s.r*3.2, s.y); ctx.lineTo(s.x+s.r*3.2, s.y);
   ctx.moveTo(s.x, s.y-s.r*3.2); ctx.lineTo(s.x, s.y+s.r*3.2);
