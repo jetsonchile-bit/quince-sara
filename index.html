@@ -328,6 +328,8 @@
   .dresscode{ text-align:center; margin-top:20px }
   .dresscode .dc{ display:inline-block; padding:9px 20px; border:1px solid var(--oro); border-radius:40px;
     font-family:'Montserrat',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--textoSuave) }
+  .dresscode .dc-nota{ margin:12px auto 0; max-width:430px; font-size:1rem; font-style:italic;
+    line-height:1.5; color:var(--textoSuave) }
 
   /* ====== RSVP ====== */
   .radiofila{ display:flex; gap:12px; margin-top:8px }
@@ -749,7 +751,10 @@
           <div class="divisorV"></div>
           <div class="fh"><div class="k">Hora</div><div class="v" id="detHora">0:00 p.m.</div></div>
         </div>
-        <div class="dresscode"><span class="dc" id="detDress">Código de vestimenta</span></div>
+        <div class="dresscode">
+          <span class="dc" id="detDress">Código de vestimenta</span>
+          <p class="dc-nota" id="detDressNota" style="display:none"></p>
+        </div>
       </div>
     </div>
   </section>
@@ -903,7 +908,9 @@
         <div id="rgBanco" style="color:var(--textoSuave); font-style:italic; margin-bottom:2px">Banco</div>
         <div class="cuenta" id="numCuenta">000-000000-00</div>
         <div class="titular">A nombre de <span id="titularCuenta">Nombre del titular</span></div>
-        <button class="btn linea" type="button" id="btnCopiar" style="margin-top:16px">Copiar número</button>
+        <div class="titular" id="rgRutWrap" style="display:none">RUT <span id="rgRut"></span></div>
+        <div class="titular" id="rgCorreoWrap" style="display:none"><span id="rgCorreo"></span></div>
+        <button class="btn linea" type="button" id="btnCopiar" style="margin-top:16px">Copiar datos</button>
       </div>
 
       <div class="regalo" id="rgQR" style="display:none">
@@ -981,10 +988,11 @@ const CONFIG = {
   lugar:   "Av. Diego Portales 96",
   direccion: "La Florida · Paradero 26, Vicuña Mackenna · Santiago",
   fecha:   "Sábado 17 de Octubre, 2026",
-  hora:    "8:00 p.m.",
+  hora:    "7:30 p.m.",
   // Fecha y hora EXACTA para la cuenta regresiva (AÑO-MES-DÍAThora:min:seg)
-  fechaISO: "2026-10-17T20:00:00",
+  fechaISO: "2026-10-17T19:30:00",
   codigoVestimenta: "Etiqueta rigurosa · Elegante",
+  coloresReservados: "dorado, amarillo, rojo y vino, en todas sus tonalidades",
   // Dirección tal cual la buscarías en Google Maps
   mapaQuery: "Av. Diego Portales 96, La Florida, Santiago, Chile",
 
@@ -993,16 +1001,18 @@ const CONFIG = {
   imagenBailarines: "",                // (obsoleto: el vals ahora usa una imagen fija)
 
   /* ====== REGALOS ====== */
-  numeroCuenta:  "000-000000-00",
-  bancoNombre:   "Banco — Cuenta de ahorros",
-  titularCuenta: "Nombre del titular",
+  numeroCuenta:  "56552904",
+  bancoNombre:   "Banco Bci · Cuenta Prima",
+  titularCuenta: "Eirys Lucelys Acosta Pérez",
+  rutTitular:    "26.997.982-8",
+  correoTitular: "eastrodoctor@gmail.com",
   qrPago:        "",                   // ej. "qr.png" — imagen del QR en la carpeta
   binanceId:     "",                   // Binance Pay ID o dirección USDT
   binanceRed:    "USDT · red BEP20 / TRC20",
   tiendaRegalosUrl: "",                // enlace a lista de regalos o tienda
 
   /* ====== CONTACTO ====== */
-  whatsapp:    "57XXXXXXXXXX",         // número con código de país, SIN el +
+  whatsapp:    "56956198086",          // número con código de país, SIN el +
   whatsappMsg: "¡Hola! Quiero confirmar mi asistencia a los 15 de Sara Valentina 🎉",
   instagram:   "",                     // usuario sin @  (vacío = no se muestra)
   facebook:    "",                     // usuario o URL
@@ -1110,6 +1120,12 @@ $('detDress').textContent      = CONFIG.codigoVestimenta;
 $('numCuenta').textContent     = CONFIG.numeroCuenta;
 $('titularCuenta').textContent = CONFIG.titularCuenta;
 $('rgBanco').textContent       = CONFIG.bancoNombre;
+if(CONFIG.rutTitular){ $('rgRut').textContent = CONFIG.rutTitular; $('rgRutWrap').style.display=''; }
+if(CONFIG.correoTitular){ $('rgCorreo').textContent = CONFIG.correoTitular; $('rgCorreoWrap').style.display=''; }
+if(CONFIG.coloresReservados){
+  $('detDressNota').textContent = '🎨 Colores reservados para la quinceañera: ' + CONFIG.coloresReservados + '.';
+  $('detDressNota').style.display = '';
+}
 
 const q = encodeURIComponent(CONFIG.mapaQuery);
 $('mapaFrame').src = `https://www.google.com/maps?q=${q}&output=embed`;
@@ -1353,7 +1369,10 @@ function copiar(btn, texto){
     setTimeout(()=> btn.textContent=t, 2000);
   }).catch(()=> alert(texto));
 }
-$('btnCopiar').addEventListener('click', () => copiar($('btnCopiar'), CONFIG.numeroCuenta));
+const datosTransfer = [CONFIG.bancoNombre, 'N° cuenta: ' + CONFIG.numeroCuenta, CONFIG.titularCuenta,
+  CONFIG.rutTitular ? ('RUT: ' + CONFIG.rutTitular) : '', CONFIG.correoTitular]
+  .filter(Boolean).join('\n');
+$('btnCopiar').addEventListener('click', () => copiar($('btnCopiar'), datosTransfer));
 if(CONFIG.binanceId) $('btnCopiarBin').addEventListener('click', () => copiar($('btnCopiarBin'), CONFIG.binanceId));
 
 /* ---------- CUENTA REGRESIVA ---------- */
