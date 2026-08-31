@@ -783,9 +783,6 @@
           <label class="radio-op"><input type="radio" name="asiste" value="no"><span>✗ No podré</span></label>
         </div>
 
-        <label for="rAcomp">Número de acompañantes</label>
-        <input id="rAcomp" type="number" min="0" max="20" value="0" inputmode="numeric" />
-
         <label for="rComent">Mensaje o comentarios (opcional)</label>
         <textarea id="rComent" placeholder="Alergias, una canción que quieras escuchar, etc."></textarea>
 
@@ -1294,13 +1291,12 @@ $('formRSVP').addEventListener('submit', async e => {
   const nombre = $('rNombre').value.trim();
   if(!nombre){ $('formRSVP').reportValidity(); return; }
   const asistira = (document.querySelector('input[name="asiste"]:checked')||{}).value === 'si';
-  const acompanantes = Math.max(0, Math.min(20, parseInt($('rAcomp').value||'0',10)||0));
   const comentario = $('rComent').value.trim() || null;
   const btn = $('btnRSVP'); btn.disabled = true; btn.textContent = 'Enviando…';
   try{
-    const { error } = await sb.from('rsvp').insert({ nombre, asistira, acompanantes, comentario });
+    const { error } = await sb.from('rsvp').insert({ nombre, asistira, acompanantes: 0, comentario });
     if(error) throw error;
-    avisoEmail('Nueva confirmación · 15 Sara Valentina', { nombre, asistira: asistira?'Sí':'No', acompanantes, comentario });
+    avisoEmail('Nueva confirmación · 15 Sara Valentina', { nombre, asistira: asistira?'Sí':'No', comentario });
     $('formRSVP').reset();
     $('okRSVP').style.display = 'block'; lluviaPetalos();
     setTimeout(()=> $('okRSVP').style.display='none', 7000);

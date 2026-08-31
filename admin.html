@@ -115,12 +115,13 @@
 
   <!-- Confirmaciones -->
   <section class="vista on" id="v-rsvp">
-    <div style="display:flex; justify-content:flex-end; margin-bottom:12px">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap">
+      <p style="font-size:12px; color:var(--suave); margin:0">Asigna los <b>pases</b> (acompañantes) de cada invitado y presiona <b>Guardar</b>.</p>
       <button class="btn mini" id="btnCSV">⬇ Descargar lista (CSV)</button>
     </div>
     <div class="tabla-scroll">
       <table id="tablaRsvp">
-        <thead><tr><th>Nombre</th><th>Asiste</th><th>Acomp.</th><th>Comentario</th><th>Fecha</th><th></th></tr></thead>
+        <thead><tr><th>Nombre</th><th>Asiste</th><th>Pases</th><th>Comentario</th><th>Fecha</th><th></th></tr></thead>
         <tbody id="rsvpBody"><tr><td colspan="6" class="cargando">Cargando…</td></tr></tbody>
       </table>
     </div>
@@ -216,7 +217,10 @@ async function cargarRsvp(){
     body.innerHTML = RSVP.map(r => `<tr>
       <td>${escapeHTML(r.nombre)}</td>
       <td><span class="pill ${r.asistira?'si':'no'}">${r.asistira?'Sí':'No'}</span></td>
-      <td>${r.acompanantes}</td>
+      <td style="white-space:nowrap">
+        <input type="number" min="0" max="20" value="${r.acompanantes||0}" data-pases="${r.id}" style="width:52px; padding:6px 8px; text-align:center">
+        <button class="btn mini" data-set-pases="${r.id}" style="padding:6px 10px">Guardar</button>
+      </td>
       <td>${escapeHTML(r.comentario)||'—'}</td>
       <td>${fmtFecha(r.created_at)}</td>
       <td><button class="btn rojo mini" data-del-rsvp="${r.id}">Borrar</button></td>
@@ -273,11 +277,26 @@ document.addEventListener('click', async e => {
   cargarTodo();
 });
 
+/* ---------- ASIGNAR PASES (solo admin) ---------- */
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-set-pases]');
+  if(!b) return;
+  const rid = b.dataset.setPases;
+  const input = document.querySelector(`input[data-pases="${rid}"]`);
+  if(!input) return;
+  const pases = Math.max(0, Math.min(20, parseInt(input.value||'0',10)||0));
+  const txt = b.textContent; b.disabled = true; b.textContent = '…';
+  const { error } = await sb.rpc('admin_set_pases', { pass:PASS, rid, pases });
+  b.disabled = false; b.textContent = txt;
+  if(error){ alert('No se pudo guardar: ' + error.message); return; }
+  cargarRsvp();
+});
+
 /* ---------- CSV ---------- */
 $('btnCSV').addEventListener('click', () => {
   if(!RSVP.length){ alert('No hay confirmaciones.'); return; }
   const esc = v => '"' + String(v==null?'':v).replace(/"/g,'""') + '"';
-  const filas = [['Nombre','Asiste','Acompañantes','Comentario','Fecha']];
+  const filas = [['Nombre','Asiste','Pases','Comentario','Fecha']];
   RSVP.forEach(r => filas.push([r.nombre, r.asistira?'Sí':'No', r.acompanantes, r.comentario||'', fmtFecha(r.created_at)]));
   const csv = '﻿' + filas.map(f => f.map(esc).join(',')).join('\r\n');
   const a = document.createElement('a');
