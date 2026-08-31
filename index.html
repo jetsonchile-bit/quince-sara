@@ -338,6 +338,11 @@
   .radio-op span{ display:block; text-align:center; padding:12px; border:1px solid var(--borde); border-radius:3px;
     font-family:'Montserrat',sans-serif; font-size:12px; letter-spacing:1px; color:var(--textoSuave); transition:all .2s }
   .radio-op input:checked + span{ border-color:var(--principal); background:var(--acento); color:var(--texto); font-weight:600 }
+  .pases-box{ text-align:center; margin:24px auto 10px; padding:20px 18px; max-width:280px;
+    border:1px solid var(--oro); border-radius:14px; background:linear-gradient(160deg,#fff,var(--acento)); box-shadow:var(--sombraSuave) }
+  .pases-num{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:3.6rem; line-height:1; color:var(--principal) }
+  .pases-lbl{ font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--textoSuave); margin-top:6px }
+  #invOk a{ color:var(--principal) }
 
   /* ====== GALERÍA + SUBIDA ====== */
   .galeria-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:8px; margin-top:22px }
@@ -771,24 +776,34 @@
         <path d="M90 8 Q84 2 78 8 Q84 14 90 8 Z" fill="currentColor" opacity=".65"/>
         <circle cx="75" cy="8" r="3" fill="currentColor"/>
       </svg>
-      <p class="intro">Ayúdame a organizar este día mágico confirmando si podrás acompañarme.</p>
+      <p class="intro" id="rsvpCargando">Cargando tu invitación…</p>
 
-      <form id="formRSVP" novalidate>
-        <label for="rNombre">Nombre completo</label>
-        <input id="rNombre" type="text" placeholder="Tu nombre y apellido" required autocomplete="name" />
+      <div id="rsvpSinEnlace" hidden>
+        <p class="intro">Esta invitación es <b>personal</b> 💌. Para confirmar tu asistencia y ver tus pases, abre el <b>enlace</b> que te enviamos por WhatsApp.</p>
+      </div>
 
-        <label>¿Podrás asistir?</label>
-        <div class="radiofila">
-          <label class="radio-op"><input type="radio" name="asiste" value="si" checked><span>✓ Sí, asistiré</span></label>
-          <label class="radio-op"><input type="radio" name="asiste" value="no"><span>✗ No podré</span></label>
+      <div id="rsvpConEnlace" hidden>
+        <p class="intro" id="invSaludo"></p>
+        <div class="pases-box">
+          <div class="pases-num" id="invPasesNum">0</div>
+          <div class="pases-lbl" id="invPasesLbl">pases reservados para ti</div>
         </div>
 
-        <label for="rComent">Mensaje o comentarios (opcional)</label>
-        <textarea id="rComent" placeholder="Alergias, una canción que quieras escuchar, etc."></textarea>
+        <div id="invForm">
+          <label>¿Podrás asistir?</label>
+          <div class="radiofila">
+            <label class="radio-op"><input type="radio" name="invAsiste" value="si" checked><span>✓ Sí, asistiré</span></label>
+            <label class="radio-op"><input type="radio" name="invAsiste" value="no"><span>✗ No podré</span></label>
+          </div>
 
-        <button type="submit" class="btn full" id="btnRSVP">Enviar confirmación</button>
-      </form>
-      <div class="ok" id="okRSVP">¡Gracias! Tu confirmación quedó registrada con cariño. 💛</div>
+          <label for="invComent">Mensaje (opcional)</label>
+          <textarea id="invComent" placeholder="Una canción que quieras escuchar, algún detalle…"></textarea>
+
+          <button type="button" class="btn full" id="btnInvConfirmar">Confirmar asistencia</button>
+        </div>
+
+        <div class="ok" id="invOk"></div>
+      </div>
     </div>
   </section>
 
@@ -1285,24 +1300,49 @@ form.addEventListener('submit', async e => {
   btn.disabled = false; btn.textContent = 'Enviar felicitación';
 });
 
-/* ---------- RSVP ---------- */
-$('formRSVP').addEventListener('submit', async e => {
-  e.preventDefault();
-  const nombre = $('rNombre').value.trim();
-  if(!nombre){ $('formRSVP').reportValidity(); return; }
-  const asistira = (document.querySelector('input[name="asiste"]:checked')||{}).value === 'si';
-  const comentario = $('rComent').value.trim() || null;
-  const btn = $('btnRSVP'); btn.disabled = true; btn.textContent = 'Enviando…';
+/* ---------- RSVP POR ENLACE PERSONAL ---------- */
+const INV_TOKEN = new URLSearchParams(location.search).get('inv');
+function mostrarConfInv(inv, asiste){
+  const p = inv.pases||0;
+  $('invForm').style.display = 'none';
+  const ok = $('invOk'); ok.style.display = 'block';
+  ok.innerHTML = asiste
+    ? `¡Gracias, ${escapeHTML(inv.nombre)}! Tu asistencia quedó confirmada con <b>${p}</b> pase${p===1?'':'s'} 🎟️<br><a href="#" id="invEditar">Cambiar mi respuesta</a>`
+    : `Registramos que no podrás asistir, ${escapeHTML(inv.nombre)}. ¡Te vamos a extrañar! 💛<br><a href="#" id="invEditar">Cambiar mi respuesta</a>`;
+  const ed = $('invEditar');
+  if(ed) ed.addEventListener('click', e => { e.preventDefault(); ok.style.display='none'; $('invForm').style.display='block'; });
+}
+async function cargarInvitado(){
+  const carg = $('rsvpCargando');
+  if(!INV_TOKEN){ carg.hidden = true; $('rsvpSinEnlace').hidden = false; return; }
   try{
-    const { error } = await sb.from('rsvp').insert({ nombre, asistira, acompanantes: 0, comentario });
+    const { data, error } = await sb.rpc('invitado_por_token', { p_token: INV_TOKEN });
     if(error) throw error;
-    avisoEmail('Nueva confirmación · 15 Sara Valentina', { nombre, asistira: asistira?'Sí':'No', comentario });
-    $('formRSVP').reset();
-    $('okRSVP').style.display = 'block'; lluviaPetalos();
-    setTimeout(()=> $('okRSVP').style.display='none', 7000);
-  }catch(err){ alert('No se pudo enviar: ' + (err.message||err)); }
-  btn.disabled = false; btn.textContent = 'Enviar confirmación';
+    if(!data || !data.length){ carg.hidden = true; $('rsvpSinEnlace').hidden = false; return; }
+    const inv = data[0];
+    carg.hidden = true; $('rsvpConEnlace').hidden = false;
+    const p = inv.pases||0;
+    $('invSaludo').innerHTML = `Hola <b>${escapeHTML(inv.nombre)}</b>, ¡nos encantaría contar contigo! 💛`;
+    $('invPasesNum').textContent = p;
+    $('invPasesLbl').textContent = p===1 ? 'pase reservado para ti' : 'pases reservados para ti';
+    if(inv.asistira === true) mostrarConfInv(inv, true);
+    else if(inv.asistira === false) mostrarConfInv(inv, false);
+  }catch(err){ carg.hidden = true; $('rsvpSinEnlace').hidden = false; }
+}
+$('btnInvConfirmar').addEventListener('click', async () => {
+  const asiste = (document.querySelector('input[name="invAsiste"]:checked')||{}).value === 'si';
+  const comentario = $('invComent').value.trim() || null;
+  const btn = $('btnInvConfirmar'); btn.disabled = true; btn.textContent = 'Enviando…';
+  try{
+    const { data, error } = await sb.rpc('confirmar_invitado', { p_token: INV_TOKEN, p_asiste: asiste, p_comentario: comentario });
+    if(error) throw error;
+    const inv = (data && data[0]) || { nombre:'', pases:0 };
+    if(asiste) lluviaPetalos();
+    mostrarConfInv(inv, asiste);
+  }catch(err){ alert('No se pudo confirmar: ' + (err.message||err)); }
+  btn.disabled = false; btn.textContent = 'Confirmar asistencia';
 });
+cargarInvitado();
 
 /* ---------- GALERÍA ---------- */
 const galFile = $('galeriaFile');

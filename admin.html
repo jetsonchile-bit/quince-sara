@@ -58,6 +58,13 @@
   .tabla-scroll{ overflow-x:auto; border:1px solid var(--borde); border-radius:10px }
   .pill{ display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600 }
   .pill.si{ background:#e7ffe9; color:#1c7a36 } .pill.no{ background:#ffecec; color:#c0392b }
+  .pill.pend{ background:#fff4e0; color:#b9791a }
+  .crear-inv{ background:#fbeef2; border:1px solid var(--borde); border-radius:10px; padding:16px; margin-bottom:16px }
+  .crear-inv .ci-tit{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--rosaOsc); font-weight:700; margin-bottom:10px }
+  .crear-inv .ci-fila{ display:flex; gap:8px; flex-wrap:wrap }
+  .crear-inv .ci-fila input[type=text]{ flex:1; min-width:180px; width:auto }
+  .crear-inv .ci-fila input[type=number]{ width:80px; text-align:center }
+  .crear-inv .ci-hint{ font-size:11px; color:var(--suave); margin-top:8px }
 
   .felic-item{ background:var(--tarjeta); border:1px solid var(--borde); border-left:4px solid var(--rosa);
     border-radius:8px; padding:14px 16px; margin-bottom:10px }
@@ -115,13 +122,21 @@
 
   <!-- Confirmaciones -->
   <section class="vista on" id="v-rsvp">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap">
-      <p style="font-size:12px; color:var(--suave); margin:0">Asigna los <b>pases</b> (acompañantes) de cada invitado y presiona <b>Guardar</b>.</p>
+    <div class="crear-inv">
+      <div class="ci-tit">➕ Crear invitado</div>
+      <div class="ci-fila">
+        <input type="text" id="nvNombre" placeholder="Nombre del invitado" autocomplete="off">
+        <input type="number" id="nvPases" min="0" max="20" value="0" aria-label="Pases">
+        <button class="btn" id="btnCrearInv">Crear y generar enlace</button>
+      </div>
+      <p class="ci-hint">Se genera un <b>enlace personal</b> con sus pases. Cópialo y envíaselo por WhatsApp. Al confirmar, sus pases se activan y cuentan en el total.</p>
+    </div>
+    <div style="display:flex; justify-content:flex-end; margin-bottom:12px">
       <button class="btn mini" id="btnCSV">⬇ Descargar lista (CSV)</button>
     </div>
     <div class="tabla-scroll">
       <table id="tablaRsvp">
-        <thead><tr><th>Nombre</th><th>Asiste</th><th>Pases</th><th>Comentario</th><th>Fecha</th><th></th></tr></thead>
+        <thead><tr><th>Nombre</th><th>Estado</th><th>Pases</th><th>Enlace</th><th>Comentario</th><th></th></tr></thead>
         <tbody id="rsvpBody"><tr><td colspan="6" class="cargando">Cargando…</td></tr></tbody>
       </table>
     </div>
@@ -212,27 +227,38 @@ async function cargarRsvp(){
   const body = $('rsvpBody');
   if(error){ body.innerHTML = '<tr><td colspan="6" class="vacio">Error al cargar.</td></tr>'; return; }
   RSVP = data || [];
-  if(!RSVP.length){ body.innerHTML = '<tr><td colspan="6" class="vacio">Aún no hay confirmaciones.</td></tr>'; }
+  if(!RSVP.length){ body.innerHTML = '<tr><td colspan="6" class="vacio">Aún no hay invitados. Crea el primero arriba.</td></tr>'; }
   else {
-    body.innerHTML = RSVP.map(r => `<tr>
-      <td>${escapeHTML(r.nombre)}</td>
-      <td><span class="pill ${r.asistira?'si':'no'}">${r.asistira?'Sí':'No'}</span></td>
-      <td style="white-space:nowrap">
-        <input type="number" min="0" max="20" value="${r.acompanantes||0}" data-pases="${r.id}" style="width:52px; padding:6px 8px; text-align:center">
-        <button class="btn mini" data-set-pases="${r.id}" style="padding:6px 10px">Guardar</button>
-      </td>
-      <td>${escapeHTML(r.comentario)||'—'}</td>
-      <td>${fmtFecha(r.created_at)}</td>
-      <td><button class="btn rojo mini" data-del-rsvp="${r.id}">Borrar</button></td>
-    </tr>`).join('');
+    body.innerHTML = RSVP.map(r => {
+      const estado = r.asistira===true ? '<span class="pill si">Asiste</span>'
+                   : r.asistira===false ? '<span class="pill no">No asiste</span>'
+                   : '<span class="pill pend">Pendiente</span>';
+      const enlace = r.token
+        ? `<button class="btn linea mini" data-copiar="${r.token}">Copiar enlace</button>`
+        : '<span style="color:var(--suave)">—</span>';
+      return `<tr>
+        <td>${escapeHTML(r.nombre)}</td>
+        <td>${estado}</td>
+        <td style="white-space:nowrap">
+          <input type="number" min="0" max="20" value="${r.acompanantes||0}" data-pases="${r.id}" style="width:52px; padding:6px 8px; text-align:center">
+          <button class="btn mini" data-set-pases="${r.id}" style="padding:6px 10px">Guardar</button>
+        </td>
+        <td>${enlace}</td>
+        <td>${escapeHTML(r.comentario)||'—'}</td>
+        <td><button class="btn rojo mini" data-del-rsvp="${r.id}">Borrar</button></td>
+      </tr>`;
+    }).join('');
   }
   // estadísticas
-  const asisten = RSVP.filter(r => r.asistira);
+  const asisten = RSVP.filter(r => r.asistira === true);
+  const noAsisten = RSVP.filter(r => r.asistira === false);
+  const pendientes = RSVP.filter(r => r.asistira == null);
   const totalPersonas = asisten.reduce((a,r) => a + 1 + (r.acompanantes||0), 0);
   $('stats').innerHTML = `
-    <div class="stat"><div class="n">${RSVP.length}</div><div class="l">Respuestas</div></div>
-    <div class="stat"><div class="n">${asisten.length}</div><div class="l">Asistirán</div></div>
-    <div class="stat"><div class="n">${RSVP.length - asisten.length}</div><div class="l">No podrán</div></div>
+    <div class="stat"><div class="n">${RSVP.length}</div><div class="l">Invitados</div></div>
+    <div class="stat"><div class="n">${asisten.length}</div><div class="l">Confirmados</div></div>
+    <div class="stat"><div class="n">${pendientes.length}</div><div class="l">Pendientes</div></div>
+    <div class="stat"><div class="n">${noAsisten.length}</div><div class="l">No asisten</div></div>
     <div class="stat"><div class="n">${totalPersonas}</div><div class="l">Total personas</div></div>`;
 }
 
@@ -292,12 +318,42 @@ document.addEventListener('click', async e => {
   cargarRsvp();
 });
 
+/* ---------- CREAR INVITADO + COPIAR ENLACE ---------- */
+function linkBase(){ return location.origin + location.pathname.replace(/admin\.html$/, ''); }
+$('btnCrearInv').addEventListener('click', async () => {
+  const nombre = $('nvNombre').value.trim();
+  const pases = Math.max(0, Math.min(20, parseInt($('nvPases').value||'0',10)||0));
+  if(!nombre){ alert('Escribe el nombre del invitado.'); return; }
+  const btn = $('btnCrearInv'); btn.disabled = true; btn.textContent = 'Creando…';
+  const { data, error } = await sb.rpc('admin_crear_invitado', { pass:PASS, p_nombre:nombre, p_pases:pases });
+  btn.disabled = false; btn.textContent = 'Crear y generar enlace';
+  if(error){ alert('No se pudo crear: ' + error.message); return; }
+  $('nvNombre').value=''; $('nvPases').value='0';
+  const url = linkBase() + '?inv=' + data;
+  try{ await navigator.clipboard.writeText(url); }catch(e){}
+  await cargarRsvp();
+  alert('✔ Invitado creado. Su enlace ya quedó copiado:\n\n' + url);
+});
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-copiar]');
+  if(!b) return;
+  const url = linkBase() + '?inv=' + b.dataset.copiar;
+  navigator.clipboard.writeText(url).then(() => {
+    const t = b.textContent; b.textContent = '¡Copiado!'; setTimeout(() => b.textContent = t, 1500);
+  }).catch(() => prompt('Copia el enlace:', url));
+});
+
 /* ---------- CSV ---------- */
 $('btnCSV').addEventListener('click', () => {
   if(!RSVP.length){ alert('No hay confirmaciones.'); return; }
   const esc = v => '"' + String(v==null?'':v).replace(/"/g,'""') + '"';
-  const filas = [['Nombre','Asiste','Pases','Comentario','Fecha']];
-  RSVP.forEach(r => filas.push([r.nombre, r.asistira?'Sí':'No', r.acompanantes, r.comentario||'', fmtFecha(r.created_at)]));
+  const base = linkBase();
+  const filas = [['Nombre','Estado','Pases','Enlace','Comentario','Fecha']];
+  RSVP.forEach(r => {
+    const est = r.asistira===true?'Asiste':(r.asistira===false?'No asiste':'Pendiente');
+    filas.push([r.nombre, est, r.acompanantes, r.token?(base+'?inv='+r.token):'', r.comentario||'', fmtFecha(r.created_at)]);
+  });
   const csv = '﻿' + filas.map(f => f.map(esc).join(',')).join('\r\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
