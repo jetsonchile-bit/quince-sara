@@ -938,6 +938,13 @@
         <button class="btn linea" type="button" id="btnCopiar" style="margin-top:16px">Copiar datos</button>
       </div>
 
+      <div class="regalo" id="rgZelle" style="display:none">
+        <div class="tit">Zelle</div>
+        <div class="cripto" id="zelleCorreo"></div>
+        <div class="titular" id="zelleTitularWrap" style="display:none">A nombre de <span id="zelleTitular"></span></div>
+        <button class="btn linea" type="button" id="btnCopiarZelle" style="margin-top:14px">Copiar correo</button>
+      </div>
+
       <div class="regalo" id="rgQR" style="display:none">
         <div class="tit">Código QR de pago</div>
         <img class="qr-img" id="qrImg" alt="Código QR para pagar" />
@@ -1032,6 +1039,8 @@ const CONFIG = {
   titularCuenta: "Eirys Lucelys Acosta Pérez",
   rutTitular:    "26.997.982-8",
   correoTitular: "eastrodoctor@gmail.com",
+  zelleCorreo:   "Raulacosta85@gmail.com",   // Zelle (correo)
+  zelleTitular:  "",                          // opcional: nombre del titular de Zelle
   qrPago:        "",                   // ej. "qr.png" — imagen del QR en la carpeta
   binanceId:     "",                   // Binance Pay ID o dirección USDT
   binanceRed:    "USDT · red BEP20 / TRC20",
@@ -1159,6 +1168,11 @@ $('mapaFrame').src = `https://www.google.com/maps?q=${q}&output=embed`;
 $('linkMapa').href = `https://www.google.com/maps/search/?api=1&query=${q}`;
 
 /* Regalos opcionales */
+if(CONFIG.zelleCorreo){
+  $('zelleCorreo').textContent = CONFIG.zelleCorreo;
+  if(CONFIG.zelleTitular){ $('zelleTitular').textContent = CONFIG.zelleTitular; $('zelleTitularWrap').style.display=''; }
+  $('rgZelle').style.display = '';
+}
 if(CONFIG.qrPago){ $('qrImg').src = CONFIG.qrPago; $('rgQR').style.display = ''; }
 if(CONFIG.binanceId){
   $('binanceId').textContent = CONFIG.binanceId;
@@ -1455,6 +1469,7 @@ const datosTransfer = [CONFIG.bancoNombre, CONFIG.tipoCuenta, 'N° ' + CONFIG.nu
   .filter(Boolean).join('\n');
 $('btnCopiar').addEventListener('click', () => copiar($('btnCopiar'), datosTransfer));
 if(CONFIG.binanceId) $('btnCopiarBin').addEventListener('click', () => copiar($('btnCopiarBin'), CONFIG.binanceId));
+if(CONFIG.zelleCorreo) $('btnCopiarZelle').addEventListener('click', () => copiar($('btnCopiarZelle'), CONFIG.zelleCorreo));
 
 /* ---------- CUENTA REGRESIVA ---------- */
 (function(){
