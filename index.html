@@ -930,6 +930,7 @@
       <div class="regalo" id="rgCuenta">
         <div class="tit">Transferencia bancaria</div>
         <div id="rgBanco" style="color:var(--textoSuave); font-style:italic; margin-bottom:2px">Banco</div>
+        <div id="rgTipo" style="color:var(--textoSuave); font-style:italic; margin-bottom:2px"></div>
         <div class="cuenta" id="numCuenta">000-000000-00</div>
         <div class="titular">A nombre de <span id="titularCuenta">Nombre del titular</span></div>
         <div class="titular" id="rgRutWrap" style="display:none">RUT <span id="rgRut"></span></div>
@@ -1026,7 +1027,8 @@ const CONFIG = {
 
   /* ====== REGALOS ====== */
   numeroCuenta:  "56552904",
-  bancoNombre:   "Banco Bci · Cuenta Prima",
+  bancoNombre:   "Banco Bci",
+  tipoCuenta:    "Cuenta Vista",
   titularCuenta: "Eirys Lucelys Acosta Pérez",
   rutTitular:    "26.997.982-8",
   correoTitular: "eastrodoctor@gmail.com",
@@ -1144,6 +1146,7 @@ $('detDress').textContent      = CONFIG.codigoVestimenta;
 $('numCuenta').textContent     = CONFIG.numeroCuenta;
 $('titularCuenta').textContent = CONFIG.titularCuenta;
 $('rgBanco').textContent       = CONFIG.bancoNombre;
+if(CONFIG.tipoCuenta) $('rgTipo').textContent = CONFIG.tipoCuenta;
 if(CONFIG.rutTitular){ $('rgRut').textContent = CONFIG.rutTitular; $('rgRutWrap').style.display=''; }
 if(CONFIG.correoTitular){ $('rgCorreo').textContent = CONFIG.correoTitular; $('rgCorreoWrap').style.display=''; }
 if(CONFIG.coloresReservados){
@@ -1447,8 +1450,8 @@ function copiar(btn, texto){
     setTimeout(()=> btn.textContent=t, 2000);
   }).catch(()=> alert(texto));
 }
-const datosTransfer = [CONFIG.bancoNombre, 'N° cuenta: ' + CONFIG.numeroCuenta, CONFIG.titularCuenta,
-  CONFIG.rutTitular ? ('RUT: ' + CONFIG.rutTitular) : '', CONFIG.correoTitular]
+const datosTransfer = [CONFIG.bancoNombre, CONFIG.tipoCuenta, 'N° ' + CONFIG.numeroCuenta, CONFIG.titularCuenta,
+  CONFIG.rutTitular ? ('RUT ' + CONFIG.rutTitular) : '', CONFIG.correoTitular]
   .filter(Boolean).join('\n');
 $('btnCopiar').addEventListener('click', () => copiar($('btnCopiar'), datosTransfer));
 if(CONFIG.binanceId) $('btnCopiarBin').addEventListener('click', () => copiar($('btnCopiarBin'), CONFIG.binanceId));
