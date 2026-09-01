@@ -354,6 +354,14 @@
   .galeria-vacia{ text-align:center; color:var(--textoSuave); font-style:italic; margin-top:18px; opacity:.8 }
   .subir-zona{ margin-top:22px; text-align:center; padding:24px 18px; border:2px dashed var(--oro); border-radius:6px; background:var(--acento) }
   .subir-zona input[type=file]{ display:none }
+  .subir-botones{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:16px }
+  .previsualizacion{ display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:8px; margin:16px 0 4px }
+  .prev-item{ margin:0; position:relative; border:1px solid var(--borde); border-radius:8px; overflow:hidden; background:#fff }
+  .prev-item img,.prev-item video{ width:100%; aspect-ratio:1; object-fit:cover; display:block; background:#000 }
+  .prev-quitar{ position:absolute; top:4px; right:4px; width:22px; height:22px; border-radius:50%; border:none; cursor:pointer;
+    background:rgba(0,0,0,.62); color:#fff; font-size:12px; line-height:1; display:grid; place-items:center }
+  .prev-item figcaption{ font-family:'Montserrat',sans-serif; font-size:9px; color:var(--textoSuave); padding:4px 5px;
+    text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
   .barra-prog{ height:6px; background:var(--borde); border-radius:4px; overflow:hidden; margin-top:14px; display:none }
   .barra-prog i{ display:block; height:100%; width:0; background:var(--principal); transition:width .25s }
 
@@ -859,9 +867,13 @@
         <p class="nota" style="margin:0 0 14px; font-size:.95rem">¿Estuviste en la fiesta? Comparte tus fotos y videos 💛</p>
         <input type="text" id="galeriaNombre" placeholder="Tu nombre (opcional)" autocomplete="name" />
         <input type="file" id="galeriaFile" accept="image/*,video/*" multiple />
-        <label for="galeriaFile" class="btn oro" style="margin-top:16px; cursor:pointer">📷 Elegir fotos o videos</label>
-        <p class="nota" id="galeriaElegidos"></p>
-        <button type="button" class="btn full" id="btnSubir" style="display:none; margin-top:6px">Subir a la galería</button>
+        <input type="file" id="galeriaGrabar" accept="video/*" capture="environment" />
+        <div class="subir-botones">
+          <label for="galeriaFile" class="btn oro" style="cursor:pointer">📷 Elegir fotos o videos</label>
+          <label for="galeriaGrabar" class="btn linea" style="cursor:pointer">🎥 Grabar un video</label>
+        </div>
+        <div class="previsualizacion" id="previsualizacion"></div>
+        <button type="button" class="btn full" id="btnSubir" style="display:none; margin-top:6px">Subir archivos</button>
         <div class="barra-prog" id="barraProg"><i id="barraProgFill"></i></div>
       </div>
 
@@ -1344,30 +1356,60 @@ $('btnInvConfirmar').addEventListener('click', async () => {
 });
 cargarInvitado();
 
-/* ---------- GALERÍA ---------- */
-const galFile = $('galeriaFile');
-galFile.addEventListener('change', () => {
-  const n = galFile.files.length;
-  $('galeriaElegidos').textContent = n ? (n + (n===1?' archivo elegido':' archivos elegidos')) : '';
-  $('btnSubir').style.display = n ? 'inline-block' : 'none';
+/* ---------- GALERÍA: elegir/grabar + previsualización + subida ---------- */
+const galFile = $('galeriaFile'), galGrabar = $('galeriaGrabar');
+let seleccionados = [], prevUrls = [];
+
+function renderPrev(){
+  const cont = $('previsualizacion');
+  prevUrls.forEach(u => URL.revokeObjectURL(u)); prevUrls = [];
+  if(!seleccionados.length){ cont.innerHTML=''; $('btnSubir').style.display='none'; return; }
+  cont.innerHTML = seleccionados.map((f,i) => {
+    const url = URL.createObjectURL(f); prevUrls.push(url);
+    const esVideo = (f.type||'').startsWith('video');
+    const nom = (f.name && f.name.length>16) ? f.name.slice(0,13)+'…' : (f.name || (esVideo?'video':'foto'));
+    return `<figure class="prev-item">
+      ${esVideo ? `<video src="${url}" muted playsinline controls preload="metadata"></video>` : `<img src="${url}" alt="">`}
+      <button type="button" class="prev-quitar" data-quitar="${i}" aria-label="Quitar">✕</button>
+      <figcaption>${esVideo?'🎬':'📷'} ${escapeHTML(nom)}</figcaption>
+    </figure>`;
+  }).join('');
+  $('btnSubir').style.display = 'block';
+  $('btnSubir').textContent = `Subir ${seleccionados.length} archivo${seleccionados.length>1?'s':''}`;
+}
+
+function agregarArchivos(lista){
+  for(const f of lista){
+    if(!seleccionados.some(s => s.name===f.name && s.size===f.size)) seleccionados.push(f);
+  }
+  renderPrev();
+}
+galFile.addEventListener('change', () => { agregarArchivos(galFile.files); galFile.value=''; });
+galGrabar.addEventListener('change', () => { agregarArchivos(galGrabar.files); galGrabar.value=''; });
+
+$('previsualizacion').addEventListener('click', e => {
+  const b = e.target.closest('[data-quitar]'); if(!b) return;
+  seleccionados.splice(+b.dataset.quitar, 1); renderPrev();
 });
 
 $('btnSubir').addEventListener('click', async () => {
-  const files = [...galFile.files]; if(!files.length) return;
+  if(!seleccionados.length) return;
   const nombre = $('galeriaNombre').value.trim() || null;
   const btn = $('btnSubir'), barra = $('barraProg'), fill = $('barraProgFill');
-  btn.disabled = true; barra.style.display = 'block';
-  let hechos = 0;
-  for(const file of files){
+  const total = seleccionados.length; btn.disabled = true; barra.style.display = 'block';
+  let hechos = 0, fallos = 0;
+  for(const file of seleccionados){
     try{
       const r = await subirArchivo(file, 'galeria');
       await sb.from('galeria').insert({ nombre, tipo:r.tipo, url:r.url, path:r.path });
-    }catch(err){ console.warn('Error subiendo', file.name, err); }
-    hechos++; fill.style.width = Math.round(hechos/files.length*100) + '%';
+    }catch(err){ fallos++; console.warn('Error subiendo', file.name, err); }
+    hechos++; fill.style.width = Math.round(hechos/total*100) + '%'; btn.textContent = `Subiendo ${hechos}/${total}…`;
   }
-  btn.disabled = false; btn.style.display='none'; galFile.value=''; $('galeriaElegidos').textContent='';
-  setTimeout(()=>{ barra.style.display='none'; fill.style.width='0'; }, 800);
+  seleccionados = []; renderPrev();
+  btn.disabled = false;
+  setTimeout(()=>{ barra.style.display='none'; fill.style.width='0'; }, 900);
   lluviaPetalos(); cargarGaleria();
+  if(fallos) alert(`Se subieron ${total-fallos} de ${total}. ${fallos} no se pudieron subir; intenta de nuevo con esos.`);
 });
 
 async function cargarGaleria(){
