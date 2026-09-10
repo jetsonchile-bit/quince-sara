@@ -265,8 +265,16 @@
 
   /* ============ SALÓN · EL VALS ============ */
   .ballroom{ position:relative; margin:18px auto 6px; max-width:640px }
-  .vals-img{ display:block; width:100%; max-width:520px; margin:16px auto 4px;
-    border-radius:6px; border:2px solid var(--oro); box-shadow:var(--sombra) }
+  .vals-img{ display:block; width:100%; max-width:300px; margin:16px auto 6px;
+    border-radius:8px; border:2px solid var(--oro); box-shadow:var(--sombra);
+    filter:brightness(1.05) saturate(1.08) }
+  /* relato / cuento de la quinceañera */
+  .relato{ max-width:560px; margin:6px auto 4px; padding:0 8px; text-align:center }
+  .relato p{ font-family:'Cormorant Garamond',Georgia,serif; font-style:italic;
+    font-weight:400; font-size:clamp(1.16rem,3.6vw,1.5rem); line-height:1.7;
+    color:var(--texto); margin:0 0 15px }
+  .relato p:last-child{ margin-bottom:0; font-style:normal }
+  .relato .rosa-cierre{ font-size:1.35em; font-style:normal }
   .escena{ width:100%; height:auto; display:block; overflow:visible }
   .escena .figura{ fill:var(--texto) }
   .escena .cabello{ fill:var(--texto) }
@@ -386,6 +394,16 @@
   .fab-wa{ right:16px; bottom:16px; background:#25D366; color:#fff }
   .fab-music{ left:16px; bottom:16px; background:var(--gradBoton); color:var(--texto) }
   .flotante svg{ width:26px; height:26px; fill:currentColor }
+  /* tarjeta del reproductor de música (YouTube oficial) */
+  .yt-card{ position:fixed; left:16px; bottom:80px; z-index:41; width:236px;
+    background:var(--tarjeta); border:2px solid var(--oro); border-radius:14px;
+    box-shadow:var(--sombra); padding:9px 9px 10px; animation:ytEntra .3s ease }
+  .yt-card .yt-tit{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:600;
+    font-size:1rem; color:var(--texto); text-align:center; margin:0 0 7px; letter-spacing:.2px }
+  .yt-card .yt-marco{ position:relative; width:100%; aspect-ratio:16/9;
+    border-radius:9px; overflow:hidden; background:#000 }
+  .yt-card .yt-marco iframe{ position:absolute; inset:0; width:100%; height:100%; border:0 }
+  @keyframes ytEntra{ from{ opacity:0; transform:translateY(10px) } to{ opacity:1; transform:none } }
 
   /* ====== LIGHTBOX ====== */
   .lightbox{ position:fixed; inset:0; z-index:60; background:rgba(20,10,20,.9); display:none; align-items:center; justify-content:center; padding:20px }
@@ -398,14 +416,15 @@
   .hero::before{
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
     background:
-      linear-gradient(180deg, rgba(16,18,42,.60), rgba(16,18,42,.40) 42%, rgba(22,14,10,.74)),
+      linear-gradient(180deg, rgba(16,18,42,.46), rgba(16,18,42,.26) 44%, rgba(22,14,10,.60)),
       url('img/salon.jpg') center / cover no-repeat;
+    filter:brightness(1.08) saturate(1.06);
   }
   .hero > *{ position:relative; z-index:1 }
   /* pareja de vals sobre el salón, detrás del marco */
   .hero-vals{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; pointer-events:none; overflow:hidden }
-  .hero-vals svg{ width:min(82vh,600px); height:auto; color:#e7c66a; opacity:.30;
-    filter:drop-shadow(0 0 36px rgba(231,198,106,.5));
+  .hero-vals svg{ width:min(82vh,600px); height:auto; color:#f0d27a; opacity:.40;
+    filter:drop-shadow(0 0 46px rgba(240,210,122,.65));
     transform-origin:50% 88%; animation:valsGira 6s ease-in-out infinite alternate }
   .hero-vals .vals-bob{ animation:valsBobFondo 4.2s ease-in-out infinite }
   .hero-vals .vals-falda{ transform-box:fill-box; transform-origin:50% 0; animation:valsFalda 4.2s ease-in-out infinite alternate }
@@ -727,6 +746,13 @@
         </svg>
       </div>
 
+      <div class="relato">
+        <p>Como en un hermoso cuento de hadas, Sara Valentina comienza un nuevo capítulo de su historia.</p>
+        <p>Quince años de sueños, risas, ilusiones y momentos que han hecho florecer su vida como un hermoso jardín.</p>
+        <p>Entre rosas, alegrías y personas que ama, celebrará una noche que quedará para siempre en su corazón.</p>
+        <p>Te invitamos a ser parte de este mágico sueño y a hacer de esta noche un recuerdo para toda la vida. <span class="rosa-cierre">🌹</span></p>
+      </div>
+
       <!-- Foto opcional de los bailarines (aparece si existe el archivo) -->
       <figure class="fotoBailarines" id="fotoBailarines" hidden>
         <div class="marcoFoto">
@@ -734,7 +760,6 @@
         </div>
       </figure>
 
-      <p class="intro">Como en los cuentos de hadas, donde las rosas florecen sin fin y los sueños se hacen realidad. 🌹</p>
     </div>
   </section>
 
@@ -999,6 +1024,12 @@
     <svg viewBox="0 0 24 24" id="iconMusicOff"><path d="M12 3v10.55A4 4 0 108 17V7h6V3h-2zm-2 0H8v2h2V3z"/></svg>
   </button>
 
+  <!-- Reproductor de música (video oficial de YouTube) -->
+  <div class="yt-card" id="ytCard" hidden>
+    <div class="yt-tit">♪ La Fábula Ancestral</div>
+    <div class="yt-marco"><div id="ytPlayer"></div></div>
+  </div>
+
   <!-- Visor de fotos -->
   <div class="lightbox" id="lightbox">
     <button class="cerrar" id="lightboxCerrar" aria-label="Cerrar">&times;</button>
@@ -1054,7 +1085,8 @@ const CONFIG = {
   tiktok:      "",                     // usuario sin @
 
   /* ====== MÚSICA (archivo de audio en la carpeta, o "") ====== */
-  musica: "",                          // ej. "musica.mp3"
+  musica: "",                          // (alternativa) archivo mp3 propio, ej. "musica.mp3"
+  youtubeMusica: "CXZ7Nz69OPg",        // canción de fondo "La Fábula Ancestral" (video oficial de YouTube)
 
   /* ====== EMAIL opcional (Formspree) para avisos ====== */
   formspreeID: "",                     // opcional: si lo pones, te llegan avisos por correo
@@ -1489,15 +1521,54 @@ if(CONFIG.zelleCorreo) $('btnCopiarZelle').addEventListener('click', () => copia
 })();
 
 /* ---------- MÚSICA ---------- */
-if(CONFIG.musica){
-  const audio = new Audio(CONFIG.musica); audio.loop = true; audio.volume = 0.6;
-  const fab = $('fabMusic'); fab.style.display = 'grid'; fab.style.opacity = .6;
-  let sonando = false;
-  fab.addEventListener('click', () => {
-    if(sonando){ audio.pause(); sonando=false; fab.style.opacity=.6; }
-    else{ audio.play().then(()=>{ sonando=true; fab.style.opacity=1; }).catch(()=>{}); }
-  });
-}
+(function(){
+  const fab = $('fabMusic');
+  if(!fab) return;
+
+  /* --- Opción A: video oficial de YouTube --- */
+  if(CONFIG.youtubeMusica){
+    const card = $('ytCard');
+    let player = null, listo = false, sonando = false;
+
+    // cargar la API de YouTube una sola vez
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = function(){
+      player = new YT.Player('ytPlayer', {
+        videoId: CONFIG.youtubeMusica,
+        playerVars: { rel:0, playsinline:1, modestbranding:1 },
+        events: {
+          onReady: () => { listo = true; fab.style.display='grid'; fab.style.opacity=.6; try{ player.setVolume(60); }catch(e){} },
+          onStateChange: (e) => { if(e.data === YT.PlayerState.ENDED){ player.seekTo(0); player.playVideo(); } } // repetir en bucle
+        }
+      });
+    };
+
+    fab.addEventListener('click', () => {
+      if(!listo) return;
+      if(sonando){ player.pauseVideo(); sonando=false; fab.style.opacity=.6; card.hidden=true; }
+      else{ card.hidden=false; player.playVideo(); sonando=true; fab.style.opacity=1; }
+    });
+    return;
+  }
+
+  /* --- Opción B: archivo mp3 propio --- */
+  if(CONFIG.musica){
+    const audio = new Audio(CONFIG.musica); audio.loop = true; audio.volume = 0.6;
+    let sonando = false, lista = false;
+    audio.addEventListener('canplay', () => {
+      if(lista) return; lista = true;
+      fab.style.display = 'grid'; fab.style.opacity = .6;
+    });
+    audio.addEventListener('error', () => { fab.style.display = 'none'; });
+    fab.addEventListener('click', () => {
+      if(sonando){ audio.pause(); sonando=false; fab.style.opacity=.6; }
+      else{ audio.play().then(()=>{ sonando=true; fab.style.opacity=1; }).catch(()=>{}); }
+    });
+  }
+})();
 
 /* cargar contenido inicial */
 cargarFelic();
