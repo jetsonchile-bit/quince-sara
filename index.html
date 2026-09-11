@@ -275,6 +275,15 @@
     color:var(--texto); margin:0 0 15px }
   .relato p:last-child{ margin-bottom:0; font-style:normal }
   .relato .rosa-cierre{ font-size:1.35em; font-style:normal }
+  /* foto del jardín encantado (castillo con rosas y paloma blanca) */
+  .jardin-foto{ position:relative; margin:20px auto 10px; max-width:560px; border-radius:14px; overflow:hidden;
+    box-shadow:0 22px 54px rgba(80,28,42,.4), 0 5px 16px rgba(0,0,0,.28); border:3px solid rgba(201,158,74,.85) }
+  .jardin-foto img{ display:block; width:100%; height:auto; will-change:transform;
+    animation:jardinKen 28s ease-in-out infinite alternate }
+  @keyframes jardinKen{ 0%{ transform:scale(1) } 100%{ transform:scale(1.07) } }
+  .jardin-foto::after{ content:''; position:absolute; inset:0; pointer-events:none; border-radius:14px;
+    box-shadow:inset 0 0 36px rgba(40,14,24,.42) }
+  @media(prefers-reduced-motion:reduce){ .jardin-foto img{ animation:none } }
   /* ====== JARDÍN ENCANTADO — escena cinematográfica con profundidad 3D ====== */
   .jardin-escena{ position:relative; width:340px; max-width:100%; aspect-ratio:3/4;
     margin:18px auto 8px; border-radius:16px; overflow:hidden; isolation:isolate;
@@ -651,6 +660,9 @@
       </svg>
 
       <div class="ballroom">
+        <figure class="jardin-foto">
+          <img src="img/jardin-sara.jpg?v=1" alt="Jardín de rosas de un castillo encantado con una paloma blanca al atardecer dorado" loading="lazy" />
+        </figure>
         <svg viewBox="0 0 800 470" class="escena" role="img" aria-hidden="true" style="display:none"
              aria-label="Una pareja de gala baila un vals en una terraza, con un castillo de cuento al atardecer dorado">
           <defs>
@@ -1131,7 +1143,7 @@ const CONFIG = {
   tiktok:      "",                     // usuario sin @
 
   /* ====== MÚSICA (archivo de audio en la carpeta, o "") ====== */
-  musica: "musica.mp3",                // música de fondo (MP3 de uso libre; suena con un toque en cualquier teléfono, iPhone incluido)
+  musica: "musica.mp3?v=2",            // música de fondo (piano romántico de uso libre; suena con un toque en cualquier teléfono)
 
   /* ====== EMAIL opcional (Formspree) para avisos ====== */
   formspreeID: "",                     // opcional: si lo pones, te llegan avisos por correo
