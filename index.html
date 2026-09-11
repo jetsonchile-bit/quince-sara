@@ -1658,22 +1658,22 @@ const cometaSprite = (() => {
 })();
 
 // ---------- ESTRELLAS: titileo suave y elegante, con comportamientos variados ----------
-const DEST = [[255,255,255],[248,224,150],[224,190,110],[196,214,255]]; // blanco, oro, oro cálido, azul muy tenue
+const DEST = [[255,255,255],[255,252,242],[250,242,255],[226,238,255]]; // blanco puro, blanco cálido, blanco rosado, blanco azulado
 function colorEstrella(){
   const r = Math.random();
-  if(r < 0.46) return DEST[0];   // blanco
-  if(r < 0.80) return DEST[1];   // oro
-  if(r < 0.93) return DEST[2];   // oro cálido
-  return DEST[3];                // azul tenue
+  if(r < 0.72) return DEST[0];   // blanco puro (mayoría)
+  if(r < 0.86) return DEST[1];   // blanco cálido
+  if(r < 0.94) return DEST[2];   // blanco rosado
+  return DEST[3];                // blanco azulado
 }
-for(let i = 0; i < 340; i++){
+for(let i = 0; i < 170; i++){
   const lento = Math.random() < 0.5;                    // mitad titileo lento, mitad más marcado
   const ang = rnd(0, Math.PI*2), sp = rnd(.006, .05);  // deriva muy sutil
   estrellas.push({
-    x: rnd(0,W), y: rnd(0,H), r: rnd(2.0, 6.0),         // cientos de estrellas, más grandes = cielo estrellado
+    x: rnd(0,W), y: rnd(0,H), r: rnd(2.0, 6.0),         // menos estrellas (mitad), más grandes
     col: colorEstrella(), fase: rnd(0, Math.PI*2),
-    vel: lento ? rnd(.01, .022) : rnd(.03, .055),       // titileo más marcado y con velocidades variadas
-    base: rnd(.2, .4), amp: rnd(.4, .58),               // amplitud alta = titilan FUERTE
+    vel: lento ? rnd(.01, .022) : rnd(.03, .055),       // titileo con velocidades variadas
+    base: rnd(.45, .62), amp: rnd(.32, .48),            // base más alta = más blancas y luminosas
     vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp
   });
 }
@@ -1738,17 +1738,20 @@ function dibujarOrbe(g){
 
 function dibujarEstrella(s){
   const tw = 0.5 + 0.5*Math.sin(s.fase);
-  const a = Math.min(1, s.base + s.amp*tw);       // opacidad suave (poca amplitud = titileo elegante)
+  const a = Math.min(1, s.base + s.amp*tw);
   const R = s.r;
   ctx.save();
-  // halo suave (sprite pre-renderizado)
-  ctx.globalAlpha = a * .5;
-  const d = R*7;
+  // resplandor luminoso (sprite blanco)
+  ctx.globalAlpha = a * .7;
+  const d = R*8.5;
   ctx.drawImage(glowSprite, s.x-d/2, s.y-d/2, d, d);
-  // núcleo con color tenue
+  // núcleo con color (casi blanco)
   ctx.globalAlpha = a;
   ctx.fillStyle = `rgb(${s.col[0]},${s.col[1]},${s.col[2]})`;
-  ctx.beginPath(); ctx.arc(s.x, s.y, R*.7, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(s.x, s.y, R*.72, 0, Math.PI*2); ctx.fill();
+  // punto blanco brillante en el centro = más luminosa
+  ctx.fillStyle = 'rgba(255,255,255,.95)';
+  ctx.beginPath(); ctx.arc(s.x, s.y, R*.38, 0, Math.PI*2); ctx.fill();
   ctx.restore();
 }
 
