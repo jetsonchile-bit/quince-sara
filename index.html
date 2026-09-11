@@ -474,15 +474,15 @@
   .hero::before{
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
     background:
-      linear-gradient(180deg, rgba(16,18,42,.46), rgba(16,18,42,.26) 44%, rgba(22,14,10,.60)),
-      url('img/salon.jpg?v=3') center / cover no-repeat;
-    filter:brightness(1.11) saturate(1.09);
+      linear-gradient(180deg, rgba(16,18,42,.52), rgba(16,18,42,.30) 44%, rgba(22,14,10,.66)),
+      url('img/salon.jpg?v=4') center / cover no-repeat;
+    filter:brightness(1.0) saturate(1.1);
   }
   .hero > *{ position:relative; z-index:1 }
   /* pareja de vals sobre el salón, detrás del marco */
   .hero-vals{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; pointer-events:none; overflow:hidden }
-  .hero-vals svg{ width:min(82vh,600px); height:auto; color:#f0d27a; opacity:.40;
-    filter:drop-shadow(0 0 46px rgba(240,210,122,.65));
+  .hero-vals svg{ width:min(82vh,600px); height:auto; color:#f0d27a; opacity:.22;
+    filter:drop-shadow(0 0 30px rgba(240,210,122,.42));
     transform-origin:50% 88%; animation:valsGira 6s ease-in-out infinite alternate }
   .hero-vals .vals-bob{ animation:valsBobFondo 4.2s ease-in-out infinite }
   .hero-vals .vals-falda{ transform-box:fill-box; transform-origin:50% 0; animation:valsFalda 4.2s ease-in-out infinite alternate }
@@ -1664,14 +1664,14 @@ function colorEstrella(){
   if(r < 0.93) return DEST[2];   // oro cálido
   return DEST[3];                // azul tenue
 }
-for(let i = 0; i < 100; i++){
-  const lento = Math.random() < 0.65;                  // A) 65% titileo lento · B) 35% algo más rápido
+for(let i = 0; i < 190; i++){
+  const lento = Math.random() < 0.5;                    // mitad titileo lento, mitad más marcado
   const ang = rnd(0, Math.PI*2), sp = rnd(.006, .05);  // deriva muy sutil
   estrellas.push({
-    x: rnd(0,W), y: rnd(0,H), r: rnd(1.2, 3.6),
+    x: rnd(0,W), y: rnd(0,H), r: rnd(1.3, 4.0),         // más y algo más grandes = cubren el fondo
     col: colorEstrella(), fase: rnd(0, Math.PI*2),
-    vel: lento ? rnd(.006, .015) : rnd(.02, .038),      // velocidad de titileo (lenta o algo más rápida)
-    base: rnd(.28, .5), amp: rnd(.16, .30),             // titileo de poca amplitud = suave y elegante
+    vel: lento ? rnd(.01, .022) : rnd(.03, .055),       // titileo más marcado y con velocidades variadas
+    base: rnd(.2, .4), amp: rnd(.4, .58),               // amplitud alta = titilan FUERTE
     vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp
   });
 }
@@ -1679,14 +1679,14 @@ for(let i = 0; i < 100; i++){
 // ---------- ESCARCHA DORADA: glitter fino de partículas doradas de distinto tamaño/opacidad ----------
 const ESC = [[255,232,158],[236,198,110],[210,170,84],[190,150,74]]; // tonos dorados
 const escarcha = [];
-for(let i = 0; i < 150; i++){
-  const casiFija = Math.random() < 0.6;                 // 60% casi estáticas · 40% deriva muy lenta
-  const ang = rnd(0, Math.PI*2), sp = casiFija ? rnd(0, .015) : rnd(.02, .08);
+for(let i = 0; i < 230; i++){
+  const casiFija = Math.random() < 0.55;                // 55% casi estáticas · 45% deriva muy lenta
+  const ang = rnd(0, Math.PI*2), sp = casiFija ? rnd(0, .015) : rnd(.02, .09);
   escarcha.push({
-    x: rnd(0,W), y: rnd(0,H), r: rnd(.4, 2.3),
+    x: rnd(0,W), y: rnd(0,H), r: rnd(.5, 2.8),          // partículas algo más grandes
     col: ESC[Math.floor(Math.random()*ESC.length)],
-    op: rnd(.18, .82), brilla: Math.random() < 0.4,     // algunas destellan lento
-    fase: rnd(0, Math.PI*2), vel: rnd(.008, .028),
+    op: rnd(.32, .95), brilla: Math.random() < 0.55,    // más opacas y más destellos = escarcha intensa
+    fase: rnd(0, Math.PI*2), vel: rnd(.01, .032),
     vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp
   });
 }
