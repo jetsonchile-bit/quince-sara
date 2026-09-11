@@ -1643,6 +1643,20 @@ const glowSprite = (() => {
   return oc;
 })();
 
+// sprite de estela de estrella fugaz (cometa, pre-renderizado = eficiente para muchas)
+const cometaSprite = (() => {
+  const CW = 180, CH = 18, oc = document.createElement('canvas'); oc.width = CW; oc.height = CH;
+  const o = oc.getContext('2d');
+  const g = o.createLinearGradient(0, 0, CW, 0);
+  g.addColorStop(0, 'rgba(210,162,70,0)'); g.addColorStop(.7, 'rgba(228,182,90,.88)'); g.addColorStop(1, 'rgba(255,244,210,1)');
+  o.strokeStyle = g; o.lineWidth = 3.0; o.lineCap = 'round';
+  o.beginPath(); o.moveTo(4, CH/2); o.lineTo(CW-9, CH/2); o.stroke();
+  const gg = o.createRadialGradient(CW-9, CH/2, 0, CW-9, CH/2, 10);
+  gg.addColorStop(0, 'rgba(255,250,232,1)'); gg.addColorStop(.5, 'rgba(232,188,100,.8)'); gg.addColorStop(1, 'rgba(210,162,70,0)');
+  o.fillStyle = gg; o.beginPath(); o.arc(CW-9, CH/2, 9, 0, Math.PI*2); o.fill();
+  return oc;
+})();
+
 // ---------- ESTRELLAS: titileo suave y elegante, con comportamientos variados ----------
 const DEST = [[255,255,255],[248,224,150],[224,190,110],[196,214,255]]; // blanco, oro, oro cálido, azul muy tenue
 function colorEstrella(){
@@ -1652,11 +1666,11 @@ function colorEstrella(){
   if(r < 0.93) return DEST[2];   // oro cálido
   return DEST[3];                // azul tenue
 }
-for(let i = 0; i < 190; i++){
+for(let i = 0; i < 340; i++){
   const lento = Math.random() < 0.5;                    // mitad titileo lento, mitad más marcado
   const ang = rnd(0, Math.PI*2), sp = rnd(.006, .05);  // deriva muy sutil
   estrellas.push({
-    x: rnd(0,W), y: rnd(0,H), r: rnd(1.3, 4.0),         // más y algo más grandes = cubren el fondo
+    x: rnd(0,W), y: rnd(0,H), r: rnd(2.0, 6.0),         // cientos de estrellas, más grandes = cielo estrellado
     col: colorEstrella(), fase: rnd(0, Math.PI*2),
     vel: lento ? rnd(.01, .022) : rnd(.03, .055),       // titileo más marcado y con velocidades variadas
     base: rnd(.2, .4), amp: rnd(.4, .58),               // amplitud alta = titilan FUERTE
@@ -1667,13 +1681,13 @@ for(let i = 0; i < 190; i++){
 // ---------- ESCARCHA DORADA: glitter fino de partículas doradas de distinto tamaño/opacidad ----------
 const ESC = [[255,232,158],[236,198,110],[210,170,84],[190,150,74]]; // tonos dorados
 const escarcha = [];
-for(let i = 0; i < 230; i++){
+for(let i = 0; i < 480; i++){
   const casiFija = Math.random() < 0.55;                // 55% casi estáticas · 45% deriva muy lenta
   const ang = rnd(0, Math.PI*2), sp = casiFija ? rnd(0, .015) : rnd(.02, .09);
   escarcha.push({
-    x: rnd(0,W), y: rnd(0,H), r: rnd(.5, 2.8),          // partículas algo más grandes
+    x: rnd(0,W), y: rnd(0,H), r: rnd(.5, 2.9),          // muchas más partículas cubriendo todo el fondo
     col: ESC[Math.floor(Math.random()*ESC.length)],
-    op: rnd(.32, .95), brilla: Math.random() < 0.55,    // más opacas y más destellos = escarcha intensa
+    op: rnd(.38, .96), brilla: Math.random() < 0.55,    // más densa y opaca = escarcha por todo el fondo
     fase: rnd(0, Math.PI*2), vel: rnd(.01, .032),
     vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp
   });
@@ -1688,16 +1702,16 @@ function lanzarFugaz(){
   const ang = rnd(0.9, 1.18);                 // diagonal hacia abajo-derecha
   const vel = rnd(6, 13);
   fugaces.push({ x, y, vx: Math.cos(ang)*vel, vy: Math.sin(ang)*vel,
-    largo: rnd(45, 135), r: rnd(.8, 2.0), vida: 1 });
+    largo: rnd(70, 190), r: rnd(1.6, 3.6), vida: 1 });
 }
 function programarFugaz(){
   setTimeout(() => {
     if(!reduce){
-      const n = 6 + Math.floor(Math.random()*4);   // 6 a 9 por tanda → ~30 estrellas cayendo a la vez
+      const n = 12 + Math.floor(Math.random()*9);  // 12 a 20 por tanda → cientos de estrellas cayendo
       for(let i = 0; i < n; i++) lanzarFugaz();
     }
     programarFugaz();
-  }, rnd(150, 350));                                 // muy seguido = lluvia muy densa
+  }, rnd(120, 300));                                 // muy seguido = lluvia muy densa
 }
 
 function dibujarPetalo(p){
@@ -1760,18 +1774,13 @@ function dibujarEscarcha(e){
 }
 
 function dibujarFugaz(f){
-  const h = Math.hypot(f.vx, f.vy) || 1;
-  const tx = f.x - f.vx/h*f.largo, ty = f.y - f.vy/h*f.largo;
+  const ang = Math.atan2(f.vy, f.vx);
+  const hh = f.r * 4.2;
   ctx.save();
-  const grad = ctx.createLinearGradient(f.x, f.y, tx, ty);
-  grad.addColorStop(0, `rgba(255,249,232,${f.vida})`);
-  grad.addColorStop(1, 'rgba(255,249,232,0)');
-  ctx.globalAlpha = 1; ctx.strokeStyle = grad; ctx.lineWidth = f.r; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(f.x, f.y); ctx.stroke();
-  // cabeza brillante
-  ctx.globalAlpha = f.vida;
-  const d = f.r*11;
-  ctx.drawImage(glowSprite, f.x-d/2, f.y-d/2, d, d);
+  ctx.globalAlpha = Math.max(0, Math.min(1, f.vida));
+  ctx.translate(f.x, f.y);                                    // cabeza en la posición de la estrella
+  ctx.rotate(ang);
+  ctx.drawImage(cometaSprite, -f.largo, -hh/2, f.largo, hh);  // estela hacia atrás
   ctx.restore();
 }
 
