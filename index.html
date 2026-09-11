@@ -275,6 +275,26 @@
     color:var(--texto); margin:0 0 15px }
   .relato p:last-child{ margin-bottom:0; font-style:normal }
   .relato .rosa-cierre{ font-size:1.35em; font-style:normal }
+  /* flores que florecen en tiempo real sobre la foto del jardín */
+  .jardin-wrap{ position:relative; display:block; width:300px; max-width:100%; margin:16px auto 6px }
+  .jardin-wrap .vals-img{ margin:0 }
+  .flores-bloom{ position:absolute; inset:0; pointer-events:none; overflow:hidden; border-radius:8px }
+  .flores-bloom .flor{ position:absolute; width:34px; height:34px; margin:-17px 0 0 -17px;
+    transform-origin:center; opacity:0; will-change:transform,opacity;
+    animation:florece 7.5s ease-in-out infinite;
+    filter:drop-shadow(0 1px 3px rgba(70,8,26,.55)) }
+  .flores-bloom .flor svg{ width:100%; height:100%; fill:#c8213f }
+  .flores-bloom .flor .rb-in{ fill:#8c1a2c }
+  .flores-bloom .flor.rosa svg{ fill:#d76b86 }
+  .flores-bloom .flor.rosa .rb-in{ fill:#b23f5c }
+  @keyframes florece{
+    0%   { transform:scale(.1) rotate(-30deg); opacity:0 }
+    14%  { opacity:1 }
+    46%  { transform:scale(1) rotate(0deg); opacity:1 }
+    82%  { transform:scale(1) rotate(0deg); opacity:.92 }
+    100% { transform:scale(1.08) rotate(8deg); opacity:0 }
+  }
+  @media(prefers-reduced-motion:reduce){ .flores-bloom{ display:none } }
   .escena{ width:100%; height:auto; display:block; overflow:visible }
   .escena .figura{ fill:var(--texto) }
   .escena .cabello{ fill:var(--texto) }
@@ -394,18 +414,6 @@
   .fab-wa{ right:16px; bottom:16px; background:#25D366; color:#fff }
   .fab-music{ left:16px; bottom:16px; background:var(--gradBoton); color:var(--texto) }
   .flotante svg{ width:26px; height:26px; fill:currentColor }
-  /* tarjeta del reproductor de música (YouTube oficial) */
-  .yt-card{ position:fixed; left:16px; bottom:80px; z-index:41; width:236px;
-    background:var(--tarjeta); border:2px solid var(--oro); border-radius:14px;
-    box-shadow:var(--sombra); padding:9px 9px 10px; animation:ytEntra .3s ease }
-  .yt-card .yt-tit{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:600;
-    font-size:1rem; color:var(--texto); text-align:center; margin:0 0 7px; letter-spacing:.2px }
-  .yt-card .yt-marco{ position:relative; width:100%; aspect-ratio:16/9;
-    border-radius:9px; overflow:hidden; background:#000 }
-  .yt-card .yt-marco iframe{ position:absolute; inset:0; width:100%; height:100%; border:0 }
-  .yt-card .yt-hint{ font-family:'Montserrat',sans-serif; font-size:.72rem; font-weight:500;
-    color:var(--textoSuave); text-align:center; margin-top:6px; letter-spacing:.2px }
-  @keyframes ytEntra{ from{ opacity:0; transform:translateY(10px) } to{ opacity:1; transform:none } }
 
   /* ====== LIGHTBOX ====== */
   .lightbox{ position:fixed; inset:0; z-index:60; background:rgba(20,10,20,.9); display:none; align-items:center; justify-content:center; padding:20px }
@@ -419,8 +427,8 @@
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
     background:
       linear-gradient(180deg, rgba(16,18,42,.46), rgba(16,18,42,.26) 44%, rgba(22,14,10,.60)),
-      url('img/salon.jpg?v=2') center / cover no-repeat;
-    filter:brightness(1.08) saturate(1.06);
+      url('img/salon.jpg?v=3') center / cover no-repeat;
+    filter:brightness(1.11) saturate(1.09);
   }
   .hero > *{ position:relative; z-index:1 }
   /* pareja de vals sobre el salón, detrás del marco */
@@ -559,7 +567,7 @@
     </div>
     <div class="marco">
       <!-- Rosa encantada real bajo la cúpula de cristal -->
-      <img class="rosa-real" src="img/rosa-cupula.jpg?v=2" alt="La rosa encantada bajo la cúpula de cristal" loading="eager" />
+      <img class="rosa-real" src="img/rosa-cupula.jpg?v=3" alt="La rosa encantada bajo la cúpula de cristal" loading="eager" />
 
       <!-- Foto opcional de la homenajeada en la portada -->
       <figure class="fotoBailarines" id="fotoPortada" hidden style="margin:4px auto 16px">
@@ -600,7 +608,21 @@
       </svg>
 
       <div class="ballroom">
-        <img class="vals-img" src="img/jardin1.jpg?v=2" alt="Jardín de rosas frondoso con una ventana del castillo, al atardecer dorado" loading="lazy" />
+        <div class="jardin-wrap">
+          <img class="vals-img" src="img/jardin1.jpg?v=3" alt="Jardín de rosas frondoso con una ventana del castillo, al atardecer dorado" loading="lazy" />
+          <div class="flores-bloom" aria-hidden="true">
+            <svg width="0" height="0" style="position:absolute"><defs><g id="rosaBloom">
+              <ellipse cx="20" cy="11" rx="6.5" ry="9"/><ellipse cx="29" cy="20" rx="9" ry="6.5"/>
+              <ellipse cx="20" cy="29" rx="6.5" ry="9"/><ellipse cx="11" cy="20" rx="9" ry="6.5"/>
+              <ellipse class="rb-in" cx="20" cy="20" rx="7" ry="7"/>
+            </g></defs></svg>
+            <span class="flor"      style="left:19%;top:30%;animation-delay:0s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
+            <span class="flor rosa" style="left:63%;top:22%;animation-delay:1.6s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
+            <span class="flor"      style="left:42%;top:60%;animation-delay:3.1s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
+            <span class="flor rosa" style="left:76%;top:54%;animation-delay:4.4s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
+            <span class="flor"      style="left:13%;top:67%;animation-delay:5.7s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
+          </div>
+        </div>
         <svg viewBox="0 0 800 470" class="escena" role="img" aria-hidden="true" style="display:none"
              aria-label="Una pareja de gala baila un vals en una terraza, con un castillo de cuento al atardecer dorado">
           <defs>
@@ -1026,13 +1048,6 @@
     <svg viewBox="0 0 24 24" id="iconMusicOff"><path d="M12 3v10.55A4 4 0 108 17V7h6V3h-2zm-2 0H8v2h2V3z"/></svg>
   </button>
 
-  <!-- Reproductor de música (video oficial de YouTube) -->
-  <div class="yt-card" id="ytCard" hidden>
-    <div class="yt-tit">♪ La Fábula Ancestral</div>
-    <div class="yt-marco"><div id="ytPlayer"></div></div>
-    <div class="yt-hint">▶ Toca el video para escuchar 🎶</div>
-  </div>
-
   <!-- Visor de fotos -->
   <div class="lightbox" id="lightbox">
     <button class="cerrar" id="lightboxCerrar" aria-label="Cerrar">&times;</button>
@@ -1088,8 +1103,7 @@ const CONFIG = {
   tiktok:      "",                     // usuario sin @
 
   /* ====== MÚSICA (archivo de audio en la carpeta, o "") ====== */
-  musica: "",                          // (alternativa) archivo mp3 propio, ej. "musica.mp3"
-  youtubeMusica: "CXZ7Nz69OPg",        // canción de fondo "La Fábula Ancestral" (video oficial de YouTube)
+  musica: "musica.mp3",                // música de fondo (MP3 de uso libre; suena con un toque en cualquier teléfono, iPhone incluido)
 
   /* ====== EMAIL opcional (Formspree) para avisos ====== */
   formspreeID: "",                     // opcional: si lo pones, te llegan avisos por correo
@@ -1523,54 +1537,22 @@ if(CONFIG.zelleCorreo) $('btnCopiarZelle').addEventListener('click', () => copia
   tick(); setInterval(tick, 1000);
 })();
 
-/* ---------- MÚSICA ---------- */
+/* ---------- MÚSICA (MP3 de fondo; suena con un toque en cualquier teléfono) ---------- */
 (function(){
   const fab = $('fabMusic');
-  if(!fab) return;
-
-  /* --- Opción A: video oficial de YouTube --- */
-  if(CONFIG.youtubeMusica){
-    const card = $('ytCard');
-    let player = null, listo = false, sonando = false;
-
-    // cargar la API de YouTube una sola vez
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-
-    window.onYouTubeIframeAPIReady = function(){
-      player = new YT.Player('ytPlayer', {
-        videoId: CONFIG.youtubeMusica,
-        playerVars: { rel:0, playsinline:1, modestbranding:1 },
-        events: {
-          onReady: () => { listo = true; fab.style.display='grid'; fab.style.opacity=.6; try{ player.setVolume(60); }catch(e){} },
-          onStateChange: (e) => { if(e.data === YT.PlayerState.ENDED){ player.seekTo(0); player.playVideo(); } } // repetir en bucle
-        }
-      });
-    };
-
-    fab.addEventListener('click', () => {
-      if(!listo) return;
-      if(sonando){ player.pauseVideo(); sonando=false; fab.style.opacity=.6; card.hidden=true; }
-      else{ card.hidden=false; player.playVideo(); sonando=true; fab.style.opacity=1; }
-    });
-    return;
-  }
-
-  /* --- Opción B: archivo mp3 propio --- */
-  if(CONFIG.musica){
-    const audio = new Audio(CONFIG.musica); audio.loop = true; audio.volume = 0.6;
-    let sonando = false, lista = false;
-    audio.addEventListener('canplay', () => {
-      if(lista) return; lista = true;
-      fab.style.display = 'grid'; fab.style.opacity = .6;
-    });
-    audio.addEventListener('error', () => { fab.style.display = 'none'; });
-    fab.addEventListener('click', () => {
-      if(sonando){ audio.pause(); sonando=false; fab.style.opacity=.6; }
-      else{ audio.play().then(()=>{ sonando=true; fab.style.opacity=1; }).catch(()=>{}); }
-    });
-  }
+  if(!fab || !CONFIG.musica) return;
+  const audio = new Audio(CONFIG.musica); audio.loop = true; audio.volume = 0.6;
+  let sonando = false, lista = false;
+  // el botón aparece cuando el audio puede reproducirse
+  audio.addEventListener('canplay', () => {
+    if(lista) return; lista = true;
+    fab.style.display = 'grid'; fab.style.opacity = .6;
+  });
+  audio.addEventListener('error', () => { fab.style.display = 'none'; });
+  fab.addEventListener('click', () => {
+    if(sonando){ audio.pause(); sonando=false; fab.style.opacity=.6; }
+    else{ audio.play().then(()=>{ sonando=true; fab.style.opacity=1; }).catch(()=>{}); }
+  });
 })();
 
 /* cargar contenido inicial */
@@ -1606,7 +1588,7 @@ function colorEstrella(){
   if(r < 0.95) return DEST[3];   // azul rey
   return DEST[4];                // rojo
 }
-for(let i = 0; i < 60; i++){
+for(let i = 0; i < 110; i++){
   const ang = rnd(0, Math.PI*2), sp = rnd(.05,.22);
   estrellas.push({ x: rnd(0,W), y: rnd(0,H), r: rnd(1.8,5.0),
     col: colorEstrella(), fase: rnd(0,Math.PI*2), vel: rnd(.02,.06),
