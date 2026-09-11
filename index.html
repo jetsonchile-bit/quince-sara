@@ -32,7 +32,7 @@
     background:
       radial-gradient(55% 45% at 15% 10%, rgba(46,74,150,.24), transparent 60%),
       radial-gradient(55% 50% at 85% 90%, rgba(168,30,50,.20), transparent 62%),
-      radial-gradient(130% 120% at 50% 6%, #faf4e6 0%, #f1e7d1 58%, #e7dabf 100%);
+      radial-gradient(130% 120% at 50% 6%, #fffdf7 0%, #faf3e1 55%, #f2e7cf 100%);
     background-attachment:fixed;
     overflow-x:hidden;
     transition:background .6s ease,color .6s ease;
@@ -289,21 +289,17 @@
     background:linear-gradient(118deg, transparent 38%, rgba(255,226,158,.42) 52%, transparent 66%);
     animation:jeRayos 11s ease-in-out infinite alternate; will-change:transform }
   @keyframes jeRayos{ 0%{ transform:translateX(-7%) } 100%{ transform:translateX(7%) } }
-  /* pájaros volando con aleteo natural */
-  .je-pajaros{ position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden }
-  .je-pajaros .pajaro{ position:absolute; top:0; left:0; width:24px; opacity:0; will-change:transform }
-  .je-pajaros .pajaro svg{ width:100%; height:auto; overflow:visible }
-  .je-pajaros .ala{ fill:none; stroke:#33252a; stroke-width:2; stroke-linecap:round; transform-box:fill-box }
-  .je-pajaros .ai{ transform-origin:right center; animation:aletea-i .5s ease-in-out infinite }
-  .je-pajaros .ad{ transform-origin:left center;  animation:aletea-d .5s ease-in-out infinite }
-  @keyframes aletea-i{ 0%,100%{ transform:rotate(7deg) } 50%{ transform:rotate(-22deg) } }
-  @keyframes aletea-d{ 0%,100%{ transform:rotate(-7deg) } 50%{ transform:rotate(22deg) } }
-  .je-pajaros .pj1{ animation:vuela1 16s linear infinite }
-  .je-pajaros .pj2{ animation:vuela2 21s linear infinite 7s }
-  .je-pajaros .pj3{ animation:vuela3 27s linear infinite 14s }
-  @keyframes vuela1{ 0%{transform:translate(-32px,64px) scale(.7);opacity:0} 9%{opacity:.9} 50%{transform:translate(175px,30px) scale(.92)} 91%{opacity:.9} 100%{transform:translate(390px,50px) scale(.72);opacity:0} }
-  @keyframes vuela2{ 0%{transform:translate(380px,44px) scale(.6);opacity:0} 10%{opacity:.8} 50%{transform:translate(160px,72px) scale(.8)} 90%{opacity:.8} 100%{transform:translate(-40px,34px) scale(.62);opacity:0} }
-  @keyframes vuela3{ 0%{transform:translate(-32px,104px) scale(.5);opacity:0} 12%{opacity:.7} 50%{transform:translate(190px,84px) scale(.66)} 88%{opacity:.7} 100%{transform:translate(390px,110px) scale(.52);opacity:0} }
+  /* paloma blanca descansando en el jardín (respira suave) */
+  .je-paloma{ position:absolute; z-index:3; left:52%; bottom:9%; width:88px; transform:translateX(-50%);
+    pointer-events:none; filter:drop-shadow(0 6px 7px rgba(30,10,20,.4)) drop-shadow(0 0 11px rgba(255,250,240,.55)) }
+  .je-paloma svg{ width:100%; height:auto; overflow:visible }
+  .je-paloma .pal-body{ fill:#fbfbfe; stroke:#e6e6f0; stroke-width:1 }
+  .je-paloma .pal-wing{ fill:#e9e9f3 }
+  .je-paloma .pal-beak{ fill:#e0a85a }
+  .je-paloma .pal-eye{ fill:#2a2a2a }
+  .je-paloma .pal-sombra{ fill:rgba(30,10,20,.2) }
+  .je-paloma .pal-cuerpo{ transform-box:fill-box; transform-origin:50% 72%; animation:respira 3.6s ease-in-out infinite }
+  @keyframes respira{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.03) } }
   /* destellos de floración que se FUNDEN con las rosas de la foto (mezcla screen, no pegados) */
   .je-flores{ position:absolute; inset:0; z-index:3; pointer-events:none; mix-blend-mode:screen }
   .je-flores .flor{ position:absolute; width:calc(48px*var(--s,1)); height:calc(48px*var(--s,1));
@@ -339,9 +335,8 @@
     border:3px solid rgba(201,158,74,.9);
     box-shadow:inset 0 0 0 6px rgba(255,240,205,.16), inset 0 0 34px rgba(35,12,22,.55) }
   @media(prefers-reduced-motion:reduce){
-    .je-foto,.je-rayos,.je-pajaros .pajaro,.je-pajaros .ala,.je-flores .flor,.je-motas i{ animation:none !important }
+    .je-foto,.je-rayos,.je-paloma .pal-cuerpo,.je-flores .flor,.je-motas i{ animation:none !important }
     .je-flores .flor{ opacity:.95; transform:scale(1) }
-    .je-pajaros{ display:none }
   }
   .escena{ width:100%; height:auto; display:block; overflow:visible }
   .escena .figura{ fill:var(--texto) }
@@ -659,10 +654,18 @@
         <div class="jardin-escena" role="img" aria-label="Jardín encantado de rosas floreciendo al atardecer, con la ventana del castillo iluminada">
           <div class="je-foto"></div>
           <div class="je-rayos" aria-hidden="true"></div>
-          <div class="je-pajaros" aria-hidden="true">
-            <div class="pajaro pj1"><svg viewBox="0 0 30 16"><path class="ala ai" d="M15,9 Q8,2 1,6"/><path class="ala ad" d="M15,9 Q22,2 29,6"/></svg></div>
-            <div class="pajaro pj2"><svg viewBox="0 0 30 16"><path class="ala ai" d="M15,9 Q8,2 1,6"/><path class="ala ad" d="M15,9 Q22,2 29,6"/></svg></div>
-            <div class="pajaro pj3"><svg viewBox="0 0 30 16"><path class="ala ai" d="M15,9 Q8,2 1,6"/><path class="ala ad" d="M15,9 Q22,2 29,6"/></svg></div>
+          <div class="je-paloma" aria-hidden="true">
+            <svg viewBox="0 0 130 96">
+              <ellipse class="pal-sombra" cx="64" cy="88" rx="36" ry="6"/>
+              <g class="pal-cuerpo">
+                <path class="pal-body" d="M34,52 L6,44 L8,58 L34,64 Z"/>
+                <ellipse class="pal-body" cx="62" cy="52" rx="34" ry="21"/>
+                <circle class="pal-body" cx="94" cy="34" r="14"/>
+                <path class="pal-beak" d="M106,33 L120,35 L106,39 Z"/>
+                <circle class="pal-eye" cx="99" cy="31" r="1.9"/>
+                <path class="pal-wing" d="M44,44 Q64,36 88,46 Q78,62 56,60 Q44,54 44,44 Z"/>
+              </g>
+            </svg>
           </div>
           <div class="je-flores" aria-hidden="true">
             <span class="flor"      style="left:16%;top:76%;--s:1.15;animation-delay:0s"></span>
@@ -1694,19 +1697,23 @@ for(let i = 0; i < 230; i++){
 // ---------- ESTRELLAS FUGACES: aparecen ocasionales y aleatorias ----------
 let fugaces = [];
 function lanzarFugaz(){
-  const desdeIzq = Math.random() < 0.5;
-  const x = desdeIzq ? rnd(0, W*.4) : rnd(W*.6, W);
-  const y = rnd(0, H*.35);
-  const ang = desdeIzq ? rnd(.22, .5) : rnd(Math.PI-.5, Math.PI-.22); // diagonal natural hacia abajo
-  const vel = rnd(7, 13);
+  // LLUVIA DE ESTRELLAS: caen desde el borde superior en diagonal, de forma continua
+  const x = rnd(-W*.1, W*.95);
+  const y = rnd(-40, H*.22);
+  const ang = rnd(0.92, 1.16);               // diagonal hacia abajo-derecha (como lluvia)
+  const vel = rnd(6, 12);
   fugaces.push({ x, y, vx: Math.cos(ang)*vel, vy: Math.sin(ang)*vel,
-    largo: rnd(90, 180), r: rnd(1.1, 2.2), vida: 1 });
+    largo: rnd(55, 140), r: rnd(.9, 2.0), vida: 1 });
 }
 function programarFugaz(){
   setTimeout(() => {
-    if(!reduce){ lanzarFugaz(); if(Math.random() < 0.22) lanzarFugaz(); }
+    if(!reduce){
+      lanzarFugaz();
+      if(Math.random() < 0.5) lanzarFugaz();   // a veces 2-3 a la vez = lluvia continua
+      if(Math.random() < 0.25) lanzarFugaz();
+    }
     programarFugaz();
-  }, rnd(3500, 9000));
+  }, rnd(500, 1600));
 }
 
 function dibujarPetalo(p){
