@@ -1682,23 +1682,22 @@ for(let i = 0; i < 230; i++){
 // ---------- ESTRELLAS FUGACES: aparecen ocasionales y aleatorias ----------
 let fugaces = [];
 function lanzarFugaz(){
-  // LLUVIA DE ESTRELLAS: caen desde el borde superior en diagonal, de forma continua
-  const x = rnd(-W*.1, W*.95);
-  const y = rnd(-40, H*.22);
-  const ang = rnd(0.92, 1.16);               // diagonal hacia abajo-derecha (como lluvia)
-  const vel = rnd(6, 12);
+  // LLUVIA DE ESTRELLAS densa: caen desde arriba en diagonal, apareciendo en muchas zonas
+  const x = rnd(-W*.15, W);
+  const y = rnd(-80, H*.5);                   // más zonas de aparición = lluvia más densa
+  const ang = rnd(0.9, 1.18);                 // diagonal hacia abajo-derecha
+  const vel = rnd(6, 13);
   fugaces.push({ x, y, vx: Math.cos(ang)*vel, vy: Math.sin(ang)*vel,
-    largo: rnd(55, 140), r: rnd(.9, 2.0), vida: 1 });
+    largo: rnd(45, 135), r: rnd(.8, 2.0), vida: 1 });
 }
 function programarFugaz(){
   setTimeout(() => {
     if(!reduce){
-      lanzarFugaz();
-      if(Math.random() < 0.5) lanzarFugaz();   // a veces 2-3 a la vez = lluvia continua
-      if(Math.random() < 0.25) lanzarFugaz();
+      const n = 6 + Math.floor(Math.random()*4);   // 6 a 9 por tanda → ~30 estrellas cayendo a la vez
+      for(let i = 0; i < n; i++) lanzarFugaz();
     }
     programarFugaz();
-  }, rnd(500, 1600));
+  }, rnd(150, 350));                                 // muy seguido = lluvia muy densa
 }
 
 function dibujarPetalo(p){
