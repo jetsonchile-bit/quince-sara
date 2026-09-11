@@ -1648,23 +1648,22 @@ const cometaSprite = (() => {
   const CW = 180, CH = 18, oc = document.createElement('canvas'); oc.width = CW; oc.height = CH;
   const o = oc.getContext('2d');
   const g = o.createLinearGradient(0, 0, CW, 0);
-  g.addColorStop(0, 'rgba(210,162,70,0)'); g.addColorStop(.7, 'rgba(228,182,90,.88)'); g.addColorStop(1, 'rgba(255,244,210,1)');
+  g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.7, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,1)');
   o.strokeStyle = g; o.lineWidth = 3.0; o.lineCap = 'round';
   o.beginPath(); o.moveTo(4, CH/2); o.lineTo(CW-9, CH/2); o.stroke();
   const gg = o.createRadialGradient(CW-9, CH/2, 0, CW-9, CH/2, 10);
-  gg.addColorStop(0, 'rgba(255,250,232,1)'); gg.addColorStop(.5, 'rgba(232,188,100,.8)'); gg.addColorStop(1, 'rgba(210,162,70,0)');
+  gg.addColorStop(0, 'rgba(255,255,255,1)'); gg.addColorStop(.5, 'rgba(255,255,255,.75)'); gg.addColorStop(1, 'rgba(255,255,255,0)');
   o.fillStyle = gg; o.beginPath(); o.arc(CW-9, CH/2, 9, 0, Math.PI*2); o.fill();
   return oc;
 })();
 
 // ---------- ESTRELLAS: titileo suave y elegante, con comportamientos variados ----------
-const DEST = [[255,255,255],[255,252,242],[250,242,255],[226,238,255]]; // blanco puro, blanco cálido, blanco rosado, blanco azulado
+const DEST = [[255,255,255],[250,251,255],[255,253,248]]; // blanco puro (+ blanco frío/cálido levísimo de acento)
 function colorEstrella(){
   const r = Math.random();
-  if(r < 0.72) return DEST[0];   // blanco puro (mayoría)
-  if(r < 0.86) return DEST[1];   // blanco cálido
-  if(r < 0.94) return DEST[2];   // blanco rosado
-  return DEST[3];                // blanco azulado
+  if(r < 0.88) return DEST[0];   // blanco puro (casi todas)
+  if(r < 0.95) return DEST[1];   // blanco frío levísimo
+  return DEST[2];                // blanco cálido levísimo
 }
 for(let i = 0; i < 170; i++){
   const lento = Math.random() < 0.5;                    // mitad titileo lento, mitad más marcado
