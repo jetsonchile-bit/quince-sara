@@ -275,26 +275,74 @@
     color:var(--texto); margin:0 0 15px }
   .relato p:last-child{ margin-bottom:0; font-style:normal }
   .relato .rosa-cierre{ font-size:1.35em; font-style:normal }
-  /* flores que florecen en tiempo real sobre la foto del jardín */
-  .jardin-wrap{ position:relative; display:block; width:300px; max-width:100%; margin:16px auto 6px }
-  .jardin-wrap .vals-img{ margin:0 }
-  .flores-bloom{ position:absolute; inset:0; pointer-events:none; overflow:hidden; border-radius:8px }
-  .flores-bloom .flor{ position:absolute; width:34px; height:34px; margin:-17px 0 0 -17px;
-    transform-origin:center; opacity:0; will-change:transform,opacity;
-    animation:florece 7.5s ease-in-out infinite;
-    filter:drop-shadow(0 1px 3px rgba(70,8,26,.55)) }
-  .flores-bloom .flor svg{ width:100%; height:100%; fill:#c8213f }
-  .flores-bloom .flor .rb-in{ fill:#8c1a2c }
-  .flores-bloom .flor.rosa svg{ fill:#d76b86 }
-  .flores-bloom .flor.rosa .rb-in{ fill:#b23f5c }
+  /* ====== JARDÍN ENCANTADO — escena cinematográfica con profundidad 3D ====== */
+  .jardin-escena{ position:relative; width:340px; max-width:100%; aspect-ratio:3/4;
+    margin:18px auto 8px; border-radius:16px; overflow:hidden; isolation:isolate;
+    box-shadow:0 26px 64px rgba(60,18,34,.45), 0 6px 18px rgba(0,0,0,.28) }
+  /* foto de fondo con zoom lento (Ken Burns) = vida cinematográfica */
+  .je-foto{ position:absolute; inset:-7%; z-index:0;
+    background:url('img/jardin-magico.jpg?v=1') center/cover no-repeat;
+    transform-origin:52% 46%; animation:kenburns 30s ease-in-out infinite alternate; will-change:transform }
+  @keyframes kenburns{ 0%{ transform:scale(1.05) } 100%{ transform:scale(1.18) translate(-2%,-2.5%) } }
+  /* rayos de luz cálidos que se desplazan lento */
+  .je-rayos{ position:absolute; inset:0; z-index:1; pointer-events:none; mix-blend-mode:screen; opacity:.5;
+    background:linear-gradient(118deg, transparent 38%, rgba(255,226,158,.42) 52%, transparent 66%);
+    animation:jeRayos 11s ease-in-out infinite alternate; will-change:transform }
+  @keyframes jeRayos{ 0%{ transform:translateX(-7%) } 100%{ transform:translateX(7%) } }
+  /* pájaros volando con aleteo natural */
+  .je-pajaros{ position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden }
+  .je-pajaros .pajaro{ position:absolute; top:0; left:0; width:24px; opacity:0; will-change:transform }
+  .je-pajaros .pajaro svg{ width:100%; height:auto; overflow:visible }
+  .je-pajaros .ala{ fill:none; stroke:#33252a; stroke-width:2; stroke-linecap:round; transform-box:fill-box }
+  .je-pajaros .ai{ transform-origin:right center; animation:aletea-i .5s ease-in-out infinite }
+  .je-pajaros .ad{ transform-origin:left center;  animation:aletea-d .5s ease-in-out infinite }
+  @keyframes aletea-i{ 0%,100%{ transform:rotate(7deg) } 50%{ transform:rotate(-22deg) } }
+  @keyframes aletea-d{ 0%,100%{ transform:rotate(-7deg) } 50%{ transform:rotate(22deg) } }
+  .je-pajaros .pj1{ animation:vuela1 16s linear infinite }
+  .je-pajaros .pj2{ animation:vuela2 21s linear infinite 7s }
+  .je-pajaros .pj3{ animation:vuela3 27s linear infinite 14s }
+  @keyframes vuela1{ 0%{transform:translate(-32px,64px) scale(.7);opacity:0} 9%{opacity:.9} 50%{transform:translate(175px,30px) scale(.92)} 91%{opacity:.9} 100%{transform:translate(390px,50px) scale(.72);opacity:0} }
+  @keyframes vuela2{ 0%{transform:translate(380px,44px) scale(.6);opacity:0} 10%{opacity:.8} 50%{transform:translate(160px,72px) scale(.8)} 90%{opacity:.8} 100%{transform:translate(-40px,34px) scale(.62);opacity:0} }
+  @keyframes vuela3{ 0%{transform:translate(-32px,104px) scale(.5);opacity:0} 12%{opacity:.7} 50%{transform:translate(190px,84px) scale(.66)} 88%{opacity:.7} 100%{transform:translate(390px,110px) scale(.52);opacity:0} }
+  /* destellos de floración que se FUNDEN con las rosas de la foto (mezcla screen, no pegados) */
+  .je-flores{ position:absolute; inset:0; z-index:3; pointer-events:none; mix-blend-mode:screen }
+  .je-flores .flor{ position:absolute; width:calc(48px*var(--s,1)); height:calc(48px*var(--s,1));
+    margin:calc(-24px*var(--s,1)) 0 0 calc(-24px*var(--s,1)); border-radius:50%; opacity:0;
+    will-change:transform,opacity; animation:florece 8s ease-in-out infinite;
+    background:radial-gradient(circle, rgba(255,247,236,.95) 0%, rgba(255,206,172,.5) 34%, rgba(255,190,150,0) 70%) }
+  .je-flores .flor.rosa{ background:radial-gradient(circle, rgba(255,242,247,.95) 0%, rgba(255,182,206,.5) 34%, rgba(255,160,195,0) 70%) }
   @keyframes florece{
-    0%   { transform:scale(.1) rotate(-30deg); opacity:0 }
-    14%  { opacity:1 }
-    46%  { transform:scale(1) rotate(0deg); opacity:1 }
-    82%  { transform:scale(1) rotate(0deg); opacity:.92 }
-    100% { transform:scale(1.08) rotate(8deg); opacity:0 }
+    0%   { transform:scale(.15); opacity:0 }
+    22%  { opacity:.9 }
+    55%  { transform:scale(1); opacity:.8 }
+    80%  { opacity:.55 }
+    100% { transform:scale(1.18); opacity:0 }
   }
-  @media(prefers-reduced-motion:reduce){ .flores-bloom{ display:none } }
+  /* motas de luz dorada flotando (vida + profundidad) */
+  .je-motas{ position:absolute; inset:0; z-index:3; pointer-events:none; overflow:hidden }
+  .je-motas i{ position:absolute; bottom:-8px; width:6px; height:6px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,242,196,.95), rgba(255,220,140,0));
+    animation:jeMota linear infinite; will-change:transform,opacity }
+  @keyframes jeMota{ 0%{ transform:translateY(0) scale(.5); opacity:0 } 18%{ opacity:1 } 82%{ opacity:.75 } 100%{ transform:translateY(-380px) scale(1); opacity:0 } }
+  .je-motas i:nth-child(1){ left:12%; animation-duration:13s; animation-delay:0s;   width:5px;height:5px }
+  .je-motas i:nth-child(2){ left:26%; animation-duration:17s; animation-delay:2.5s; width:7px;height:7px }
+  .je-motas i:nth-child(3){ left:40%; animation-duration:11s; animation-delay:5s }
+  .je-motas i:nth-child(4){ left:54%; animation-duration:19s; animation-delay:1.5s; width:4px;height:4px }
+  .je-motas i:nth-child(5){ left:66%; animation-duration:14s; animation-delay:6.5s; width:7px;height:7px }
+  .je-motas i:nth-child(6){ left:78%; animation-duration:16s; animation-delay:3.5s }
+  .je-motas i:nth-child(7){ left:88%; animation-duration:12s; animation-delay:8s;   width:5px;height:5px }
+  .je-motas i:nth-child(8){ left:33%; animation-duration:20s; animation-delay:9.5s; width:6px;height:6px }
+  /* viñeta + marco dorado elegante = integración y profundidad */
+  .je-vineta{ position:absolute; inset:0; z-index:4; pointer-events:none;
+    background:radial-gradient(125% 100% at 50% 42%, transparent 54%, rgba(28,8,18,.5) 100%) }
+  .je-marco{ position:absolute; inset:0; z-index:5; pointer-events:none; border-radius:16px;
+    border:3px solid rgba(201,158,74,.9);
+    box-shadow:inset 0 0 0 6px rgba(255,240,205,.16), inset 0 0 34px rgba(35,12,22,.55) }
+  @media(prefers-reduced-motion:reduce){
+    .je-foto,.je-rayos,.je-pajaros .pajaro,.je-pajaros .ala,.je-flores .flor,.je-motas i{ animation:none !important }
+    .je-flores .flor{ opacity:.95; transform:scale(1) }
+    .je-pajaros{ display:none }
+  }
   .escena{ width:100%; height:auto; display:block; overflow:visible }
   .escena .figura{ fill:var(--texto) }
   .escena .cabello{ fill:var(--texto) }
@@ -608,20 +656,24 @@
       </svg>
 
       <div class="ballroom">
-        <div class="jardin-wrap">
-          <img class="vals-img" src="img/jardin1.jpg?v=3" alt="Jardín de rosas frondoso con una ventana del castillo, al atardecer dorado" loading="lazy" />
-          <div class="flores-bloom" aria-hidden="true">
-            <svg width="0" height="0" style="position:absolute"><defs><g id="rosaBloom">
-              <ellipse cx="20" cy="11" rx="6.5" ry="9"/><ellipse cx="29" cy="20" rx="9" ry="6.5"/>
-              <ellipse cx="20" cy="29" rx="6.5" ry="9"/><ellipse cx="11" cy="20" rx="9" ry="6.5"/>
-              <ellipse class="rb-in" cx="20" cy="20" rx="7" ry="7"/>
-            </g></defs></svg>
-            <span class="flor"      style="left:19%;top:30%;animation-delay:0s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
-            <span class="flor rosa" style="left:63%;top:22%;animation-delay:1.6s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
-            <span class="flor"      style="left:42%;top:60%;animation-delay:3.1s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
-            <span class="flor rosa" style="left:76%;top:54%;animation-delay:4.4s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
-            <span class="flor"      style="left:13%;top:67%;animation-delay:5.7s"><svg viewBox="0 0 40 40"><use href="#rosaBloom"/></svg></span>
+        <div class="jardin-escena" role="img" aria-label="Jardín encantado de rosas floreciendo al atardecer, con la ventana del castillo iluminada">
+          <div class="je-foto"></div>
+          <div class="je-rayos" aria-hidden="true"></div>
+          <div class="je-pajaros" aria-hidden="true">
+            <div class="pajaro pj1"><svg viewBox="0 0 30 16"><path class="ala ai" d="M15,9 Q8,2 1,6"/><path class="ala ad" d="M15,9 Q22,2 29,6"/></svg></div>
+            <div class="pajaro pj2"><svg viewBox="0 0 30 16"><path class="ala ai" d="M15,9 Q8,2 1,6"/><path class="ala ad" d="M15,9 Q22,2 29,6"/></svg></div>
+            <div class="pajaro pj3"><svg viewBox="0 0 30 16"><path class="ala ai" d="M15,9 Q8,2 1,6"/><path class="ala ad" d="M15,9 Q22,2 29,6"/></svg></div>
           </div>
+          <div class="je-flores" aria-hidden="true">
+            <span class="flor"      style="left:16%;top:76%;--s:1.15;animation-delay:0s"></span>
+            <span class="flor rosa" style="left:45%;top:84%;--s:1.3;animation-delay:1.5s"></span>
+            <span class="flor"      style="left:74%;top:78%;--s:1.1;animation-delay:3s"></span>
+            <span class="flor rosa" style="left:30%;top:60%;--s:.82;animation-delay:4.4s"></span>
+            <span class="flor"      style="left:63%;top:62%;--s:.78;animation-delay:5.8s"></span>
+          </div>
+          <div class="je-motas" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="je-vineta" aria-hidden="true"></div>
+          <div class="je-marco" aria-hidden="true"></div>
         </div>
         <svg viewBox="0 0 800 470" class="escena" role="img" aria-hidden="true" style="display:none"
              aria-label="Una pareja de gala baila un vals en una terraza, con un castillo de cuento al atardecer dorado">
@@ -1549,10 +1601,23 @@ if(CONFIG.zelleCorreo) $('btnCopiarZelle').addEventListener('click', () => copia
     fab.style.display = 'grid'; fab.style.opacity = .6;
   });
   audio.addEventListener('error', () => { fab.style.display = 'none'; });
-  fab.addEventListener('click', () => {
-    if(sonando){ audio.pause(); sonando=false; fab.style.opacity=.6; }
-    else{ audio.play().then(()=>{ sonando=true; fab.style.opacity=1; }).catch(()=>{}); }
-  });
+
+  function reproducir(){ audio.play().then(()=>{ sonando=true; fab.style.opacity=1; }).catch(()=>{}); }
+  function pausar(){ audio.pause(); sonando=false; fab.style.opacity=.6; }
+
+  // el botón ♪ alterna reproducir / pausar
+  fab.addEventListener('click', () => { sonando ? pausar() : reproducir(); });
+
+  // AUTOPLAY: si el navegador lo bloquea, la música arranca con la primera
+  // interacción del usuario (toque, clic, tecla o scroll) — política de autoplay respetada
+  const EVS = ['pointerdown','touchstart','keydown','scroll'];
+  function quitar(){ EVS.forEach(ev => removeEventListener(ev, arrancar, true)); }
+  function arrancar(e){
+    if(e && e.target && (e.target === fab || (fab.contains && fab.contains(e.target)))) return; // el ♪ se gestiona solo
+    if(!sonando) reproducir();
+    quitar();
+  }
+  EVS.forEach(ev => addEventListener(ev, arrancar, { capture:true, passive:true }));
 })();
 
 /* cargar contenido inicial */
@@ -1578,21 +1643,70 @@ size(); addEventListener('resize', size);
 const rnd = (a,b) => a + Math.random()*(b-a);
 const pick = () => petalColores[Math.floor(Math.random()*petalColores.length)];
 
-// estrellas brillantes tipo acrílico: titilan y se mueven suave
-const DEST = [[255,255,255],[245,215,125],[214,175,90],[58,92,224],[192,40,63]]; // blanco, oro brillante, oro cálido, azul rey, rojo
+// sprite de resplandor suave (pre-renderizado una sola vez = eficiente para muchas partículas)
+const glowSprite = (() => {
+  const s = 64, oc = document.createElement('canvas'); oc.width = oc.height = s;
+  const o = oc.getContext('2d');
+  const g = o.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
+  g.addColorStop(0, 'rgba(255,255,255,1)');
+  g.addColorStop(.45, 'rgba(255,250,235,.42)');
+  g.addColorStop(1, 'rgba(255,250,235,0)');
+  o.fillStyle = g; o.beginPath(); o.arc(s/2, s/2, s/2, 0, Math.PI*2); o.fill();
+  return oc;
+})();
+
+// ---------- ESTRELLAS: titileo suave y elegante, con comportamientos variados ----------
+const DEST = [[255,255,255],[248,224,150],[224,190,110],[196,214,255]]; // blanco, oro, oro cálido, azul muy tenue
 function colorEstrella(){
   const r = Math.random();
-  if(r < 0.40) return DEST[0];   // blanco brilloso
-  if(r < 0.72) return DEST[1];   // oro brillante
-  if(r < 0.86) return DEST[2];   // oro cálido
-  if(r < 0.95) return DEST[3];   // azul rey
-  return DEST[4];                // rojo
+  if(r < 0.46) return DEST[0];   // blanco
+  if(r < 0.80) return DEST[1];   // oro
+  if(r < 0.93) return DEST[2];   // oro cálido
+  return DEST[3];                // azul tenue
 }
-for(let i = 0; i < 110; i++){
-  const ang = rnd(0, Math.PI*2), sp = rnd(.05,.22);
-  estrellas.push({ x: rnd(0,W), y: rnd(0,H), r: rnd(1.8,5.0),
-    col: colorEstrella(), fase: rnd(0,Math.PI*2), vel: rnd(.02,.06),
-    vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp });
+for(let i = 0; i < 100; i++){
+  const lento = Math.random() < 0.65;                  // A) 65% titileo lento · B) 35% algo más rápido
+  const ang = rnd(0, Math.PI*2), sp = rnd(.006, .05);  // deriva muy sutil
+  estrellas.push({
+    x: rnd(0,W), y: rnd(0,H), r: rnd(1.2, 3.6),
+    col: colorEstrella(), fase: rnd(0, Math.PI*2),
+    vel: lento ? rnd(.006, .015) : rnd(.02, .038),      // velocidad de titileo (lenta o algo más rápida)
+    base: rnd(.28, .5), amp: rnd(.16, .30),             // titileo de poca amplitud = suave y elegante
+    vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp
+  });
+}
+
+// ---------- ESCARCHA DORADA: glitter fino de partículas doradas de distinto tamaño/opacidad ----------
+const ESC = [[255,232,158],[236,198,110],[210,170,84],[190,150,74]]; // tonos dorados
+const escarcha = [];
+for(let i = 0; i < 150; i++){
+  const casiFija = Math.random() < 0.6;                 // 60% casi estáticas · 40% deriva muy lenta
+  const ang = rnd(0, Math.PI*2), sp = casiFija ? rnd(0, .015) : rnd(.02, .08);
+  escarcha.push({
+    x: rnd(0,W), y: rnd(0,H), r: rnd(.4, 2.3),
+    col: ESC[Math.floor(Math.random()*ESC.length)],
+    op: rnd(.18, .82), brilla: Math.random() < 0.4,     // algunas destellan lento
+    fase: rnd(0, Math.PI*2), vel: rnd(.008, .028),
+    vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp
+  });
+}
+
+// ---------- ESTRELLAS FUGACES: aparecen ocasionales y aleatorias ----------
+let fugaces = [];
+function lanzarFugaz(){
+  const desdeIzq = Math.random() < 0.5;
+  const x = desdeIzq ? rnd(0, W*.4) : rnd(W*.6, W);
+  const y = rnd(0, H*.35);
+  const ang = desdeIzq ? rnd(.22, .5) : rnd(Math.PI-.5, Math.PI-.22); // diagonal natural hacia abajo
+  const vel = rnd(7, 13);
+  fugaces.push({ x, y, vx: Math.cos(ang)*vel, vy: Math.sin(ang)*vel,
+    largo: rnd(90, 180), r: rnd(1.1, 2.2), vida: 1 });
+}
+function programarFugaz(){
+  setTimeout(() => {
+    if(!reduce){ lanzarFugaz(); if(Math.random() < 0.22) lanzarFugaz(); }
+    programarFugaz();
+  }, rnd(3500, 9000));
 }
 
 function dibujarPetalo(p){
@@ -1617,36 +1731,56 @@ function dibujarOrbe(g){
   ctx.restore();
 }
 
-function dibujarDestello(s){
-  const tw = 0.5 + 0.5*Math.sin(s.fase);        // titileo 0..1
-  const a  = .45 + .55*tw;                        // opacidad 0.45..1
-  const r0 = s.col[0], g0 = s.col[1], b0 = s.col[2];
-  const R = s.r, rayo = R*4.2*(0.85 + 0.3*tw);   // rayos que laten con el titileo
+function dibujarEstrella(s){
+  const tw = 0.5 + 0.5*Math.sin(s.fase);
+  const a = Math.min(1, s.base + s.amp*tw);       // opacidad suave (poca amplitud = titileo elegante)
+  const R = s.r;
   ctx.save();
-  ctx.lineCap = 'round';
-  // 1) resplandor de color (glow acrílico)
-  const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, R*5.5);
-  g.addColorStop(0, `rgba(${r0},${g0},${b0},1)`); g.addColorStop(1, `rgba(${r0},${g0},${b0},0)`);
-  ctx.globalAlpha = a*.55; ctx.fillStyle = g;
-  ctx.beginPath(); ctx.arc(s.x, s.y, R*5.5, 0, Math.PI*2); ctx.fill();
-  // 2) núcleo de color
-  ctx.globalAlpha = a; ctx.fillStyle = `rgb(${r0},${g0},${b0})`;
-  ctx.beginPath(); ctx.arc(s.x, s.y, R, 0, Math.PI*2); ctx.fill();
-  // 3) destello de 8 puntas, blanco fuerte (brillo acrílico)
-  ctx.globalAlpha = a*.9; ctx.strokeStyle = 'rgba(255,255,255,.95)'; ctx.lineWidth = Math.max(.8, R*.32);
-  ctx.beginPath();
-  ctx.moveTo(s.x-rayo, s.y); ctx.lineTo(s.x+rayo, s.y);
-  ctx.moveTo(s.x, s.y-rayo); ctx.lineTo(s.x, s.y+rayo);
-  ctx.stroke();
-  const d = rayo*.5;
-  ctx.globalAlpha = a*.5; ctx.lineWidth = Math.max(.6, R*.2);
-  ctx.beginPath();
-  ctx.moveTo(s.x-d, s.y-d); ctx.lineTo(s.x+d, s.y+d);
-  ctx.moveTo(s.x-d, s.y+d); ctx.lineTo(s.x+d, s.y-d);
-  ctx.stroke();
-  // 4) centro blanco incandescente (el brillo fuerte)
-  ctx.globalAlpha = a; ctx.fillStyle = 'rgba(255,255,255,.95)';
-  ctx.beginPath(); ctx.arc(s.x, s.y, Math.max(.8, R*.5), 0, Math.PI*2); ctx.fill();
+  // halo suave (sprite pre-renderizado)
+  ctx.globalAlpha = a * .5;
+  const d = R*7;
+  ctx.drawImage(glowSprite, s.x-d/2, s.y-d/2, d, d);
+  // núcleo con color tenue
+  ctx.globalAlpha = a;
+  ctx.fillStyle = `rgb(${s.col[0]},${s.col[1]},${s.col[2]})`;
+  ctx.beginPath(); ctx.arc(s.x, s.y, R*.7, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function dibujarEscarcha(e){
+  let a = e.op;
+  if(e.brilla) a = e.op * (0.4 + 0.6*(0.5 + 0.5*Math.sin(e.fase)));  // destello lento
+  ctx.save();
+  ctx.globalAlpha = a;
+  ctx.fillStyle = `rgb(${e.col[0]},${e.col[1]},${e.col[2]})`;
+  ctx.beginPath(); ctx.arc(e.x, e.y, e.r, 0, Math.PI*2); ctx.fill();
+  // micro-destello en las que brillan y son algo más grandes
+  if(e.brilla && e.r > 1.2 && a > .55){
+    ctx.globalAlpha = (a - .55) * 1.6;
+    ctx.strokeStyle = `rgb(${e.col[0]},${e.col[1]},${e.col[2]})`;
+    ctx.lineWidth = .7; ctx.lineCap = 'round';
+    const g = e.r*2.8;
+    ctx.beginPath();
+    ctx.moveTo(e.x-g, e.y); ctx.lineTo(e.x+g, e.y);
+    ctx.moveTo(e.x, e.y-g); ctx.lineTo(e.x, e.y+g);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function dibujarFugaz(f){
+  const h = Math.hypot(f.vx, f.vy) || 1;
+  const tx = f.x - f.vx/h*f.largo, ty = f.y - f.vy/h*f.largo;
+  ctx.save();
+  const grad = ctx.createLinearGradient(f.x, f.y, tx, ty);
+  grad.addColorStop(0, `rgba(255,249,232,${f.vida})`);
+  grad.addColorStop(1, 'rgba(255,249,232,0)');
+  ctx.globalAlpha = 1; ctx.strokeStyle = grad; ctx.lineWidth = f.r; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(f.x, f.y); ctx.stroke();
+  // cabeza brillante
+  ctx.globalAlpha = f.vida;
+  const d = f.r*11;
+  ctx.drawImage(glowSprite, f.x-d/2, f.y-d/2, d, d);
   ctx.restore();
 }
 
@@ -1663,14 +1797,28 @@ function lluviaPetalos(){
 function loop(){
   ctx.clearRect(0,0,W,H);
 
-  estrellas.forEach(s => {
-    s.fase += s.vel;
-    s.x += s.vx; s.y += s.vy;                     // deriva suave
-    if(s.x < -12) s.x = W+12; else if(s.x > W+12) s.x = -12;
-    if(s.y < -12) s.y = H+12; else if(s.y > H+12) s.y = -12;
-    dibujarDestello(s);
+  // 1) escarcha dorada (capa de fondo, movimiento independiente)
+  escarcha.forEach(e => {
+    e.fase += e.vel; e.x += e.vx; e.y += e.vy;
+    if(e.x < -4) e.x = W+4; else if(e.x > W+4) e.x = -4;
+    if(e.y < -4) e.y = H+4; else if(e.y > H+4) e.y = -4;
+    dibujarEscarcha(e);
   });
 
+  // 2) estrellas (titileo suave + deriva muy sutil, cada una a su ritmo)
+  estrellas.forEach(s => {
+    s.fase += s.vel; s.x += s.vx; s.y += s.vy;
+    if(s.x < -12) s.x = W+12; else if(s.x > W+12) s.x = -12;
+    if(s.y < -12) s.y = H+12; else if(s.y > H+12) s.y = -12;
+    dibujarEstrella(s);
+  });
+
+  // 3) estrellas fugaces (recorren y se desvanecen progresivamente)
+  fugaces.forEach(f => { f.x += f.vx; f.y += f.vy; f.vida -= .011; dibujarFugaz(f); });
+  fugaces = fugaces.filter(f => f.vida > 0 && f.x > -220 && f.x < W+220 && f.y < H+220);
+
+  // 4) chispas (ráfaga de pétalos, se conserva)
+  ctx.globalAlpha = 1;
   chispas.forEach(c => {
     c.vy += c.g; c.x += c.vx; c.y += c.vy; c.vida--; c.rot += c.vr;
     ctx.save();
@@ -1686,11 +1834,12 @@ function loop(){
   });
   chispas = chispas.filter(c => c.vida > 0 && c.y < H + 40);
 
+  ctx.globalAlpha = 1;
   requestAnimationFrame(loop);
 }
 
-if(!reduce){ loop(); }
-else { estrellas.forEach(dibujarDestello); }
+if(!reduce){ loop(); programarFugaz(); }
+else { escarcha.forEach(dibujarEscarcha); estrellas.forEach(dibujarEstrella); }
 </script>
 </body>
 </html>
